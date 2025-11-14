@@ -333,3 +333,80 @@ textarea {
     width: 100%;
   }
 }
+/* Druck-Optimierung: kompakt, ohne App-Rahmen, ohne Buttons */
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .app-container {
+    max-width: 100%;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 10mm 12mm;  /* etwas Rand für Drucker */
+  }
+
+  .header {
+    margin-bottom: 4mm;
+  }
+
+  .tile-grid {
+    /* Auf Formular-Seiten gibt es oft keine Kacheln,
+       falls doch, wollen wir sie im Druck meist nicht */
+    display: none;
+  }
+
+  .button-row,
+  .btn,
+  .add-room-btn,
+  .room-remove-btn {
+    display: none !important;
+  }
+
+  /* Links nicht mit der URL dahinter drucken */
+  a[href]::after {
+    content: "";
+  }
+
+  /* Sektionen dichter */
+  .section {
+    padding: 6px 8px;
+    margin-bottom: 6px;
+    border-radius: 0;
+    background: #ffffff;
+  }
+
+  .section-title {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+
+  .field-row {
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  label {
+    font-size: 0.75rem;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  textarea {
+    font-size: 0.8rem;
+    padding: 4px 5px;
+  }
+
+  .signature-row {
+    gap: 20px;
+    margin-top: 12px;
+  }
+
+  .signature-line {
+    margin: 16px 0 2px;
+  }
+}
