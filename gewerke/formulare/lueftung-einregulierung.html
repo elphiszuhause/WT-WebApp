@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Einregulierungsprotokoll Lüftung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <header class="header">
+      <div class="header-logo">
+        <img src="../../assets/WBS_Logo_WT.png" alt="Logo">
+      </div>
+      <div class="header-title">
+        <h1>EINREGULIERUNG LÜFTUNGSANLAGE</h1>
+        <div class="subtitle">Zuluft / Abluft / Geräteeinstellungen</div>
+      </div>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2 class="page-heading">Einregulierungsprotokoll</h2>
+
+      <form>
+
+        <!-- Allgemein -->
+        <div class="section">
+          <div class="section-title">Anlageninfo</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Objekt</label>
+              <input type="text">
+            </div>
+            <div class="field">
+              <label>Gerät / Typ</label>
+              <input type="text">
+            </div>
+          </div>
+        </div>
+
+        <!-- Einstellungen -->
+        <div class="section">
+          <div class="section-title">Geräteeinstellungen</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Stufe 1 (Zuluft / Abluft)</label>
+              <input type="text" placeholder="z. B. 80 / 75 m³/h">
+            </div>
+            <div class="field">
+              <label>Stufe 2 (Zuluft / Abluft)</label>
+              <input type="text" placeholder="z. B. 140 / 135 m³/h">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Stufe 3 (Zuluft / Abluft)</label>
+              <input type="text" placeholder="z. B. 180 / 180 m³/h">
+            </div>
+            <div class="field">
+              <label>Filterstatus</label>
+              <input type="text" placeholder="z. B. neu / gewechselt">
+            </div>
+          </div>
+        </div>
+
+        <!-- Räume -->
+        <div class="section">
+          <div class="section-title">Räume / Ventile</div>
+
+          <div class="field">
+            <label>Raum 1</label>
+            <input type="text" placeholder="z. B. Wohnzimmer – Zuluft">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Soll</label>
+              <input type="number" placeholder="m³/h">
+            </div>
+            <div class="field">
+              <label>Ist</label>
+              <input type="number" placeholder="m³/h">
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="field">
+            <label>Raum 2</label>
+            <input type="text" placeholder="z. B. Bad – Abluft">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Soll</label>
+              <input type="number" placeholder="m³/h">
+            </div>
+            <div class="field">
+              <label>Ist</label>
+              <input type="number" placeholder="m³/h">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bewertung -->
+        <div class="section">
+          <div class="section-title">Bewertung</div>
+          <textarea placeholder="z. B. Anlage ordnungsgemäß eingeregelt"></textarea>
+        </div>
+
+        <!-- Abschließend -->
+        <div class="section">
+          <div class="section-title">Abschluss</div>
+          <div class="signature-row">
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Monteur
+            </div>
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Auftraggeber
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <a class="btn btn-back" href="../lueftung.html">← Zurück</a>
+          <div class="button-row-right">
+            <button type="reset" class="btn btn-secondary">Leeren</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken</button>
+          </div>
+        </div>
+
+      </form>
+    </main>
+  </div>
+</body>
+</html>
