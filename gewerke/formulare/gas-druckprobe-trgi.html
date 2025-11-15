@@ -198,54 +198,49 @@
           </div>
         </div>
 
-        <!-- Unterschriften -->
+        <!-- Unterschriften-Bereich (Standard) -->
         <div class="section">
-        <div class="section-title">Unterschriften</div>
+          <div class="section-title">Unterschriften</div>
 
-        <div class="field">
+          <div class="field">
             <label>Unterschrift Monteur</label>
             <div class="signature-pad">
-            <canvas id="sig-monteur"></canvas>
-            <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-monteur')">
+              <canvas id="sig-monteur"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-monteur')">
                 Löschen
-            </button>
+              </button>
             </div>
-        </div>
+          </div>
 
-        <div class="field">
-            <label>Unterschrift Auftraggeber / Betreiber</label>
+          <div class="field">
+            <label>Unterschrift Auftraggeber</label>
             <div class="signature-pad">
-            <canvas id="sig-ag"></canvas>
-            <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-ag')">
+              <canvas id="sig-ag"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-ag')">
                 Löschen
-            </button>
+              </button>
             </div>
+          </div>
         </div>
-        </div>
-
 
         <!-- Buttons -->
         <div class="button-row">
-          <a class="btn btn-back" href="../gas.html">← Zurück zu Gas</a>
+          <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
             <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
           </div>
         </div>
+
       </form>
     </main>
   </div>
 
-  <script>
-    // Datum automatisch setzen, wenn leer
-    document.addEventListener('DOMContentLoaded', () => {
-      const dateInput = document.getElementById('datum');
-      if (dateInput && !dateInput.value) {
-        const d = new Date();
-        const f = n => String(n).padStart(2, '0');
-        dateInput.value = `${d.getFullYear()}-${f(d.getMonth()+1)}-${f(d.getDate())}`;
-      }
-    });
-  </script>
+  <!-- Zentrales JS für Signatur etc. -->
+  <script src="../../assets/app.js"></script>
 </body>
 </html>

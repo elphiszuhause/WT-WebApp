@@ -113,23 +113,36 @@
             Dichtheitsprüfung mit ölfreier Druckluft gemäß vorstehenden Daten unterzogen wurde.
           </div>
 
-          <div class="signature-row">
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Firmenstempel
-            </div>
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Unterschrift Monteur
+          <!-- Unterschriften-Bereich (Standard) -->
+        <div class="section">
+          <div class="section-title">Unterschriften</div>
+
+          <div class="field">
+            <label>Unterschrift Monteur</label>
+            <div class="signature-pad">
+              <canvas id="sig-monteur"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-monteur')">
+                Löschen
+              </button>
             </div>
           </div>
 
-          <div class="field" style="margin-top:12px;">
-            <label for="monteur">Name des Monteurs (Druckschrift)</label>
-            <input type="text" id="monteur" name="monteur">
+          <div class="field">
+            <label>Unterschrift Auftraggeber</label>
+            <div class="signature-pad">
+              <canvas id="sig-ag"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-ag')">
+                Löschen
+              </button>
+            </div>
           </div>
         </div>
 
+        <!-- Buttons -->
         <div class="button-row">
           <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
           <div class="button-row-right">
@@ -137,8 +150,12 @@
             <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
           </div>
         </div>
+
       </form>
     </main>
   </div>
+
+  <!-- Zentrales JS für Signatur etc. -->
+  <script src="../../assets/app.js"></script>
 </body>
 </html>

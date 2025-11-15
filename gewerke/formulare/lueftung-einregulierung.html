@@ -124,32 +124,51 @@
           <textarea name="bewertung" placeholder="z. B. Anlage ordnungsgemäß eingeregelt"></textarea>
         </div>
 
-        <!-- Abschluss -->
+        <!-- Unterschriften-Bereich (Standard) -->
         <div class="section">
-          <div class="section-title">Abschluss</div>
-          <div class="signature-row">
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Monteur
+          <div class="section-title">Unterschriften</div>
+
+          <div class="field">
+            <label>Unterschrift Monteur</label>
+            <div class="signature-pad">
+              <canvas id="sig-monteur"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-monteur')">
+                Löschen
+              </button>
             </div>
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Auftraggeber
+          </div>
+
+          <div class="field">
+            <label>Unterschrift Auftraggeber</label>
+            <div class="signature-pad">
+              <canvas id="sig-ag"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-ag')">
+                Löschen
+              </button>
             </div>
           </div>
         </div>
 
+        <!-- Buttons -->
         <div class="button-row">
-          <a class="btn btn-back" href="../lueftung.html">← Zurück</a>
+          <a class="btn btn-back" href="../lueftung.html">← Zurück zu Lüftung</a>
           <div class="button-row-right">
-            <button type="reset" class="btn btn-secondary">Leeren</button>
-            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken</button>
+            <button type="reset" class="btn btn-secondary">Formular leeren</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
           </div>
         </div>
 
       </form>
     </main>
   </div>
+
+  <!-- Zentrales JS für Signatur etc. -->
+  <script src="../../assets/app.js"></script>
+
 
   <!-- Raum-Template (wird per JS geklont) -->
   <template id="room-template">

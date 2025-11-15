@@ -101,20 +101,36 @@
           </div>
         </div>
 
+        <!-- Unterschriften-Bereich (Standard) -->
         <div class="section">
           <div class="section-title">Unterschriften</div>
-          <div class="signature-row">
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Auftragnehmer / Monteur
+
+          <div class="field">
+            <label>Unterschrift Monteur</label>
+            <div class="signature-pad">
+              <canvas id="sig-monteur"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-monteur')">
+                Löschen
+              </button>
             </div>
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Auftraggeber / Nutzer
+          </div>
+
+          <div class="field">
+            <label>Unterschrift Auftraggeber</label>
+            <div class="signature-pad">
+              <canvas id="sig-ag"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-ag')">
+                Löschen
+              </button>
             </div>
           </div>
         </div>
 
+        <!-- Buttons -->
         <div class="button-row">
           <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
           <div class="button-row-right">
@@ -122,8 +138,12 @@
             <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
           </div>
         </div>
+
       </form>
     </main>
   </div>
+
+  <!-- Zentrales JS für Signatur etc. -->
+  <script src="../../assets/app.js"></script>
 </body>
 </html>
