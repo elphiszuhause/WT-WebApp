@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Ankündigung Regiearbeiten</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Globales Styling -->
+  <link rel="stylesheet" href="../../assets/styles.css">
+
+  <style>
+    .wide-input { width: 100%; }
+
+    .multi-text {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+<div class="app-container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <img src="../../assets/WBS_Logo_WT.png" alt="WAGNERTECH">
+    </div>
+    <div class="header-title">
+      <h1>WAGNER Building Systems S.A.</h1>
+      <div class="subtitle">
+        35, Z.A.E.R. Op der Héi · L-9809 Hosingen<br>
+        +352 84 92 03-1 · contact@w-b-s.lu · www.wagnertech.lu
+      </div>
+    </div>
+  </header>
+
+  <hr>
+
+  <main>
+    <h2 class="page-heading">Ankündigung Regiearbeiten</h2>
+
+    <form>
+
+      <!-- Projekt + Datum -->
+      <div class="section">
+        <div class="section-title">Projekt & Datum</div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="projekt">Projekt</label>
+            <input type="text" id="projekt" name="projekt" class="wide-input">
+          </div>
+
+          <div class="field">
+            <label for="datum">Datum / Ort</label>
+            <input type="text" id="datum" name="datum" class="wide-input">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bauherr -->
+      <div class="section">
+        <div class="section-title">Bauherr</div>
+
+        <div class="field">
+          <label for="bauherr">Bauherr</label>
+          <input type="text" id="bauherr" name="bauherr" class="wide-input">
+        </div>
+
+        <div class="field">
+          <label for="bauherr_adresse">Adresse</label>
+          <input type="text" id="bauherr_adresse" name="bauherr_adresse" class="wide-input">
+        </div>
+      </div>
+
+      <!-- Auszuführende Arbeiten -->
+      <div class="section">
+        <div class="section-title">Auszuführende Arbeiten</div>
+
+        <textarea id="arbeiten" name="arbeiten" class="multi-text" placeholder="Beschreibung der Arbeiten"></textarea>
+      </div>
+
+      <!-- Begründung -->
+      <div class="section">
+        <div class="section-title">Begründung</div>
+
+        <textarea id="begruendung" name="begruendung" class="multi-text" placeholder="Begründung der Maßnahme"></textarea>
+      </div>
+
+      <!-- Aufwand -->
+      <div class="section">
+        <div class="section-title">Voraussichtlicher Aufwand</div>
+
+        <div class="field">
+          <label for="material">Material</label>
+          <textarea id="material" name="material" class="multi-text"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="arbeitszeit">Arbeitszeit</label>
+          <textarea id="arbeitszeit" name="arbeitszeit" class="multi-text"></textarea>
+        </div>
+      </div>
+
+      <!-- Abschluss -->
+      <div class="section section-pagebreak">
+        <div class="section-title">Hinweis</div>
+
+        <p>Mit der Bitte um Prüfung und Freigabe, damit die Änderungen ausgeführt werden können.</p>
+
+        
+      </div>
+
+      <!-- Unterschrift -->
+      <div class="section">
+        <div class="section-title">Unterschrift</div>
+
+        <div class="signature-pad">
+          <canvas id="sig_regie"></canvas>
+          <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig_regie')">
+            Löschen
+          </button>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-row">
+        <a class="btn btn-back" href="../index.html">← Zurück</a>
+        <div class="button-row-right">
+          <button type="reset" class="btn btn-secondary">Formular leeren</button>
+          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Regieankuendigung.pdf')">
+            Drucken / PDF
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+
+<!-- Skripte -->
+<script src="../../assets/html2pdf.bundle.min.js"></script>
+<script src="../../assets/jspdf.umd.min.js"></script>
+<script src="../../assets/app.js"></script>
+
+<script>
+  // Signatur-Init für dieses Formular
+  document.addEventListener("DOMContentLoaded", () => {
+    if (typeof initSignaturePad === "function") {
+      initSignaturePad("sig_regie");
+    }
+  });
+</script>
+
+</body>
+</html>

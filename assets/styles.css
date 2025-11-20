@@ -1,3 +1,114 @@
+/* Startseite – Bereichs-Auswahl (Baustellenabwicklung / Abnahmen / Personal) */
+
+.page-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 10px 0 4px;
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  color: #555;
+}
+
+.area-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+/* großer dunkelblauer Button, einheitliche Größe */
+.area-button {
+  width: 100%;
+  background-color: #4A5568;          /* dunkelgrau/blau wie im Screenshot */
+  color: #ffffff;
+  padding: 26px 20px;
+  border-radius: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.18);
+  font-weight: 600;
+  font-size: 1.25rem;
+  transition: all 0.15s ease;
+}
+
+.area-button span {
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+.area-button:hover {
+  background-color: #2D3748;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+
+/* --- Startseite – Gewerke-Buttons --- */
+
+.gk-button {
+  width: 100%;
+  background-color: #4A5568;          /* dunkles Blau-Grau – exakt wie Screenshot */
+  color: #fff;
+  padding: 26px 20px;
+  border-radius: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.18);
+  font-weight: 600;
+  font-size: 1.3rem;
+  transition: all 0.15s ease;
+}
+
+.gk-button span {
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+.gk-button:hover {
+  background-color: #2D3748;          /* etwas dunkler */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.gk-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 35px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.page-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+
 /* Grundlayout */
 
 * {
@@ -270,6 +381,12 @@ textarea {
   margin: 32px 0 4px;
 }
 
+
+/* Elemente mit dieser Klasse werden nur für den PDF-Export ausgeblendet */
+.pdf-export-hide {
+  display: none !important;
+
+}
 /* Mobile Optimierung */
 
 @media (max-width: 600px) {
@@ -436,12 +553,245 @@ textarea {
 
 /* Druck: Canvas-Rand ruhig sichtbar lassen */
 @media print {
+  
   .signature-pad {
     border: 1px solid #9ca3af;
-    padding: 4px;
+    padding: 0px;
   }
 
   .signature-clear {
     display: none !important; /* Löschen-Button nicht drucken */
   }
+}
+  .pdf-hide {
+    display: none !important;
+}
+/* ====================================== */
+/* Layout nur für PDF-Export (html2pdf)   */
+/* ====================================== */
+body.pdf-mode {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #ffffff !important;
+
+  /* falls du irgendwo Flex-Zentrierung hast */
+  display: block !important;
+}
+
+body.pdf-mode .app-container {
+  /* A4-Breite im PDF */
+  max-width: 190mm !important;
+  width: 190mm !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+}
+
+/* Abstand oben im PDF killen */
+body.pdf-mode header,
+body.pdf-mode main {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Buttons im PDF ausblenden */
+body.pdf-mode .button-row,
+body.pdf-mode .btn,
+body.pdf-mode .add-room-btn,
+body.pdf-mode .room-remove-btn {
+  display: none !important;
+}
+
+/* Formular im PDF kompakter */
+body.pdf-mode .section {
+  margin: 4mm 0 !important;
+  padding: 0 !important;
+  background: #ffffff !important;
+}
+
+body.pdf-mode .section-title {
+  font-size: 0.9rem !important;
+  margin-bottom: 2mm !important;
+}
+
+body.pdf-mode .field-row {
+  gap: 3mm !important;
+  margin-bottom: 2mm !important;
+}
+
+body.pdf-mode label {
+  font-size: 0.8rem !important;
+  margin-bottom: 1mm !important;
+}
+
+body.pdf-mode input[type="text"],
+body.pdf-mode input[type="number"],
+body.pdf-mode input[type="date"],
+body.pdf-mode textarea {
+  font-size: 0.8rem !important;
+  padding: 2px 3px !important;
+}
+
+body.pdf-mode .signature-pad {
+  padding: 2mm !important;
+  border: 1px solid #9ca3af !important;
+}
+
+
+body.pdf-mode .signature-clear {
+  display: none !important;
+}
+
+
+  /* Nur Urlaubsantrag anpacken */
+  body.urlaubsantrag {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 10pt; /* etwas kleiner für mehr Inhalt auf 1 Seite */
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  body.urlaubsantrag .app-container {
+    max-width: 190mm;      /* knapp unter A4-Breite */
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+  }
+
+  /* Kopf & Titel enger */
+  body.urlaubsantrag .header {
+    margin: 4mm 4mm 2mm 4mm;
+    padding: 0;
+  }
+
+  body.urlaubsantrag .page-heading {
+    margin: 2mm 4mm 3mm 4mm;
+    padding: 0 0 1mm 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  /* Sections optisch wie „Word-Formular“, ohne Kachel-Optik */
+  body.urlaubsantrag .section {
+    margin: 2mm 4mm;
+    padding: 2mm 0;
+    box-shadow: none;
+    border: none;
+    break-inside: avoid;
+  }
+
+  body.urlaubsantrag .section-title {
+    margin: 0 0 1.5mm 0;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1mm;
+  }
+
+  body.urlaubsantrag .field,
+  body.urlaubsantrag .field-row {
+    margin-bottom: 2mm;
+    gap: 4mm;
+  }
+
+  body.urlaubsantrag label {
+    margin-bottom: 1px;
+  }
+
+  /* Eingabefelder wie Linien, nicht wie Web-Inputs */
+  body.urlaubsantrag input[type="text"],
+  body.urlaubsantrag input[type="date"],
+  body.urlaubsantrag input[type="number"],
+  body.urlaubsantrag textarea,
+  body.urlaubsantrag select {
+    border: none;
+    border-bottom: 1px solid #555;
+    border-radius: 0;
+    padding: 0 0 1px 0;
+    background: transparent;
+    font-size: 10pt;
+  }
+
+  body.urlaubsantrag textarea {
+    min-height: 18px;
+  }
+
+  /* Checkboxen / Radiobuttons normal lassen, nur etwas kleiner */
+  body.urlaubsantrag input[type="checkbox"],
+  body.urlaubsantrag input[type="radio"] {
+    transform: scale(0.9);
+  }
+
+  /* Signaturfelder: klarer Rahmen, Höhe vom Screen beibehalten */
+  body.urlaubsantrag .signature-pad {
+    border: 1px solid #333;
+    padding: 0;
+  }
+  /* canvas-Größe im Print NICHT ändern, damit Unterschrift sichtbar bleibt */
+
+  /* Buttons, Navigation etc. im Druck ausblenden */
+  body.urlaubsantrag .button-row,
+  body.urlaubsantrag .btn,
+  body.urlaubsantrag .btn-back {
+    display: none !important;
+  }
+  .section-pagebreak {
+  page-break-before: always;
+  break-before: page;
+  page-break-inside: avoid;
+}
+/* --- kompaktere Darstellung NUR für PDF/Print --- */
+@media print {
+
+  /* Grundschrift kleiner */
+  body,
+  .app-container {
+    font-size: 10pt !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Labels & Inputs etwas kleiner */
+  label,
+  input,
+  textarea,
+  select,
+  span,
+  p {
+    font-size: 9.5pt !important;
+  }
+
+  .section-title {
+    font-size: 11pt !important;
+    margin-bottom: 3mm !important;
+  }
+
+  /* Abstände reduzieren */
+  .field,
+  .field-row {
+    margin-bottom: 3mm !important;
+  }
+
+  /* Signaturen kompakt */
+  .signature-pad {
+    height: 50px !important;
+  }
+  .signature-pad canvas {
+    height: 50px !important;
+  }
+
+  /* Buttons unten ausblenden */
+  .button-row,
+  .btn,
+  .btn-back,
+  .btn-primary,
+  .btn-secondary {
+    display: none !important;
+  }
+
+
 }

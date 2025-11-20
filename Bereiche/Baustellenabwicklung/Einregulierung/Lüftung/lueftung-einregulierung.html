@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Einregulierungsprotokoll Lüftung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Zusatzstyles nur für dieses Formular -->
+  <style>
+    .room-block {
+      border: 1px dashed #d1d5db;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      background: #ffffff;
+    }
+
+    .room-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .room-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .room-remove-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #b91c1c;
+    }
+
+    .add-room-btn {
+      margin-top: 8px;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+
+    <header class="header">
+      <div class="header-logo">
+        <img src="/assets/WBS_Logo_WT.png" alt="Logo">
+      </div>
+      <div class="header-title">
+        <h1>EINREGULIERUNG LÜFTUNGSANLAGE</h1>
+        <div class="subtitle">Zuluft / Abluft / Geräteeinstellungen</div>
+      </div>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2 class="page-heading">Einregulierungsprotokoll</h2>
+
+      <form>
+
+        <!-- Allgemein -->
+        <div class="section">
+          <div class="section-title">Anlageninfo</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Objekt</label>
+              <input type="text" name="objekt">
+            </div>
+            <div class="field">
+              <label>Gerät / Typ</label>
+              <input type="text" name="geraet">
+            </div>
+          </div>
+        </div>
+
+        <!-- Einstellungen -->
+        <div class="section">
+          <div class="section-title">Geräteeinstellungen</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Stufe 1 (Zuluft / Abluft)</label>
+              <input type="text" name="stufe1" placeholder="z. B. 80 / 75 m³/h">
+            </div>
+            <div class="field">
+              <label>Stufe 2 (Zuluft / Abluft)</label>
+              <input type="text" name="stufe2" placeholder="z. B. 140 / 135 m³/h">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Stufe 3 (Zuluft / Abluft)</label>
+              <input type="text" name="stufe3" placeholder="z. B. 180 / 180 m³/h">
+            </div>
+            <div class="field">
+              <label>Filterstatus</label>
+              <input type="text" name="filterstatus" placeholder="z. B. neu / gewechselt">
+            </div>
+          </div>
+        </div>
+
+        <!-- Räume – dynamisch -->
+        <div class="section">
+          <div class="section-title">Räume / Ventile</div>
+
+          <div id="rooms-container">
+            <!-- Hier werden die Räume dynamisch eingefügt -->
+          </div>
+
+          <button type="button" class="btn btn-secondary add-room-btn" onclick="addRoom()">
+            + Raum hinzufügen
+          </button>
+        </div>
+
+        <!-- Bewertung -->
+        <div class="section">
+          <div class="section-title">Bewertung</div>
+          <textarea name="bewertung" placeholder="z. B. Anlage ordnungsgemäß eingeregelt"></textarea>
+        </div>
+
+        <!-- Abschluss -->
+        <div class="section">
+          <div class="section-title">Abschluss</div>
+          <div class="signature-row">
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Monteur
+            </div>
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Auftraggeber
+            </div>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <a class="btn btn-back" href="../lueftung.html">← Zurück</a>
+          <div class="button-row-right">
+            <button type="reset" class="btn btn-secondary">Leeren</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken</button>
+          </div>
+        </div>
+
+      </form>
+    </main>
+  </div>
+
+  <!-- Raum-Template (wird per JS geklont) -->
+  <template id="room-template">
+    <div class="room-block">
+      <div class="room-header">
+        <div class="room-title">Raum</div>
+        <button type="button" class="room-remove-btn" onclick="removeRoom(this)">✕ Entfernen</button>
+      </div>
+
+      <div class="field">
+        <label>Raumbezeichnung</label>
+        <input type="text" name="raum_name[]" placeholder="z. B. Wohnzimmer – Zuluft">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Soll-Volumenstrom</label>
+          <div class="inline-suffix">
+            <input type="number" name="raum_soll[]" step="0.1">
+            <span class="unit">m³/h</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Ist-Volumenstrom</label>
+          <div class="inline-suffix">
+            <input type="number" name="raum_ist[]" step="0.1">
+            <span class="unit">m³/h</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Bemerkung</label>
+        <textarea name="raum_bemerkung[]" placeholder="z. B. Ventilstellung, Besonderheiten"></textarea>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    let roomCounter = 0;
+
+    function addRoom() {
+      const tmpl = document.getElementById('room-template');
+      const container = document.getElementById('rooms-container');
+      const clone = tmpl.content.cloneNode(true);
+
+      roomCounter++;
+      // Raum-Überschrift durchnummerieren
+      const titleEl = clone.querySelector('.room-title');
+      if (titleEl) {
+        titleEl.textContent = 'Raum ' + roomCounter;
+      }
+
+      container.appendChild(clone);
+    }
+
+    function removeRoom(btn) {
+      const block = btn.closest('.room-block');
+      if (!block) return;
+      block.remove();
+      // Nummerierung nicht neu sortieren – ist fürs Protokoll egal.
+    }
+
+    // Beim Laden gleich einen ersten Raum anlegen
+    document.addEventListener('DOMContentLoaded', () => {
+      addRoom();
+    });
+  </script>
+</body>
+</html>

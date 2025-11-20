@@ -2,63 +2,57 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>Zertifikate &amp; Protokolle – Wagnertech</title>
+  <title>Zertifikate & Protokolle</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="assets/styles.css">
+
+  <link rel="stylesheet" href="../assets/styles.css">
 </head>
+
 <body>
-  <div class="app-container">
+<div class="app-container">
 
-    <!-- HEADER -->
-    <header class="header">
-      <div class="header-logo">
-        <img src="assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
-      </div>
-      <div class="header-title">
-        <h1>ZERTIFIKATE &amp; PROTOKOLLE</h1>
-        <div class="subtitle">Formulare für Monteure auf der Baustelle</div>
-      </div>
-    </header>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <img src="../assets/WBS_Logo_WT.png" alt="WAGNERTECH">
+    </div>
+    <div class="header-title">
+      <h1>ZERTIFIKATE &amp; PROTOKOLLE</h1>
+      <div class="subtitle">Formulare für Monteure auf der Baustelle</div>
+    </div>
+  </header>
 
-    <hr>
+  <hr>
 
-    <!-- HAUPTINHALT -->
-    <main>
-      <h2 class="page-heading">Gewerk wählen</h2>
+  <main>
+    <h2 class="page-title">Bereich wählen</h2>
+    <p class="page-subtitle">
+      Bitte zuerst den Bereich wählen. Anschließend können die passenden Formulare geöffnet, ausgefüllt und als PDF gespeichert werden.
+    </p>
 
-      <p class="view-description">
-        Bitte zuerst das Gewerk auswählen. Anschließend können die passenden Formulare geöffnet,
-        ausgefüllt und gedruckt werden.
-      </p>
+    <div class="area-grid">
 
-      <div class="tile-grid">
-        <a class="tile-button secondary" href="gewerke/heizung.html">
-          Heizung
-          <span class="small">Dichtheitsprüfungen, Übergabeprotokolle</span>
-        </a>
+      <!-- BAUSTELLENABWICKLUNG -->
+      <a class="area-button" href="/Bereiche/baustellenabwicklung.html">
+        Baustellenabwicklung
+        <span>Druckproben, Einregulierung, Regiearbeiten, Checklisten</span>
+      </a>
 
-        <a class="tile-button secondary" href="gewerke/lueftung.html">
-          Lüftung
-          <span class="small">Volumenstrommessung, Einregulierungsprotokolle</span>
-        </a>
+      <!-- ABNAHMEN -->
+      <a class="area-button" href="abnahmen.html">
+        Abnahmen
+        <span>Bauherreneinweisung, Übergabeprotokolle</span>
+      </a>
 
-        <a class="tile-button secondary" href="gewerke/sanitaer.html">
-          Sanitär
-          <span class="small">Druckproben, Trinkwasserhygiene</span>
-        </a>
+      <!-- PERSONAL -->
+      <a class="area-button" href="/Bereiche/Personal/personal.html">
+        Personal
+        <span>Urlaubsantrag, Stundenzettel, weitere Personalformulare</span>
+      </a>
 
-        <a class="tile-button secondary" href="gewerke/kaelte.html">
-          Kälte
-          <span class="small">Dichtheitsprüfung Kälteanlagen</span>
-        </a>
+    </div>
+  </main>
+</div>
 
-        <a class="tile-button secondary" href="gewerke/gas.html">
-          Gas
-          <span class="small">Dichtheitsprüfung Gasanlagen</span>
-        </a>
-      </div>
-    </main>
-
-  </div>
 </body>
 </html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Druckprobenprotokoll Warmwasserheizung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- gleicher globaler Stil wie Gas/TRGI Formulare -->
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+<div class="app-container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <img src="/assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+    </div>
+    <div class="header-title">
+      <h1>WARMWASSER-DRUCKPROBE</h1>
+      <div class="subtitle">Dichtheitsprüfung mit ölfreier Druckluft</div>
+    </div>
+  </header>
+
+  <hr>
+
+  <main>
+    <h2 class="page-heading">Druckprobenprotokoll für Warmwasserheizung</h2>
+
+    <form>
+
+      <!-- OBJEKT / BAUHERR -->
+      <div class="section">
+        <div class="section-title">Objekt / Bauherr</div>
+
+        <div class="field">
+          <label for="projekt">Projekt</label>
+          <input type="text" id="projekt" name="projekt">
+        </div>
+
+        <div class="field">
+          <label for="bauherr">Bauherr</label>
+          <input type="text" id="bauherr" name="bauherr">
+        </div>
+
+        <div class="field">
+          <label for="objekt_strasse">Strasse / Nr</label>
+          <input type="text" id="objekt_strasse" name="objekt_strasse">
+        </div>
+
+        <div class="field">
+          <label for="objekt_ort">PLZ / Ort</label>
+          <input type="text" id="objekt_ort" name="objekt_ort">
+        </div>
+      </div>
+
+      <!-- PRÜFER -->
+      <div class="section">
+        <div class="section-title">Prüfer</div>
+
+        <div class="field">
+          <label for="pruefer_name">Name</label>
+          <input type="text" id="pruefer_name" name="pruefer_name">
+        </div>
+
+        <div class="field">
+          <label for="pruefer_firma">Firma</label>
+          <input type="text" id="pruefer_firma" name="pruefer_firma">
+        </div>
+
+        <div class="field">
+          <label for="pruefer_strasse">Strasse / Nr</label>
+          <input type="text" id="pruefer_strasse" name="pruefer_strasse">
+        </div>
+
+        <div class="field">
+          <label for="pruefer_ort">PLZ / Ort</label>
+          <input type="text" id="pruefer_ort" name="pruefer_ort">
+        </div>
+      </div>
+
+      <!-- SICHERHEITSRELEVANTE BAUTEILE -->
+      <div class="section">
+        <div class="section-title">Sicherheitsrelevante Bauteile</div>
+
+        <div class="field">
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="sicherheitsventil"> Sicherheitsventil</label>
+            <label><input type="checkbox" id="ausdehnungsgefaess"> Ausdehnungsgefäß</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>
+            Anlagenteile, deren Nenndruckstufe nicht mindestens dem Prüfdruck entsprechen,
+            sind von der Prüfung ausgeschlossen.
+          </label>
+          <div class="radio-group" style="margin-top:6px;">
+            <label><input type="radio" name="ausschluss_ok" value="ja" checked> JA</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Mindestens 1 bar Überdruck an jeder Stelle ist eingehalten.</label>
+          <div class="radio-group" style="margin-top:6px;">
+            <label><input type="radio" name="ueberdruck_ok" value="ja" checked> JA</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRÜFZEITEN (DATUM + BEGINN/ENDE, KOMPAKT) -->
+      <div class="section">
+        <div class="section-title">Prüfzeiten</div>
+
+        <div class="field-row">
+          <div class="field"><strong>Datum</strong></div>
+          <div class="field"><strong>Beginn</strong></div>
+          <div class="field"><strong>Ende</strong></div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <input type="date" id="datum1" name="datum1">
+          </div>
+          <div class="field">
+            <input type="time" id="beginn1" name="beginn1">
+          </div>
+          <div class="field">
+            <input type="time" id="ende1" name="ende1">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <input type="date" id="datum2" name="datum2">
+          </div>
+          <div class="field">
+            <input type="time" id="beginn2" name="beginn2">
+          </div>
+          <div class="field">
+            <input type="time" id="ende2" name="ende2">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <input type="date" id="datum3" name="datum3">
+          </div>
+          <div class="field">
+            <input type="time" id="beginn3" name="beginn3">
+          </div>
+          <div class="field">
+            <input type="time" id="ende3" name="ende3">
+          </div>
+        </div>
+      </div>
+
+      <!-- ANMERKUNGEN -->
+      <div class="section">
+        <div class="section-title">Anmerkungen</div>
+        <div class="field">
+          <label for="anmerkungen">Anmerkungen</label>
+          <textarea id="anmerkungen" name="anmerkungen"></textarea>
+        </div>
+      </div>
+
+      <!-- ORT & DATUM -->
+      <div class="section">
+        <div class="section-title">Ort und Datum</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ort">Ort</label>
+            <input type="text" id="ort" name="ort">
+          </div>
+          <div class="field">
+            <label for="datum_abschluss">Datum</label>
+            <input type="date" id="datum_abschluss" name="datum_abschluss">
+          </div>
+        </div>
+      </div>
+
+      <!-- UNTERSCHRIFTEN -->
+      <div class="section">
+        <div class="section-title">Unterschriften</div>
+
+        <div class="field">
+          <label>Unterschrift Prüfer / Firma</label>
+          <div class="signature-pad">
+            <canvas id="sig-pruefer"></canvas>
+            <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-pruefer')">Löschen</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Unterschrift Bauherr</label>
+          <div class="signature-pad">
+            <canvas id="sig-bauherr"></canvas>
+            <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-bauherr')">Löschen</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="button-row">
+        <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
+        <div class="button-row-right">
+          <button type="reset" class="btn btn-secondary">Formular leeren</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<!-- globale Scripts wie in den anderen Formularen -->
+<script src="../../assets/html2pdf.bundle.min.js"></script>
+<script src="../../assets/jspdf.umd.min.js"></script>
+<script src="../../assets/app.js"></script>
+
+</body>
+</html>

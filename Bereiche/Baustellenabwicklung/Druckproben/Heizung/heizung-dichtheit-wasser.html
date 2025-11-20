@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Dichtheitsprüfung Heizung – Wasser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <header class="header">
+      <div class="header-logo">
+        <img src="/assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+      </div>
+      <div class="header-title">
+        <h1>DICHTHEITSPRÜFUNG HEIZUNG</h1>
+        <div class="subtitle">Prüfmedium: Wasser</div>
+      </div>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2 class="page-heading">Dichtheitsprüfungsprotokoll – Wasser</h2>
+
+      <form>
+        <!-- Aufstellungsort -->
+        <div class="section">
+          <div class="section-title">Aufstellungsort</div>
+          <div class="field">
+            <label for="aufstellungsort">Gebäude, Adresse, ggf. Anlagenteil</label>
+            <textarea id="aufstellungsort" name="aufstellungsort"></textarea>
+          </div>
+        </div>
+
+        <!-- Anlagendaten -->
+        <div class="section">
+          <div class="section-title">Anlagendaten</div>
+          <div class="field">
+            <label for="anlagendaten">Kurzbeschreibung (Wärmeerzeuger, Heizkreise, Rohrmaterial)</label>
+            <textarea id="anlagendaten" name="anlagendaten"></textarea>
+          </div>
+        </div>
+
+        <!-- Prüfparameter -->
+        <div class="section">
+          <div class="section-title">Prüfparameter</div>
+          <div class="field-row">
+            <div class="field">
+              <label for="betriebsdruck">Höchstzulässiger Betriebsdruck</label>
+              <div class="inline-suffix">
+                <input type="number" id="betriebsdruck" name="betriebsdruck" step="0.1" min="0">
+                <span class="unit">bar</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="pruefdruck">Prüfdruck (1,3 × Betriebsdruck, bezogen auf tiefsten Punkt)</label>
+              <div class="inline-suffix">
+                <input type="number" id="pruefdruck" name="pruefdruck" step="0.1" min="0">
+                <span class="unit">bar</span>
+              </div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="dauer">Dauer der Belastung mit Prüfdruck</label>
+              <input type="text" id="dauer" name="dauer" placeholder="z. B. 2 Stunden">
+            </div>
+            <div class="field">
+              <label for="medium">Prüfmedium</label>
+              <input type="text" id="medium" name="medium" value="Wasser">
+            </div>
+          </div>
+        </div>
+
+        <!-- Ergebnis -->
+        <div class="section">
+          <div class="section-title">Ergebnis der Dichtheitsprüfung</div>
+          <div class="field">
+            <label>Prüfergebnis</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="ergebnis" value="keine" checked>
+                Die Prüfung ergab keine Beanstandung.
+              </label>
+              <label>
+                <input type="radio" name="ergebnis" value="mit">
+                Die Prüfung ergab Beanstandungen (siehe Bemerkungen).
+              </label>
+            </div>
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label for="bemerkungen">Bemerkungen / festgestellte Mängel / Maßnahmen</label>
+            <textarea id="bemerkungen" name="bemerkungen"></textarea>
+          </div>
+        </div>
+
+        <!-- Ort & Datum -->
+        <div class="section">
+          <div class="section-title">Ort und Datum</div>
+          <div class="field-row">
+            <div class="field">
+              <label for="ort">Ort</label>
+              <input type="text" id="ort" name="ort">
+            </div>
+            <div class="field">
+              <label for="datum">Datum</label>
+              <input type="date" id="datum" name="datum">
+            </div>
+          </div>
+        </div>
+
+        <!-- Bestätigung -->
+        <div class="section">
+          <div class="section-title">Bestätigung</div>
+          <div class="field">
+            Hiermit wird bestätigt, dass die oben genannte Anlage / das Anlagenteil einer
+            Dichtheitsprüfung mit Wasser gemäß vorstehenden Daten unterzogen wurde.
+          </div>
+
+          <div class="signature-row">
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Firmenstempel
+            </div>
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Unterschrift Monteur
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:12px;">
+            <label for="monteur">Name des Monteurs (Druckschrift)</label>
+            <input type="text" id="monteur" name="monteur">
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-row">
+          <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
+          <div class="button-row-right">
+            <button type="reset" class="btn btn-secondary">Formular leeren</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

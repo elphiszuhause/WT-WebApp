@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Druckprobenprotokoll Trinkwasser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-logo">
+        <img src="../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+      </div>
+      <div class="header-title">
+        <h1>TRINKWASSER-DRUCKPROBE</h1>
+        <div class="subtitle">Dichtheitsprüfung mit ölfreier Druckluft</div>
+      </div>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2 class="page-heading">Druckprobenprotokoll für Trinkwasserinstallation</h2>
+
+      <form>
+
+        <!-- Objekt / Bauherr -->
+        <div class="section">
+          <div class="section-title">Objekt / Bauherr</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="projekt">Projekt</label>
+              <input type="text" id="projekt" name="projekt">
+            </div>
+            <div class="field">
+              <label for="bauherr">Bauherr</label>
+              <input type="text" id="bauherr" name="bauherr">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="adresse">Str. / Nr. / Ort</label>
+              <input type="text" id="adresse" name="adresse">
+            </div>
+            <div class="field">
+              <label for="anlage">Anlagenteil / Bereich</label>
+              <input type="text" id="anlage" name="anlage" placeholder="z. B. Kaltwasserstrang EG, Steigleitung, Technikraum">
+            </div>
+          </div>
+        </div>
+
+        <!-- Prüfer -->
+        <div class="section">
+          <div class="section-title">Prüfer</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pruefer_name">Name Prüfer</label>
+              <input type="text" id="pruefer_name" name="pruefer_name">
+            </div>
+            <div class="field">
+              <label for="firma">Firma</label>
+              <input type="text" id="firma" name="firma">
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="strasse_pruefer">Strasse / Nr</label>
+              <input type="text" id="strasse_pruefer" name="strasse_pruefer">
+            </div>
+            <div class="field">
+              <label for="ort_pruefer">PLZ / Ort</label>
+              <input type="text" id="ort_pruefer" name="ort_pruefer">
+            </div>
+          </div>
+        </div>
+
+        <!-- Prüfdaten / Ergebnisse -->
+        <div class="section">
+          <div class="section-title">Prüfdaten / Ergebnisse</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="p_zulaessig">Zulässiger Betriebsüberdruck</label>
+              <div class="inline-suffix">
+                <input type="number" id="p_zulaessig" name="p_zulaessig" step="0.1" min="0">
+                <span class="unit">bar</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="p_pruef">Prüfdruck (Pzul × 1,1)</label>
+              <div class="inline-suffix">
+                <input type="number" id="p_pruef" name="p_pruef" step="0.1" min="0">
+                <span class="unit">bar</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="dauer_10">Prüfzeit 10 Minuten</label>
+              <div class="inline-suffix">
+                <input type="number" id="dauer_10" name="dauer_10" step="1" min="0" value="10">
+                <span class="unit">min</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="dauer_30">Prüfzeit 30 Minuten</label>
+              <div class="inline-suffix">
+                <input type="number" id="dauer_30" name="dauer_30" step="1" min="0" value="30">
+                <span class="unit">min</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Ergebnis nach 10 Minuten</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="ergebnis_10" value="kein_druckabfall" checked>
+                kein Druckabfall
+              </label>
+              <label>
+                <input type="radio" name="ergebnis_10" value="druckabfall">
+                Druckabfall feststellbar
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Ergebnis nach 30 Minuten</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="ergebnis_30" value="kein_druckabfall" checked>
+                kein Druckabfall
+              </label>
+              <label>
+                <input type="radio" name="ergebnis_30" value="druckabfall">
+                Druckabfall feststellbar
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="anmerkungen">Anmerkungen</label>
+            <textarea id="anmerkungen" name="anmerkungen"></textarea>
+          </div>
+        </div>
+
+        <!-- Ort & Datum -->
+        <div class="section">
+          <div class="section-title">Ort und Datum</div>
+          <div class="field-row">
+            <div class="field">
+              <label for="ort">Ort</label>
+              <input type="text" id="ort" name="ort">
+            </div>
+            <div class="field">
+              <label for="datum">Datum</label>
+              <input type="date" id="datum" name="datum">
+            </div>
+          </div>
+        </div>
+
+        <!-- Unterschriften -->
+        <div class="section">
+          <div class="section-title">Unterschriften</div>
+
+          <div class="field">
+            <label>Unterschrift Prüfer / Firma</label>
+            <div class="signature-pad">
+              <canvas id="sig-pruefer"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-pruefer')">
+                Löschen
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Unterschrift Bauherr</label>
+            <div class="signature-pad">
+              <canvas id="sig-bauherr"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-bauherr')">
+                Löschen
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-row">
+          <a class="btn btn-back" href="../trinkwasser.html">← Zurück zu Trinkwasser</a>
+          <div class="button-row-right">
+            <button type="reset" class="btn btn-secondary">Formular leeren</button>
+            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+            <!-- nutzt dieselbe PDF-Funktion wie das Gas-Formular -->
+            <button type="button" class="btn btn-primary" onclick="exportGasPdf('Druckprobe_Trinkwasser')">PDF speichern</button>
+          </div>
+        </div>
+
+      </form>
+    </main>
+  </div>
+
+  <!-- zentrale Skripte wie bei den anderen Formularen -->
+  <script src="../../assets/html2pdf.bundle.min.js"></script>
+  <script src="../../assets/jspdf.umd.min.js"></script>
+  <script src="../../assets/app.js"></script>
+</body>
+</html>
