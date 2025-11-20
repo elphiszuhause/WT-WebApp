@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Urlaubsantrag / Demande de congé</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- dein globales Styling -->
+  <link rel="stylesheet" href="../../assets/styles.css">
+
+  <style>
+    .dual-label {
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    .reason-row {
+      display: grid;
+      grid-template-columns: auto 1fr 140px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .reason-row input[type="text"] {
+      width: 100%;
+    }
+
+    .reason-row .days-input {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .decision-row {
+      display: flex;
+      gap: 20px;
+      margin: 10px 0 20px;
+    }
+
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .signatures-grid .field label {
+      font-weight: 600;
+    }
+    
+
+    @media (max-width: 900px) {
+      .signatures-grid {
+        grid-template-columns: 1fr;
+      }
+      .reason-row {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+      }
+      .reason-row .days-input {
+        grid-column: 1 / -1;
+      }
+      
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="app-container">
+
+  <!-- HEADER / BRIEFKOPF -->
+  <header class="header">
+    <div class="header-logo">
+      <img src="../../assets/WBS_Logo_WT.png" alt="WAGNERTECH">
+    </div>
+    <div class="header-title">
+      <h1>WAGNER Building Systems S.A.</h1>
+      <div class="subtitle">
+        35, Z.A.E.R. Op der Héi · L-9809 Hosingen<br>
+        +352 84 92 03-1 · contact@w-b-s.lu · www.wagnertech.lu
+      </div>
+    </div>
+  </header>
+
+  <hr>
+
+  <main>
+    <h2 class="page-heading">Urlaubsantrag / Demande de congé</h2>
+
+    <form>
+
+      <!-- Mitarbeiter -->
+      <div class="section">
+        <div class="section-title">Mitarbeiter</div>
+
+        <div class="field">
+          <label for="name_mitarbeiter">
+            Name des Arbeitnehmers<br>
+            <span class="dual-label">Nom de l'employé</span>
+          </label>
+          <input type="text" id="name_mitarbeiter" name="name_mitarbeiter">
+        </div>
+      </div>
+
+      <!-- Zeitraum -->
+      <div class="section">
+        <div class="section-title">Beantragter Urlaub / Demande du congé</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="von">Vom<br><span class="dual-label">du (inclus)</span></label>
+            <input type="date" id="von" name="von">
+          </div>
+          <div class="field">
+            <label for="bis">Bis<br><span class="dual-label">au (inclus)</span></label>
+            <input type="date" id="bis" name="bis">
+          </div>
+          <div class="field">
+            <label for="tage_gesamt">Total<br><span class="dual-label">Jours ouvrables</span></label>
+            <input type="number" id="tage_gesamt" name="tage_gesamt" min="0" step="0.5">
+          </div>
+        </div>
+      </div>
+
+      <!-- Grund -->
+      <div class="section">
+        <div class="section-title">Grund / Motif</div>
+
+        <div class="reason-row">
+          <label>
+            <input type="checkbox" id="grund_jahresurlaub" name="grund_jahresurlaub">
+            Jahresurlaub / Congé légal
+          </label>
+          <input type="text" id="grund1_text" name="grund1_text" placeholder="">
+          <div class="days-input">
+            <input type="number" id="grund1_tage" name="grund1_tage" min="0" step="0.5" style="width:60px;">
+            <span>Tage / Jours</span>
+          </div>
+        </div>
+
+        <div class="reason-row">
+          <label>
+            <input type="checkbox" id="grund2_chk" name="grund2_chk">
+          </label>
+          <input type="text" id="grund2_text" name="grund2_text" placeholder="">
+          <div class="days-input">
+            <input type="number" id="grund2_tage" name="grund2_tage" min="0" step="0.5" style="width:60px;">
+            <span>Tage / Jours</span>
+          </div>
+        </div>
+
+        <div class="reason-row">
+          <label>
+            <input type="checkbox" id="grund3_chk" name="grund3_chk">
+          </label>
+          <input type="text" id="grund3_text" name="grund3_text" placeholder="">
+          <div class="days-input">
+            <input type="number" id="grund3_tage" name="grund3_tage" min="0" step="0.5" style="width:60px;">
+            <span>Tage / Jours</span>
+          </div>
+        </div>
+
+        <div class="reason-row">
+          <label>
+            <input type="checkbox" id="grund4_chk" name="grund4_chk">
+          </label>
+          <input type="text" id="grund4_text" name="grund4_text" placeholder="">
+          <div class="days-input">
+            <input type="number" id="grund4_tage" name="grund4_tage" min="0" step="0.5" style="width:60px;">
+            <span>Tage / Jours</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Entscheidung -->
+      <div class="section">
+        <div class="section-title">Entscheidung</div>
+
+        <div class="decision-row">
+          <label>
+            <input type="radio" name="entscheidung" value="akzeptiert">
+            Akzeptiert / <span class="dual-label">Accepté</span>
+          </label>
+          <label>
+            <input type="radio" name="entscheidung" value="abgelehnt">
+            Abgelehnt / <span class="dual-label">Refusé</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Datum + Unterschriften -->
+      <div class="section section-pagebreak"> 
+        <div class="section-title">Datum & Unterschriften</div>
+
+            <div class="field" style="max-width:250px;">
+            <label for="datum_antrag">
+                Datum / Date
+            </label>
+            <input type="date" id="datum_antrag" name="datum_antrag">
+        </div>
+
+        <div class="signatures-grid">
+          <div class="field">
+            <label>Unterschrift Arbeitgeber<br><span class="dual-label">Signature de l'employeur</span></label>
+            <div class="signature-pad">
+              <canvas id="sig-arbeitgeber"></canvas>
+              <button type="button" class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-arbeitgeber')">Löschen</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Unterschrift Vorgesetzter<br><span class="dual-label">Signature du responsable</span></label>
+            <div class="signature-pad">
+              <canvas id="sig-vorgesetzter"></canvas>
+              <button type="button" class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-vorgesetzter')">Löschen</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Unterschrift Arbeitnehmer<br><span class="dual-label">Signature de l'employé</span></label>
+            <div class="signature-pad">
+              <canvas id="sig-arbeitnehmer"></canvas>
+              <button type="button" class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-arbeitnehmer')">Löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-row">
+        <a class="btn btn-back" href="../index.html">← Zurück</a>
+        <div class="button-row-right">
+          <button type="reset" class="btn btn-secondary">Formular leeren</button>
+          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Urlaubsantrag.pdf')">Drucken / PDF</button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<!-- gleiche Scripts wie bei deinen anderen Formularen -->
+<script src="../../assets/html2pdf.bundle.min.js"></script>
+<script src="../../assets/jspdf.umd.min.js"></script>
+<script src="../../assets/app.js"></script>
+
+</body>
+</html>

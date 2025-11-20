@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Zertifikate & Protokolle – Wagner Building Systems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #f3f4f6;
+      padding: 16px;
+    }
+    .app-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 20px 22px 26px;
+    }
+
+    /* Kopfbereich mit Logo */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .header-logo img {
+      width: 160px;
+      height: auto;
+      display: block;
+    }
+    .header-title {
+      text-align: center;
+      flex: 1 1 200px;
+    }
+    .header-title h1 {
+      margin: 0;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #111827;
+    }
+    .header-title .subtitle {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #4b5563;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 12px 0 20px;
+    }
+
+    /* Views / Seiten */
+    .view {
+      display: none;
+    }
+    .view.active {
+      display: block;
+    }
+
+    /* Hauptüberschriften in Views */
+    .view h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      text-align: center;
+      color: #111827;
+    }
+    .view-description {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 18px;
+    }
+
+    /* Kachel-Buttons für Gewerke/Formulare */
+    .tile-grid {
+        display: grid;
+        grid-template-columns: column(auto-fit, minmax(160px, 1fr));
+        gap: 14px;
+        margin-top: 16px;      /* <- NEU: Abstand zum Text darüber */
+        margin-bottom: 8px;    /* <- optional: etwas Luft nach unten */
+    }
+    
+    .tile-button {
+      border: none;
+      border-radius: 10px;
+      padding: 16px 14px;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.06s ease;
+    }
+    .section {
+    padding: 12px !important;
+    }
+    /* Formularfelder sollen immer 100% Breite nehmen */
+    .field-row {
+       flex-direction: column !important;
+       gap: 8px !important;
+    }
+
+    .field {
+        flex: 1 1 100% !important;
+    }
+    /* Buttons 100% Breite für bessere Bedienung */
+    .btn,
+    .tile-button {
+         width: 100% !important;
+        text-align: center;
+     }
+
+    .button-row {
+        flex-direction: column !important;
+        gap: 50px !important;
+    }
+
+    .button-row-right {
+        width: 100% !important;
+        justify-content: space-between;
+    }
+    .tile-button.secondary {
+      background: #4b5563;
+    }
+    .tile-button.light {
+      background: #e5e7eb;
+      color: #111827;
+      box-shadow: none;
+    }
+    .tile-button span.small {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+    .tile-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+    }
+
+    /* Sektionen/Formular-Bereiche */
+    .section {
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 14px 16px 10px;
+      margin-bottom: 14px;
+      background: #f9fafb;
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: #374151;
+    }
+    .field-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .field {
+      flex: 1 1 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    label {
+      font-size: 0.8rem;
+      color: #4b5563;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+      background: #ffffff;
+    }
+    textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .inline-suffix {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .unit {
+      font-size: 0.8rem;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      color: #111827;
+    }
+    .signature-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .signature-block {
+      flex: 1 1 240px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
+    .signature-line {
+      border-bottom: 1px solid #9ca3af;
+      margin: 32px 0 4px;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .button-row-right {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: none;
+      border-radius: 5px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .btn-back {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    .btn-primary {
+      background: #111827;
+      color: #f9fafb;
+    }
+    .btn-secondary {
+      background: #d1d5db;
+      color: #111827;
+    }
+
+    /* Druckansicht: nur aktive View drucken */
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .app-container {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+      }
+      .tile-button,
+      .btn,
+      .view-home,
+      .view-gewerk {
+        /* Navigation ausblenden im Druck */
+      }
+      .button-row {
+        display: none !important;
+      }
+      .view {
+        display: none !important;
+      }
+      .view.print-active {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Kopf -->
+    <header class="header">
+      <div class="header-logo">
+        <img src="WBS_Logo_WT.png" alt="Wagner Building Systems Logo">
+      </div>
+      <div class="header-title">
+        <h1>Zertifikate &amp; Protokolle</h1>
+        <div class="subtitle">Formulare für Monteure auf der Baustelle</div>
+      </div>
+    </header>
+
+    <hr>
+
+    <!-- Startseite -->
+    <section id="view-home" class="view active">
+      <h2>Gewerk wählen</h2>
+      <p class="view-description">
+        Bitte zuerst das Gewerk auswählen. Anschließend können die passenden Formulare geöffnet, ausgefüllt und gedruckt werden.
+      </p>
+      <div class="tile-grid">
+        <button class="tile-button secondary" onclick="showView('view-heizung')">
+          Heizung
+          <span class="small">z. B. Dichtheitsprüfungen, Übergabeprotokolle</span>
+        </button>
+        <button class="tile-button secondary" onclick="showView('view-lueftung')">
+          Lüftung
+          <span class="small">z. B. Volumenstrommessung, Einregulierungsprotokolle</span>
+        </button>
+        <button class="tile-button secondary" onclick="showView('view-sanitaer')">
+          Sanitär
+          <span class="small">z. B. Druckprobe, Trinkwasserhygiene</span>
+        </button>
+        <button class="tile-button secondary" onclick="showView('view-kaelte')">
+          Kälte
+          <span class="small">z. B. Dichtheitsprüfung Kälteanlagen</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Gewerke-Ansichten -->
+    <section id="view-heizung" class="view view-gewerk">
+      <h2>Heizung – Formulare</h2>
+      <p class="view-description">
+        Wähle das gewünschte Heizungs-Formular.
+      </p>
+      <div class="tile-grid">
+        <button class="tile-button light" onclick="showView('view-form-heizung-dichtheit')">
+          Dichtheitsprüfungsprotokoll Heizung
+          <span class="small">gemäß DIN 18380 Abs. 3.4.4/5, Prüfung mit Kaltwasser</span>
+        </button>
+        <!-- Weitere Heizungs-Formulare kannst du hier ergänzen -->
+      </div>
+
+      <div class="button-row" style="margin-top:20px;">
+        <button class="btn btn-back" onclick="showView('view-home')">← Zurück zur Übersicht</button>
+      </div>
+    </section>
+
+    <section id="view-lueftung" class="view view-gewerk">
+      <h2>Lüftung – Formulare</h2>
+      <p class="view-description">
+        Hier können später deine Lüftungsprotokolle ergänzt werden.
+      </p>
+      <div class="tile-grid">
+        <button class="tile-button light" disabled>
+          (Platzhalter)
+          <span class="small">z. B. Volumenstrom-Protokoll nach DIN EN 12599</span>
+        </button>
+      </div>
+      <div class="button-row" style="margin-top:20px;">
+        <button class="btn btn-back" onclick="showView('view-home')">← Zurück zur Übersicht</button>
+      </div>
+    </section>
+
+    <section id="view-sanitaer" class="view view-gewerk">
+      <h2>Sanitär – Formulare</h2>
+      <p class="view-description">
+        Hier können später deine Sanitärprotokolle ergänzt werden.
+      </p>
+      <div class="tile-grid">
+        <button class="tile-button light" disabled>
+          (Platzhalter)
+          <span class="small">z. B. Druckprobe Trinkwasser, Abwasserprüfung</span>
+        </button>
+      </div>
+      <div class="button-row" style="margin-top:20px;">
+        <button class="btn btn-back" onclick="showView('view-home')">← Zurück zur Übersicht</button>
+      </div>
+    </section>
+
+    <section id="view-kaelte" class="view view-gewerk">
+      <h2>Kälte – Formulare</h2>
+      <p class="view-description">
+        Hier können später deine Kälteprotokolle ergänzt werden.
+      </p>
+      <div class="tile-grid">
+        <button class="tile-button light" disabled>
+          (Platzhalter)
+          <span class="small">z. B. Dichtheitsprüfung Kälteanlage, Inbetriebnahmeprotokoll</span>
+        </button>
+      </div>
+      <div class="button-row" style="margin-top:20px%;">
+        <button class="btn btn-back" onclick="showView('view-home')">← Zurück zur Übersicht</button>
+      </div>
+    </section>
+
+    <!-- Formular: Dichtheitsprüfung Heizung -->
+    <section id="view-form-heizung-dichtheit" class="view">
+      <h2>Dichtheitsprüfungsprotokoll Heizung</h2>
+      <p class="view-description">
+        Kaltwasserprüfung für Heizungsanlagen gemäß DIN 18380 Abs. 3.4.4/5.
+      </p>
+
+      <form id="form-heizung-dichtheit">
+        <!-- Aufstellungsort -->
+        <div class="section">
+          <div class="section-title">Aufstellungsort</div>
+          <div class="field">
+            <label for="aufstellungsort">Gebäude, Adresse, ggf. Anlagenteil</label>
+            <textarea id="aufstellungsort" name="aufstellungsort"></textarea>
+          </div>
+        </div>
+
+        <!-- Anlagendaten -->
+        <div class="section">
+          <div class="section-title">Anlagendaten</div>
+          <div class="field">
+            <label for="anlagendaten">Kurzbeschreibung (z. B. Wärmeerzeuger, Heizkreise, Rohrmaterial)</label>
+            <textarea id="anlagendaten" name="anlagendaten"></textarea>
+          </div>
+        </div>
+
+        <!-- Prüfparameter -->
+        <div class="section">
+          <div class="section-title">Prüfparameter</div>
+          <div class="field-row">
+            <div class="field">
+              <label for="betriebsdruck">Höchstzulässiger Betriebsdruck</label>
+              <div class="inline-suffix">
+                <input type="number" id="betriebsdruck" name="betriebsdruck" step="0.1" min="0">
+                <span class="unit">bar</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="pruefdruck">Prüfdruck (1,3 × Betriebsdruck, bezogen auf tiefsten Punkt)</label>
+              <div class="inline-suffix">
+                <input type="number" id="pruefdruck" name="pruefdruck" step="0.1" min="0">
+                <span class="unit">bar</span>
+              </div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="dauer">Dauer der Belastung mit Prüfdruck</label>
+              <input type="text" id="dauer" name="dauer" placeholder="z. B. 2 Stunden">
+            </div>
+            <div class="field">
+              <label for="medium">Prüfmedium</label>
+              <input type="text" id="medium" name="medium" placeholder="z. B. Wasser, ca. 10–20 °C">
+            </div>
+          </div>
+        </div>
+
+        <!-- Ergebnis -->
+        <div class="section">
+          <div class="section-title">Ergebnis der Dichtheitsprüfung</div>
+          <div class="field">
+            <label>Prüfergebnis</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="ergebnis" value="keine" checked>
+                Die Prüfung ergab keine Beanstandung.
+              </label>
+              <label>
+                <input type="radio" name="ergebnis" value="mit">
+                Die Prüfung ergab Beanstandungen (siehe Bemerkungen).
+              </label>
+            </div>
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label for="bemerkungen">Bemerkungen / festgestellte Mängel / Maßnahmen</label>
+            <textarea id="bemerkungen" name="bemerkungen"></textarea>
+          </div>
+        </div>
+
+        <!-- Ort & Datum -->
+        <div class="section">
+          <div class="section-title">Ort und Datum</div>
+          <div class="field-row">
+            <div class="field">
+              <label for="ort">Ort</label>
+              <input type="text" id="ort" name="ort">
+            </div>
+            <div class="field">
+              <label for="datum">Datum</label>
+              <input type="date" id="datum" name="datum">
+            </div>
+          </div>
+        </div>
+
+        <!-- Bestätigung -->
+        <div class="section">
+          <div class="section-title">Bestätigung</div>
+          <div class="field">
+            Hiermit wird bestätigt, dass die oben genannte Anlage / das Anlagenteil einer
+            Kaltwasserprüfung gemäß vorstehenden Daten unterzogen wurde.
+          </div>
+
+          <div class="signature-row">
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Firmenstempel
+            </div>
+            <div class="signature-block">
+              <div class="signature-line"></div>
+              Unterschrift Monteur
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:12px;">
+            <label for="monteur">Name des Monteurs (Druckschrift)</label>
+            <input type="text" id="monteur" name="monteur">
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-row">
+          <button type="button" class="btn btn-back" onclick="showView('view-heizung')">← Zurück zu Heizung</button>
+          <div class="button-row-right">
+            <button type="reset" class="btn btn-secondary">Formular leeren</button>
+            <button type="button" class="btn btn-primary" onclick="printCurrentForm('view-form-heizung-dichtheit')">
+              Drucken / als PDF speichern
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // einfache View-Navigation
+    function showView(id) {
+      const views = document.querySelectorAll('.view');
+      views.forEach(v => {
+        v.classList.remove('active', 'print-active');
+      });
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'instant' || 'auto' });
+      }
+    }
+
+    // Drucken nur der aktuellen Formular-View
+    function printCurrentForm(viewId) {
+      const views = document.querySelectorAll('.view');
+      views.forEach(v => v.classList.remove('print-active'));
+      const current = document.getElementById(viewId);
+      if (current) current.classList.add('print-active');
+      window.print();
+      // nach dem Drucken wieder normalen Zustand herstellen
+      views.forEach(v => v.classList.remove('print-active'));
+    }
+
+    // Datum beim Laden einmal auf heute setzen, falls leer
+    function setTodayIfEmpty() {
+      const dateInput = document.getElementById('datum');
+      if (!dateInput) return;
+      if (!dateInput.value) {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.value = `${yyyy}-${mm}-${dd}`;
+      }
+    }
+    setTodayIfEmpty();
+  </script>
+</body>
+</html>

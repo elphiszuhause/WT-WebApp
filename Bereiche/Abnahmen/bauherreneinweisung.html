@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Bauherren­einweisung</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../assets/styles.css">
+
+  <!-- leichte Tabellen-Formatierung im Stil deiner Vorlagen -->
+  <style>
+    .handover-table,
+    .remarks-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .handover-table th,
+    .handover-table td,
+    .remarks-table th,
+    .remarks-table td {
+      border: 1px solid #ccc;
+      padding: 4px 6px;
+      vertical-align: middle;
+    }
+
+    .handover-table th {
+      background: #f4f4f4;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .handover-section-row td {
+      background: #f4e3d7;
+      font-weight: 600;
+    }
+
+    .remarks-table th {
+      background: #f4e3d7;
+      text-align: left;
+    }
+
+    .remarks-table input[type="text"] {
+      width: 100%;
+      border: none;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+
+    .handover-table select,
+    .handover-table input[type="date"],
+    .handover-table input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .checklist {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .checklist input[type="checkbox"] {
+      margin-top: 3px;
+    }
+
+    .signatures-inline {
+      display: grid;
+      grid-template-columns: 1fr 2fr 2fr;
+      gap: 10px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .sig-box-label {
+      font-weight: 600;
+    }
+
+    .sig-box {
+      border-top: 1px solid #333;
+      padding: 8px 6px 4px;
+      font-size: 0.9rem;
+    }
+
+    .sig-box-firma {
+      background: #f4e3d7;
+    }
+
+    .sig-box-bauherr {
+      background: #d9edf6;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <img src="../../assets/WBS_Logo_WT.png" alt="Wagner Building Systems">
+    </div>
+    <div class="header-title">
+      <h1>BAUHERREN­EINWEISUNG</h1>
+    </div>
+  </header>
+
+  <hr>
+
+  <main>
+    <h2 class="page-heading">Bauherren­einweisung</h2>
+
+    <form>
+
+      <!-- PROJEKT / BAUHERR -->
+      <div class="section">
+        <div class="section-title">Projektangaben</div>
+
+        <div class="field">
+          <label for="projekt">Projekt</label>
+          <input type="text" id="projekt" name="projekt">
+        </div>
+
+        <div class="field">
+          <label for="bauherr">Bauherr</label>
+          <input type="text" id="bauherr" name="bauherr">
+        </div>
+
+        <div class="field">
+          <label for="strasse">Strasse / Nr</label>
+          <input type="text" id="strasse" name="strasse">
+        </div>
+
+        <div class="field">
+          <label for="plz_ort">PLZ / Ort</label>
+          <input type="text" id="plz_ort" name="plz_ort">
+        </div>
+      </div>
+
+      <!-- ÜBERGABE / ABNAHME -->
+      <div class="section">
+        <div class="section-title">Übergabe / Abnahme</div>
+
+        <table class="handover-table">
+          <thead>
+            <tr>
+              <th>Übergabe / Abnahme</th>
+              <th>Ja / Nein</th>
+              <th>Datum</th>
+              <th>Bemerkungen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sanitär -->
+            <tr class="handover-section-row">
+              <td colspan="4">Sanitärinstallation</td>
+            </tr>
+            <tr>
+              <td>Fertigmontage</td>
+              <td>
+                <select name="san_fer_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="san_fer_datum"></td>
+              <td><input type="text" name="san_fer_bem"></td>
+            </tr>
+            <tr>
+              <td>Funktion</td>
+              <td>
+                <select name="san_fkt_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="san_fkt_datum"></td>
+              <td><input type="text" name="san_fkt_bem"></td>
+            </tr>
+            <tr>
+              <td>Bedienungsanleitung</td>
+              <td>
+                <select name="san_bed_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="san_bed_datum"></td>
+              <td><input type="text" name="san_bed_bem"></td>
+            </tr>
+            <tr>
+              <td>Einweisung</td>
+              <td>
+                <select name="san_ein_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="san_ein_datum"></td>
+              <td><input type="text" name="san_ein_bem"></td>
+            </tr>
+
+            <!-- Heizung -->
+            <tr class="handover-section-row">
+              <td colspan="4">Heizung</td>
+            </tr>
+            <tr>
+              <td>Fertigmontage</td>
+              <td>
+                <select name="hz_fer_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="hz_fer_datum"></td>
+              <td><input type="text" name="hz_fer_bem"></td>
+            </tr>
+            <tr>
+              <td>Funktion</td>
+              <td>
+                <select name="hz_fkt_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="hz_fkt_datum"></td>
+              <td><input type="text" name="hz_fkt_bem"></td>
+            </tr>
+            <tr>
+              <td>Einweisung</td>
+              <td>
+                <select name="hz_ein_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="hz_ein_datum"></td>
+              <td><input type="text" name="hz_ein_bem"></td>
+            </tr>
+            <tr>
+              <td>Regelung</td>
+              <td>
+                <select name="hz_reg_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="hz_reg_datum"></td>
+              <td><input type="text" name="hz_reg_bem"></td>
+            </tr>
+
+            <!-- Lüftung -->
+            <tr class="handover-section-row">
+              <td colspan="4">Lüftung</td>
+            </tr>
+            <tr>
+              <td>Fertigmontage</td>
+              <td>
+                <select name="lue_fer_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="lue_fer_datum"></td>
+              <td><input type="text" name="lue_fer_bem"></td>
+            </tr>
+            <tr>
+              <td>Funktion</td>
+              <td>
+                <select name="lue_fkt_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="lue_fkt_datum"></td>
+              <td><input type="text" name="lue_fkt_bem"></td>
+            </tr>
+            <tr>
+              <td>Einweisung</td>
+              <td>
+                <select name="lue_ein_jn">
+                  <option value=""></option>
+                  <option value="ja">Ja</option>
+                  <option value="nein">Nein</option>
+                  <option value="entfaellt">entfällt</option>
+                </select>
+              </td>
+              <td><input type="date" name="lue_ein_datum"></td>
+              <td><input type="text" name="lue_ein_bem"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BEMERKUNGEN (TABELLE WIE RECHTE SEITE) -->
+      <div class="section">
+        <div class="section-title">Bemerkungen</div>
+
+        <table class="remarks-table">
+          <thead>
+            <tr>
+              <th colspan="4">Bemerkungen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4"><input type="text" name="bem1"></td>
+            </tr>
+            <tr>
+              <td colspan="4"><input type="text" name="bem2"></td>
+            </tr>
+            <tr>
+              <td colspan="4"><input type="text" name="bem3"></td>
+            </tr>
+            <tr>
+              <td colspan="4"><input type="text" name="bem4"></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BESPROCHENE PUNKTE -->
+      <div class="section">
+        <div class="section-title">Im Zuge der Einweisung und Abnahme wurden folgende Punkte besprochen</div>
+
+        <div class="checklist">
+          <label>
+            <input type="checkbox" name="chk_grundfunktion">
+            <span>Grundfunktion der Heizung / Lüftung / Sanitär</span>
+          </label>
+          <label>
+            <input type="checkbox" name="chk_grenzen">
+            <span>Sinnvolle Grenzen der Einstellungen durch den Nutzer, z.&nbsp;B. Temperaturen der Heizung</span>
+          </label>
+          <label>
+            <input type="checkbox" name="chk_wartung">
+            <span>Wartungsnotwendigkeiten / Kontakt Person</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- DATUM / SIGNATUREN -->
+      <div class="section">
+        <div class="section-title">Abnahme</div>
+
+        <div class="signatures-inline">
+          <div class="field">
+            <label for="datum_abnahme" class="sig-box-label">Datum</label>
+            <input type="date" id="datum_abnahme" name="datum_abnahme">
+          </div>
+
+          <div class="field">
+            <label class="sig-box-label">Firma</label>
+            <div class="signature-pad">
+              <canvas id="sig-firma"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-firma')">Löschen</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="sig-box-label">Bauherr</label>
+            <div class="signature-pad">
+              <canvas id="sig-bauherr"></canvas>
+              <button type="button"
+                      class="btn btn-secondary signature-clear"
+                      onclick="clearSignature('sig-bauherr')">Löschen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="button-row">
+        <a class="btn btn-back" href="../index.html">← Zurück</a>
+        <div class="button-row-right">
+          <button type="reset" class="btn btn-secondary">Formular leeren</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+</div>
+
+<!-- gleiche Scripts wie bei den anderen Formularen, PDF-Speichern-Button gibt es hier noch nicht -->
+<script src="../../assets/html2pdf.bundle.min.js"></script>
+script src="../../assets/jspdf.umd.min.js"></script>
+<script src="../../assets/app.js"></script>
+
+</body>
+</html>
