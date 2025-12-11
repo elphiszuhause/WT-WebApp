@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wagner Tech – Under Construction</title>
+  <style>
+    :root {
+      --bg-dark: #050816;
+      --bg-card: #0f172a;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      min-height: 100vh;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #020617, #020617 40%, #020617 60%, #020617);
+      border-radius: 1.5rem;
+      border: 1px solid #1f2937;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+      max-width: 460px;
+      width: 100%;
+      padding: 2.2rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, var(--accent-soft), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .badge-dot {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+      animation: pulse 1.5s ease-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .logo {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 1.1rem;
+      background: radial-gradient(circle at 30% 0, #e5e7eb, #38bdf8 40%, #1e293b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      font-size: 1.05rem;
+      color: #020617;
+      box-shadow:
+        0 0 20px rgba(56, 189, 248, 0.4),
+        0 8px 18px rgba(15, 23, 42, 0.8);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.08rem;
+    }
+
+    .brand-name {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #f9fafb;
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 1.9rem);
+      margin-bottom: 0.7rem;
+      line-height: 1.25;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .progress-wrapper {
+      margin-bottom: 1.1rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: #020617;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #111827;
+    }
+
+    .progress-fill {
+      position: absolute;
+      inset: 0;
+      width: 42%;
+      background: linear-gradient(90deg, #22c55e, #38bdf8);
+      border-radius: inherit;
+      animation: loading 2.4s ease-in-out infinite;
+      transform-origin: left;
+    }
+
+    @keyframes loading {
+      0% {
+        transform: scaleX(0.25);
+      }
+      40% {
+        transform: scaleX(0.55);
+      }
+      70% {
+        transform: scaleX(0.4);
+      }
+      100% {
+        transform: scaleX(0.55);
+      }
+    }
+
+    .footnote {
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+
+    .footnote span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .contact {
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+    }
+
+    .contact a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 1.7rem 1.4rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="inner">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Under Construction</span>
+      </div>
+
+      <div class="brand">
+        <div class="logo">WT</div>
+        <div class="brand-text">
+          <div class="brand-name">Wagner Tech</div>
+          <div class="brand-sub">Interne WebApp in Vorbereitung</div>
+        </div>
+      </div>
+
+      <h1>Wir schrauben noch an der neuen Wagner&nbsp;Tech WebApp.</h1>
+      <p>
+        Die Oberfläche für Monteure und Techniker ist in Arbeit. Bald kannst du
+        hier Messprotokolle, Formulare und Baustellendokumentation direkt im
+        Browser ausfüllen.
+      </p>
+
+      <div class="progress-wrapper">
+        <div class="progress-label">
+          <span>Status</span>
+          <span>im Aufbau</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="footnote">
+        Interner Zugriff – <span>Wagner&nbsp;Tech</span>.
+      </div>
+
+      <!-- Optional: Kontakt bzw. Platzhalter -->
+      <div class="contact">
+        Fragen? Melde dich intern bei Michael Schreiner
+        <!-- oder: per Mail an <a href="mailto:info@wagner-tech.de">info@wagner-tech.de</a> -->
+      </div>
+    </div>
+  </main>
+</body>
+</html>
