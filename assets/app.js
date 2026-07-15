@@ -225,7 +225,7 @@
     const finalName = title.toLowerCase().endsWith(".pdf") ? title : `${title}.pdf`;
     const element = document.querySelector(".app-container");
 
-    if (!element || typeof window.html2pdf === "undefined") {
+    if (!element || typeof window.html2pdf === "undefined" || window.location.protocol === "file:") {
       window.print();
       return;
     }
@@ -235,7 +235,7 @@
     showToast("PDF wird erstellt …");
     try {
       await window.html2pdf().set({
-        margin: [8, 8, 8, 8],
+        margin: [10, 12, 12, 12],
         filename: finalName,
         image: { type: "jpeg", quality: .97 },
         html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
@@ -245,7 +245,7 @@
       showToast("PDF wurde erstellt");
     } catch (error) {
       console.error(error);
-      showToast("PDF-Export fehlgeschlagen – Druckdialog wird geöffnet");
+      document.querySelectorAll(".toast").forEach(node => node.classList.remove("visible"));
       window.print();
     } finally {
       document.body.classList.remove("pdf-mode");
