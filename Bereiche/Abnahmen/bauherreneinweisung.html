@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
@@ -150,10 +150,10 @@
         <table class="handover-table">
           <thead>
             <tr>
-              <th>Übergabe / Abnahme</th>
-              <th>Ja / Nein</th>
-              <th>Datum</th>
-              <th>Bemerkungen</th>
+              <th scope="col">Übergabe / Abnahme</th>
+              <th scope="col">Ja / Nein</th>
+              <th scope="col">Datum</th>
+              <th scope="col">Bemerkungen</th>
             </tr>
           </thead>
           <tbody>
@@ -400,10 +400,10 @@
 
       <!-- BUTTONS -->
       <div class="button-row">
-        <a class="btn btn-back" href="../index.html">← Zurück</a>
+        <a class="btn btn-back" href="../../index.html#abnahmen">← Zur Übersicht</a>
         <div class="button-row-right">
           <button type="reset" class="btn btn-secondary">Formular leeren</button>
-          <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Bauherreneinweisung.pdf')">PDF speichern</button>
         </div>
       </div>
 
@@ -411,9 +411,7 @@
   </main>
 </div>
 
-<!-- gleiche Scripts wie bei den anderen Formularen, PDF-Speichern-Button gibt es hier noch nicht -->
 <script src="../../assets/html2pdf.bundle.min.js"></script>
-script src="../../assets/jspdf.umd.min.js"></script>
 <script src="../../assets/app.js"></script>
 
 </body>

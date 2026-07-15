@@ -1,58 +1,154 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>Zertifikate & Protokolle</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172033">
+  <meta name="description" content="Digitale Baustellenformulare für WAGNER Building Systems">
+  <title>WT Baustellenformulare</title>
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
-
-<body>
-<div class="app-container">
-
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-logo">
-      <img src="assets/WBS_Logo_WT.png" alt="WAGNERTECH">
-    </div>
-    <div class="header-title">
-      <h1>ZERTIFIKATE &amp; PROTOKOLLE</h1>
-      <div class="subtitle">Formular für Monteure auf der Baustelle</div>
-    </div>
-  </header>
-
-  <hr>
-
-  <main>
-    <h2 class="page-title">Bereich wählen</h2>
-    <p class="page-subtitle">
-      Bitte zuerst den Bereich wählen. Anschließend können die passenden Formulare geöffnet, ausgefüllt und als PDF gespeichert werden.
-    </p>
-
-    <div class="area-grid">
-
-      <!-- BAUSTELLENABWICKLUNG -->
-      <a class="area-button" href="Bereiche/baustellenabwicklung.html">
-        Baustellenabwicklung
-        <span>Druckproben, Einregulierung, Regiearbeiten, Checklisten</span>
+<body class="home-page">
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html" aria-label="Zur Startseite">
+        <img src="assets/WBS_Logo_WT.png" alt="WAGNERTECH">
       </a>
+      <div class="header-copy">
+        <span class="eyebrow">WAGNER Building Systems S.A.</span>
+        <h1>Baustellenformulare</h1>
+        <p>Formulare ausfüllen, unterschreiben und als PDF sichern.</p>
+      </div>
+      <span class="connection-badge" id="connection-status" aria-live="polite">Online</span>
+    </header>
 
-      <!-- ABNAHMEN -->
-      <a class="area-button" href="Bereiche/Abnahmen/abnahmen.html">
-        Abnahmen
-        <span>Bauherreneinweisung, Übergabeprotokolle</span>
-      </a>
+    <main>
+      <section class="hero-panel">
+        <div>
+          <span class="eyebrow">Schnellzugriff</span>
+          <h2>Was möchtest du dokumentieren?</h2>
+          <p>Alle Eingaben werden auf diesem Gerät automatisch als Entwurf gespeichert.</p>
+        </div>
+        <button class="btn btn-secondary install-button" id="install-app" type="button" hidden>App installieren</button>
+      </section>
 
-      <!-- PERSONAL -->
-      <a class="area-button" href="Bereiche/Personal/personal.html">
-        Personal
-        <span>Urlaubsantrag, Stundenzettel, weitere Personalformulare</span>
-      </a>
+      <nav class="category-grid" aria-label="Formularbereiche">
+        <a class="category-card category-card--primary" href="#druckproben">
+          <span class="category-number">01</span>
+          <strong>Druckprüfungen</strong>
+          <span>Heizung, Sanitär, Kälte und Gas</span>
+        </a>
+        <a class="category-card" href="#einregulierung">
+          <span class="category-number">02</span>
+          <strong>Einregulierung</strong>
+          <span>Lüftungsanlagen und Luftmengen</span>
+        </a>
+        <a class="category-card" href="#abnahmen">
+          <span class="category-number">03</span>
+          <strong>Abnahmen</strong>
+          <span>Übergabe und Bauherreneinweisung</span>
+        </a>
+        <a class="category-card" href="#weitere">
+          <span class="category-number">04</span>
+          <strong>Weitere Formulare</strong>
+          <span>Regiearbeiten und Personal</span>
+        </a>
+      </nav>
 
-    </div>
-  </main>
-</div>
+      <section class="form-section" id="druckproben">
+        <div class="section-heading">
+          <div><span class="section-index">01</span><h2>Druckprüfungen</h2></div>
+          <p>Digitale Protokolle und freigegebene Originalvorlagen.</p>
+        </div>
+        <div class="form-list">
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Druckproben/Heizung/heizung-dichtheit-wasser.html">
+            <span class="form-icon">H</span><span><strong>Heizung · Wasser</strong><small>Digitales Dichtheitsprüfungsprotokoll</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Druckproben/Heizung/heizung-dichtheit-luft-WT.html">
+            <span class="form-icon">H</span><span><strong>Heizung · ölfreie Druckluft</strong><small>Digitales Druckprobenprotokoll</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Druckproben/Sanitär/sanitaer-dichtheit-luft.html">
+            <span class="form-icon">S</span><span><strong>Sanitär · ölfreie Druckluft</strong><small>Digitales Trinkwasserprotokoll</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Druckproben/Gas/gas-druckprobe-trgi.html">
+            <span class="form-icon">G</span><span><strong>Gasinstallation</strong><small>Belastungs- und Dichtheitsprüfung</small></span><span class="form-type">Digital</span>
+          </a>
+          <details class="document-group">
+            <summary>Originalvorlagen als Word-Datei</summary>
+            <div class="document-links">
+              <a href="Bereiche/Baustellenabwicklung/Druckproben/Heizung/Dichheit Heizung  - Wasser.docx">Heizung · Wasser</a>
+              <a href="Bereiche/Baustellenabwicklung/Druckproben/Heizung/Dichheit Heizung  - ölfreie Druckluft.docx">Heizung · Luft</a>
+              <a href="Bereiche/Baustellenabwicklung/Druckproben/Sanitär/Dichheit Sanitär - Wasser.docx">Sanitär · Wasser</a>
+              <a href="Bereiche/Baustellenabwicklung/Druckproben/Kälte/Dichheit Kälte  - Wasser.docx">Kälte · Wasser</a>
+              <a href="Bereiche/Baustellenabwicklung/Druckproben/Gas/Dichtheit Gas.docx">Gas</a>
+            </div>
+          </details>
+        </div>
+      </section>
 
+      <section class="form-section" id="einregulierung">
+        <div class="section-heading">
+          <div><span class="section-index">02</span><h2>Einregulierung</h2></div>
+          <p>Messwerte und Anlagenparameter übersichtlich dokumentieren.</p>
+        </div>
+        <div class="form-list">
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Einregulierung/Lüftung/lueftung-einregulierung.html">
+            <span class="form-icon">L</span><span><strong>Lüftungsanlage einregulieren</strong><small>Gerätestufen, Räume, Soll- und Istwerte</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="https://elphiszuhause.github.io/trivialmessung/" target="_blank" rel="noopener">
+            <span class="form-icon">M</span><span><strong>Luftmessung im Kanal</strong><small>Trivialverfahren nach DIN EN 12599</small></span><span class="form-type">Extern</span>
+          </a>
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Einregulierung/Lüftung/Luftmengenmessung Auslässe.xls">
+            <span class="form-icon">X</span><span><strong>Luftmengenmessung Auslässe</strong><small>Vorhandene Excel-Arbeitsmappe</small></span><span class="form-type">Excel</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="form-section" id="abnahmen">
+        <div class="section-heading">
+          <div><span class="section-index">03</span><h2>Abnahmen und Übergaben</h2></div>
+          <p>Einweisung, Zustand und übergebene Unterlagen festhalten.</p>
+        </div>
+        <div class="form-list">
+          <a class="form-card" href="Bereiche/Abnahmen/bauherreneinweisung.html">
+            <span class="form-icon">B</span><span><strong>Bauherreneinweisung</strong><small>Sanitär, Heizung und Lüftung</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Abnahmen/heizung-uebergabe.html">
+            <span class="form-icon">Ü</span><span><strong>Übergabeprotokoll Heizung</strong><small>Anlage, Einstellungen und Unterlagen</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Abnahmen/Abnahmeprotokoll.docx">
+            <span class="form-icon">A</span><span><strong>Allgemeines Abnahmeprotokoll</strong><small>Vorhandene Word-Vorlage</small></span><span class="form-type">Word</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="form-section" id="weitere">
+        <div class="section-heading">
+          <div><span class="section-index">04</span><h2>Weitere Formulare</h2></div>
+          <p>Regiearbeiten und betriebliche Dokumente.</p>
+        </div>
+        <div class="form-list">
+          <a class="form-card" href="Bereiche/Baustellenabwicklung/Regiearbeiten/anmeldung-regiearbeiten.html">
+            <span class="form-icon">R</span><span><strong>Regiearbeiten ankündigen</strong><small>Leistung, Begründung und Aufwand</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Personal/urlaubsantrag.html">
+            <span class="form-icon">U</span><span><strong>Urlaubsantrag</strong><small>Deutsch und Französisch</small></span><span class="form-type">Digital</span>
+          </a>
+          <a class="form-card" href="Bereiche/Personal/pdfs/WBS - Stundenzettel RZ_interaktiv.pdf">
+            <span class="form-icon">Z</span><span><strong>Stundenzettel</strong><small>Interaktive PDF-Vorlage</small></span><span class="form-type">PDF</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>WAGNER Building Systems S.A.</span>
+      <span>Version 2.0 · Daten bleiben auf diesem Gerät</span>
+    </footer>
+  </div>
+
+  <div class="toast" id="app-toast" role="status" aria-live="polite"></div>
+  <script src="assets/app.js"></script>
 </body>
 </html>

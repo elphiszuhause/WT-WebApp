@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
   <title>Druckprobenprotokoll Trinkwasser</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
 <body>
   <div class="app-container">
@@ -12,7 +12,7 @@
     <!-- HEADER -->
     <header class="header">
       <div class="header-logo">
-        <img src="../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+        <img src="../../../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
       </div>
       <div class="header-title">
         <h1>TRINKWASSER-DRUCKPROBE</h1>
@@ -199,12 +199,10 @@
 
         <!-- Buttons -->
         <div class="button-row">
-          <a class="btn btn-back" href="../trinkwasser.html">← Zurück zu Trinkwasser</a>
+          <a class="btn btn-back" href="../../../../index.html#druckproben">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
-            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
-            <!-- nutzt dieselbe PDF-Funktion wie das Gas-Formular -->
-            <button type="button" class="btn btn-primary" onclick="exportGasPdf('Druckprobe_Trinkwasser')">PDF speichern</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Druckprobe_Trinkwasser_Luft.pdf')">PDF speichern</button>
           </div>
         </div>
 
@@ -213,8 +211,7 @@
   </div>
 
   <!-- zentrale Skripte wie bei den anderen Formularen -->
-  <script src="../../assets/html2pdf.bundle.min.js"></script>
-  <script src="../../assets/jspdf.umd.min.js"></script>
-  <script src="../../assets/app.js"></script>
+  <script src="../../../../assets/html2pdf.bundle.min.js"></script>
+  <script src="../../../../assets/app.js"></script>
 </body>
 </html>
