@@ -1,341 +1,299 @@
-function initSignaturePad(canvasId) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
+(function () {
+  "use strict";
 
-  const ctx = canvas.getContext('2d');
+  const DRAFT_PREFIX = "wt-form-draft:";
+  const APP_ROOT_URL = new URL("../", document.currentScript ? document.currentScript.src : window.location.href);
+  const signaturePads = new Map();
+  let installPrompt = null;
+  let toastTimer = null;
 
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    const ratio = window.devicePixelRatio || 1;
-
-    canvas.width = rect.width * ratio;
-    canvas.height = rect.height * ratio;
-
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    ctx.lineWidth = 1.8;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#111827';
+  function showToast(message) {
+    const toast = document.getElementById("app-toast") || createToast();
+    toast.textContent = message;
+    toast.classList.add("visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("visible"), 2600);
   }
 
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  let drawing = false;
-  let lastX = 0;
-  let lastY = 0;
-
-  function getPos(evt) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
-    };
+  function createToast() {
+    const toast = document.createElement("div");
+    toast.id = "app-toast";
+    toast.className = "toast";
+    toast.setAttribute("role", "status");
+    document.body.appendChild(toast);
+    return toast;
   }
 
-  canvas.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    canvas.setPointerCapture(e.pointerId);
-    drawing = true;
-    const pos = getPos(e);
-    lastX = pos.x;
-    lastY = pos.y;
-  });
-
-  canvas.addEventListener('pointermove', (e) => {
-    if (!drawing) return;
-    e.preventDefault();
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    lastX = pos.x;
-    lastY = pos.y;
-  });
-
-  canvas.addEventListener('pointerup', (e) => {
-    e.preventDefault();
-    drawing = false;
-    canvas.releasePointerCapture(e.pointerId);
-  });
-
-  canvas.addEventListener('pointerleave', () => {
-    drawing = false;
-  });
-}
-
-function clearSignature(canvasId) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll("canvas[id^='sig-']").forEach(canvas => {
-    initSignaturePad(canvas.id);
-  });
-});
-
-// PDF-Export
-function saveAsPdf(fileName = "Protokoll") {
-  const element = document.querySelector(".app-container");
-  if (!element) return;
-  if (typeof html2pdf === "undefined") {
-    console.error("html2pdf nicht geladen");
-    return;
+  function draftKey(form) {
+    return DRAFT_PREFIX + window.location.pathname + ":" + (form.id || "main");
   }
 
-  // PDF-Layout einschalten
-  document.body.classList.add("pdf-mode");
+  function fieldKey(field, index) {
+    return `${field.name || field.id || "field"}::${index}`;
+  }
 
-  const opt = {
-    margin: 10,
-    filename: fileName + ".pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      scrollY: 0   // kein Scroll-Versatz
-    },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-  };
-
-  html2pdf()
-    .set(opt)
-    .from(element)
-    .save()
-    .then(() => {
-      // PDF-Layout wieder ausschalten
-      document.body.classList.remove("pdf-mode");
-    })
-    .catch(() => {
-      document.body.classList.remove("pdf-mode");
+  function serializeForm(form) {
+    const data = {};
+    [...form.elements].forEach((field, index) => {
+      if (!field.name && !field.id) return;
+      const key = fieldKey(field, index);
+      if (field.type === "checkbox" || field.type === "radio") {
+        data[key] = field.checked;
+      } else if (field.type !== "button" && field.type !== "reset" && field.type !== "submit") {
+        data[key] = field.value;
+      }
     });
-}
-// PDF über jsPDF
-function exportGasPdf() {
-  const jspdfNS = window.jspdf || window.jsPDF;
-  if (!jspdfNS) {
-    alert("jsPDF nicht geladen – Script-Tag prüfen!");
-    return;
+
+    const signatures = {};
+    form.querySelectorAll("canvas[id]").forEach(canvas => {
+      if (!isCanvasBlank(canvas)) signatures[canvas.id] = canvas.toDataURL("image/png");
+    });
+    return { data, signatures, savedAt: new Date().toISOString() };
   }
 
-  const jsPDF = jspdfNS.jsPDF || jspdfNS;
-  if (typeof jsPDF !== "function") {
-    alert("jsPDF-Constructor nicht gefunden.");
-    return;
+  function saveDraft(form, quiet = true) {
+    try {
+      localStorage.setItem(draftKey(form), JSON.stringify(serializeForm(form)));
+      updateDraftStatus(form, "Entwurf automatisch gespeichert");
+      if (!quiet) showToast("Entwurf gespeichert");
+    } catch (error) {
+      console.warn("Entwurf konnte nicht gespeichert werden", error);
+      updateDraftStatus(form, "Entwurf konnte nicht gespeichert werden", true);
+    }
   }
 
-  // Hilfsfunktion zum Auslesen von Feldern
-  const v = (id) => {
-    const el = document.getElementById(id);
-    return el && el.value ? el.value.trim() : "";
-  };
+  function restoreDraft(form) {
+    let draft;
+    try { draft = JSON.parse(localStorage.getItem(draftKey(form))); } catch (_) { return; }
+    if (!draft || !draft.data) return;
 
-  // Logo laden (Pfad relativ zum Formular!)
-  const img = new Image();
-  img.crossOrigin = "anonymous";
-  img.src = "../../assets/WBS_Logo_WT.png";
+    const roomCount = Object.keys(draft.data).filter(key => key.startsWith("raum_name[]::")).length;
+    if (roomCount > 1 && typeof window.addRoom === "function") {
+      while (form.querySelectorAll('[name="raum_name[]"]').length < roomCount) window.addRoom();
+    }
 
-  img.onload = () => {
-    const doc = new jsPDF("p", "mm", "a4");
-    let y = 15;
+    [...form.elements].forEach((field, index) => {
+      const key = fieldKey(field, index);
+      if (!(key in draft.data)) return;
+      if (field.type === "checkbox" || field.type === "radio") field.checked = Boolean(draft.data[key]);
+      else if (field.type !== "button" && field.type !== "reset" && field.type !== "submit") field.value = draft.data[key];
+    });
 
-    // --------- Logo + Kopfzeile ----------
-    // Logo links oben, Breite ca. 40 mm, Höhe auto
-    doc.addImage(img, "PNG", 15, y, 40, 0);
-
-    doc.setFontSize(16);
-    doc.text("GAS-DRUCKPROBE", 195 - 15, y + 6, { align: "right" });
-
-    doc.setFontSize(10);
-    doc.text("Druckprüfung nach TRGI / DVGW G 600", 195 - 15, y + 11, { align: "right" });
-
-    y += 20;
-
-    doc.setFontSize(12);
-    doc.text("Druckprüfprotokoll Gasinstallation", 15, y);
-    y += 4;
-
-    doc.setLineWidth(0.2);
-    doc.line(15, y, 195, y);
-    y += 5;
-
-    // --------- Objekt / Auftraggeber ----------
-    doc.setFontSize(11);
-    doc.text("Objekt / Auftraggeber", 15, y);
-    y += 5;
-
-    doc.setFontSize(9);
-    doc.text("Objekt / Projekt:", 15, y);
-    doc.text("Auftraggeber / Kunde:", 105, y);
-    y += 4;
-    doc.text(v("objekt"), 15, y);
-    doc.text(v("auftraggeber"), 105, y);
-    y += 6;
-
-    doc.text("Adresse:", 15, y);
-    doc.text("Anlagenteil:", 105, y);
-    y += 4;
-    const adrLines = doc.splitTextToSize(v("adresse"), 80);
-    const anlLines = doc.splitTextToSize(v("anlage"), 80);
-    doc.text(adrLines, 15, y);
-    doc.text(anlLines, 105, y);
-    y += Math.max(adrLines.length, anlLines.length) * 4 + 4;
-
-    // --------- Prüfbedingungen ----------
-    doc.setFontSize(11);
-    doc.text("Prüfbedingungen / Prüfablauf nach TRGI", 15, y);
-    y += 5;
-
-    doc.setFontSize(9);
-    doc.text("Umgebungstemperatur:", 15, y);
-    doc.text("Verwendetes Messgerät / Manometer:", 80, y);
-    y += 4;
-    doc.text((v("temp") ? v("temp") + " °C" : ""), 15, y);
-    const mgLines = doc.splitTextToSize(v("messgeraet"), 110);
-    doc.text(mgLines, 80, y);
-    y += mgLines.length * 4 + 4;
-
-    // Vorprüfung
-    doc.setFontSize(10);
-    doc.text("Vorprüfung als Belastungsprobe", 15, y);
-    y += 4;
-    doc.setFontSize(8);
-    doc.text("Prüfdruck 1 bar, Prüfdauer 10 Minuten mit Luft oder inertem Gas", 15, y);
-    y += 4;
-
-    doc.setFontSize(9);
-    doc.text("Dauer der Belastung:", 15, y);
-    doc.text("Prüfdruck:", 105, y);
-    y += 4;
-    doc.text((v("vorpruefung_dauer") ? v("vorpruefung_dauer") + " min" : ""), 15, y);
-    doc.text((v("vorpruefung_druck") ? v("vorpruefung_druck") + " bar" : ""), 105, y);
-    y += 8;
-
-    // Hauptprüfung
-    doc.setFontSize(10);
-    doc.text("Hauptprüfung als Dichtheitsprüfung", 15, y);
-    y += 4;
-    doc.setFontSize(8);
-    doc.text("Prüfdruck 150 mbar, Prüfdauer 10 Minuten mit Luft oder inertem Gas", 15, y);
-    y += 4;
-
-    doc.setFontSize(9);
-    doc.text("Dauer der Belastung:", 15, y);
-    doc.text("Prüfdruck:", 105, y);
-    y += 4;
-    doc.text((v("hauptpruefung_dauer") ? v("hauptpruefung_dauer") + " min" : ""), 15, y);
-    doc.text((v("hauptpruefung_druck") ? v("hauptpruefung_druck") + " mbar" : ""), 105, y);
-    y += 8;
-
-    // --------- Messwerte ----------
-    doc.setFontSize(11);
-    doc.text("Messwerte", 15, y);
-    y += 5;
-
-    doc.setFontSize(9);
-    doc.text("Anfangsdruck Belastungsprobe:", 15, y);
-    doc.text("Enddruck Belastungsprobe:", 105, y);
-    y += 4;
-    doc.text((v("p_start") ? v("p_start") + " bar" : ""), 15, y);
-    doc.text((v("p_ende") ? v("p_ende") + " bar" : ""), 105, y);
-    y += 6;
-
-    doc.text("Druckänderung / Druckabfall:", 15, y);
-    y += 4;
-    const daLines = doc.splitTextToSize(v("druckabfall"), 180);
-    doc.text(daLines, 15, y);
-    y += daLines.length * 4 + 4;
-
-    doc.text("Durchgeführte Lecksuche (Seifenwasser / Lecksuchspray / Schnüffler):", 15, y);
-    y += 4;
-    const lsLines = doc.splitTextToSize(v("lecksuche"), 180);
-    doc.text(lsLines, 15, y);
-    y += lsLines.length * 4 + 8;
-
-    // --------- Bewertung ----------
-    doc.setFontSize(11);
-    doc.text("Bewertung der Druckprobe", 15, y);
-    y += 5;
-
-    doc.setFontSize(9);
-    const ergInput = document.querySelector('input[name="ergebnis"]:checked');
-    const ergText = ergInput && ergInput.value === "bestanden"
-      ? "Druckprobe nach TRGI bestanden – keine Undichtheiten erkennbar."
-      : "Druckprobe nicht bestanden – Undichtheiten festgestellt (siehe Bemerkungen).";
-
-    doc.text("Prüfergebnis:", 15, y);
-    y += 4;
-    const ergLines = doc.splitTextToSize(ergText, 180);
-    doc.text(ergLines, 15, y);
-    y += ergLines.length * 4 + 4;
-
-    doc.text("Bemerkungen / festgestellte Mängel / Maßnahmen:", 15, y);
-    y += 4;
-    const bemLines = doc.splitTextToSize(v("bemerkungen"), 180);
-    doc.text(bemLines, 15, y);
-    y += bemLines.length * 4 + 8;
-
-    // --------- Ort / Datum ----------
-    doc.text("Ort: " + v("ort"), 15, y);
-    doc.text("Datum: " + v("datum"), 105, y);
-    y += 10;
-
-    // --------- Unterschriften (Platzhalter) ----------
-    doc.line(30, y, 90, y);
-    doc.text("Unterschrift Monteur", 30, y + 4);
-    doc.line(120, y, 180, y);
-    doc.text("Unterschrift Auftraggeber", 120, y + 4);
-
-    doc.save("Gas_Druckprobe_TRGI.pdf");
-  };
-
-  img.onerror = () => {
-    alert("Logo konnte nicht geladen werden. Pfad prüfen: ../../assets/WBS_Logo_WT.png");
-  };
-}
-
-
-
-
-
-// Globaler PDF-Export für alle Formulare
-window.exportFormPdf = async function (filename) {
-  
-  // Seite ganz nach oben scrollen
-  window.scrollTo(0, 0);
-
-  // kurz warten, bis Browser neu gerendert hat
-  await new Promise(resolve => setTimeout(resolve, 150));
-
-  const element = document.querySelector('.app-container');
-  if (!element) return;
-
-  // ALLES, was unten nicht im PDF erscheinen soll, hier einsammeln
-  // z.B. die Button-Leiste
-  const toHide = element.querySelectorAll('.button-row');
-
-  // vorübergehend ausblenden
-  toHide.forEach(el => el.classList.add('pdf-export-hide'));
-
-  const opt = {
-    margin:       [8, 1, 1, 1],
-    filename:     filename || 'Formular.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: ['css', 'legacy'] },
-  };
-  
-  try {
-    // html2pdf arbeitet mit dem DOM-Zustand JETZT (Buttons sind versteckt)
-    await html2pdf().set(opt).from(element).save();
-  } finally {
-    // egal was passiert: Buttons hinterher wieder anzeigen
-    toHide.forEach(el => el.classList.remove('pdf-export-hide'));
+    requestAnimationFrame(() => {
+      Object.entries(draft.signatures || {}).forEach(([id, image]) => drawSignatureImage(id, image));
+    });
+    const saved = draft.savedAt ? new Date(draft.savedAt).toLocaleString("de-DE") : "";
+    updateDraftStatus(form, `Entwurf wiederhergestellt${saved ? ` · ${saved}` : ""}`);
+    showToast("Gespeicherten Entwurf wiederhergestellt");
   }
-  
-};
 
+  function clearDraft(form) {
+    localStorage.removeItem(draftKey(form));
+    form.querySelectorAll("canvas[id]").forEach(canvas => clearSignature(canvas.id, false));
+    updateDraftStatus(form, "Formular geleert");
+    showToast("Formular und Entwurf gelöscht");
+  }
+
+  function updateDraftStatus(form, message, error = false) {
+    let status = form.querySelector(".draft-status");
+    if (!status) {
+      status = document.createElement("p");
+      status.className = "draft-status";
+      const buttons = form.querySelector(".button-row");
+      if (buttons) buttons.before(status); else form.appendChild(status);
+    }
+    status.textContent = message;
+    status.style.color = error ? "var(--danger)" : "";
+  }
+
+  function initAutosave(form) {
+    restoreDraft(form);
+    let timer;
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => saveDraft(form), 400);
+    };
+    form.addEventListener("input", schedule);
+    form.addEventListener("change", schedule);
+    form.addEventListener("reset", () => setTimeout(() => clearDraft(form), 0));
+  }
+
+  function isCanvasBlank(canvas) {
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx || !canvas.width || !canvas.height) return true;
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    for (let i = 3; i < pixels.length; i += 4) if (pixels[i] !== 0) return false;
+    return true;
+  }
+
+  function initSignaturePad(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || signaturePads.has(canvasId)) return;
+    const ctx = canvas.getContext("2d");
+    const state = { drawing: false, lastX: 0, lastY: 0, ratio: 1 };
+
+    function resize(preserve = true) {
+      const snapshot = preserve && canvas.width ? canvas.toDataURL("image/png") : null;
+      const rect = canvas.getBoundingClientRect();
+      const ratio = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.round(rect.width * ratio);
+      canvas.height = Math.round(rect.height * ratio);
+      state.ratio = ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#172033";
+      if (snapshot) drawSignatureImage(canvasId, snapshot);
+    }
+
+    function position(event) {
+      const rect = canvas.getBoundingClientRect();
+      return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    }
+
+    canvas.addEventListener("pointerdown", event => {
+      event.preventDefault();
+      canvas.setPointerCapture(event.pointerId);
+      const point = position(event);
+      state.drawing = true;
+      state.lastX = point.x;
+      state.lastY = point.y;
+    });
+    canvas.addEventListener("pointermove", event => {
+      if (!state.drawing) return;
+      event.preventDefault();
+      const point = position(event);
+      ctx.beginPath();
+      ctx.moveTo(state.lastX, state.lastY);
+      ctx.lineTo(point.x, point.y);
+      ctx.stroke();
+      state.lastX = point.x;
+      state.lastY = point.y;
+    });
+    const stop = event => {
+      if (!state.drawing) return;
+      state.drawing = false;
+      if (event && canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      const form = canvas.closest("form");
+      if (form) saveDraft(form);
+    };
+    canvas.addEventListener("pointerup", stop);
+    canvas.addEventListener("pointercancel", stop);
+
+    signaturePads.set(canvasId, { canvas, ctx, resize });
+    resize(false);
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => resize(true), 180);
+    });
+  }
+
+  function drawSignatureImage(canvasId, source) {
+    const pad = signaturePads.get(canvasId);
+    if (!pad || !source) return;
+    const image = new Image();
+    image.onload = () => {
+      const { canvas, ctx } = pad;
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      ctx.restore();
+    };
+    image.src = source;
+  }
+
+  function clearSignature(canvasId, save = true) {
+    const pad = signaturePads.get(canvasId);
+    if (!pad) return;
+    const { canvas, ctx } = pad;
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+    if (save) {
+      const form = canvas.closest("form");
+      if (form) saveDraft(form);
+    }
+  }
+
+  async function exportFormPdf(filename) {
+    document.querySelectorAll("form").forEach(form => saveDraft(form));
+    const title = filename || document.title.replace(/[^a-z0-9äöüß_-]+/gi, "_") + ".pdf";
+    const finalName = title.toLowerCase().endsWith(".pdf") ? title : `${title}.pdf`;
+    const element = document.querySelector(".app-container");
+
+    if (!element || typeof window.html2pdf === "undefined") {
+      window.print();
+      return;
+    }
+
+    document.body.classList.add("pdf-mode");
+    element.querySelectorAll(".button-row, .draft-status, .signature-clear").forEach(node => node.classList.add("pdf-export-hide"));
+    showToast("PDF wird erstellt …");
+    try {
+      await window.html2pdf().set({
+        margin: [8, 8, 8, 8],
+        filename: finalName,
+        image: { type: "jpeg", quality: .97 },
+        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["css", "legacy"], avoid: [".section", ".signature-pad"] }
+      }).from(element).save();
+      showToast("PDF wurde erstellt");
+    } catch (error) {
+      console.error(error);
+      showToast("PDF-Export fehlgeschlagen – Druckdialog wird geöffnet");
+      window.print();
+    } finally {
+      document.body.classList.remove("pdf-mode");
+      document.querySelectorAll(".pdf-export-hide").forEach(node => node.classList.remove("pdf-export-hide"));
+    }
+  }
+
+  function initConnectionStatus() {
+    const badge = document.getElementById("connection-status");
+    if (!badge) return;
+    const update = () => {
+      badge.textContent = navigator.onLine ? "Online" : "Offline";
+      badge.classList.toggle("offline", !navigator.onLine);
+    };
+    window.addEventListener("online", update);
+    window.addEventListener("offline", update);
+    update();
+  }
+
+  function initPwa() {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register(new URL("sw.js", APP_ROOT_URL), { scope: APP_ROOT_URL.pathname }).catch(console.warn);
+    }
+    const installButton = document.getElementById("install-app");
+    window.addEventListener("beforeinstallprompt", event => {
+      event.preventDefault();
+      installPrompt = event;
+      if (installButton) installButton.hidden = false;
+    });
+    if (installButton) installButton.addEventListener("click", async () => {
+      if (!installPrompt) return;
+      installPrompt.prompt();
+      await installPrompt.userChoice;
+      installPrompt = null;
+      installButton.hidden = true;
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("canvas[id]").forEach(canvas => initSignaturePad(canvas.id));
+    document.querySelectorAll("form").forEach(initAutosave);
+    initConnectionStatus();
+    initPwa();
+  });
+
+  window.initSignaturePad = initSignaturePad;
+  window.clearSignature = clearSignature;
+  window.exportFormPdf = exportFormPdf;
+  window.saveAsPdf = exportFormPdf;
+  window.exportGasPdf = () => exportFormPdf("Gas_Druckprobe_TRGI.pdf");
+})();

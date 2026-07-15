@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
   <title>Einregulierungsprotokoll Lüftung</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="../../../../assets/styles.css">
 
   <!-- Zusatzstyles nur für dieses Formular -->
   <style>
@@ -49,7 +49,7 @@
 
     <header class="header">
       <div class="header-logo">
-        <img src="/assets/WBS_Logo_WT.png" alt="Logo">
+        <img src="../../../../assets/WBS_Logo_WT.png" alt="Logo">
       </div>
       <div class="header-title">
         <h1>EINREGULIERUNG LÜFTUNGSANLAGE</h1>
@@ -128,22 +128,16 @@
         <div class="section">
           <div class="section-title">Abschluss</div>
           <div class="signature-row">
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Monteur
-            </div>
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Auftraggeber
-            </div>
+            <div class="field"><label>Monteur</label><div class="signature-pad"><canvas id="sig-monteur"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-monteur')">Löschen</button></div></div>
+            <div class="field"><label>Auftraggeber</label><div class="signature-pad"><canvas id="sig-auftraggeber"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-auftraggeber')">Löschen</button></div></div>
           </div>
         </div>
 
         <div class="button-row">
-          <a class="btn btn-back" href="../lueftung.html">← Zurück</a>
+          <a class="btn btn-back" href="../../../../index.html#einregulierung">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Leeren</button>
-            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Einregulierung_Lueftung.pdf')">PDF speichern</button>
           </div>
         </div>
 
@@ -218,5 +212,7 @@
       addRoom();
     });
   </script>
+  <script src="../../../../assets/html2pdf.bundle.min.js"></script>
+  <script src="../../../../assets/app.js"></script>
 </body>
 </html>

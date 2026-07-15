@@ -1,17 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
   <title>Dichtheitsprüfung Heizung – Wasser</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
 <body>
   <div class="app-container">
 
     <header class="header">
       <div class="header-logo">
-        <img src="/assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+        <img src="../../../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
       </div>
       <div class="header-title">
         <h1>DICHTHEITSPRÜFUNG HEIZUNG</h1>
@@ -120,14 +120,8 @@
           </div>
 
           <div class="signature-row">
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Firmenstempel
-            </div>
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Unterschrift Monteur
-            </div>
+            <div class="field"><label>Unterschrift Monteur</label><div class="signature-pad"><canvas id="sig-monteur"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-monteur')">Löschen</button></div></div>
+            <div class="field"><label>Unterschrift Auftraggeber</label><div class="signature-pad"><canvas id="sig-auftraggeber"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-auftraggeber')">Löschen</button></div></div>
           </div>
 
           <div class="field" style="margin-top:12px;">
@@ -138,14 +132,16 @@
 
         <!-- Buttons -->
         <div class="button-row">
-          <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
+          <a class="btn btn-back" href="../../../../index.html#druckproben">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
-            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Druckprobe_Heizung_Wasser.pdf')">PDF speichern</button>
           </div>
         </div>
       </form>
     </main>
   </div>
+  <script src="../../../../assets/html2pdf.bundle.min.js"></script>
+  <script src="../../../../assets/app.js"></script>
 </body>
 </html>

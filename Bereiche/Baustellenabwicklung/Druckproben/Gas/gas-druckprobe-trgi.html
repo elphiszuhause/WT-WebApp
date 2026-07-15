@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
   <title>Gas-Druckprobe nach TRGI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
 <body>
   <div class="app-container">
@@ -12,7 +12,7 @@
     <!-- HEADER -->
     <header class="header">
       <div class="header-logo">
-        <img src="/assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+        <img src="../../../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
       </div>
       <div class="header-title">
         <h1>GAS-DRUCKPROBE</h1>
@@ -55,6 +55,8 @@
         <!-- Prüfbedingungen / Prüfablauf -->
         <div class="section">
           <div class="section-title">Prüfbedingungen / Prüfablauf nach TRGI</div>
+
+          <p class="view-description">Prüfdruck, Anpassungszeit und Prüfdauer sind vor Ort anhand der aktuellen TRGI, des Leitungsvolumens und der Anlagenbedingungen festzulegen.</p>
 
           <div class="field-row">
             <div class="field">
@@ -131,16 +133,16 @@
 
           <div class="field-row">
             <div class="field">
-              <label for="p_start">Anfangsdruck Belastungsprobe</label>
+              <label for="p_start_dicht">Anfangsdruck Belastungsprobe</label>
               <div class="inline-suffix">
-                <input type="number" id="p_start" name="p_start" step="0.01" min="0">
+                <input type="number" id="p_start_dicht" name="p_start_dicht" step="0.01" min="0">
                 <span class="unit">bar</span>
               </div>
             </div>
             <div class="field">
-              <label for="p_ende">Enddruck Belastungsprobe</label>
+              <label for="p_ende_dicht">Enddruck Belastungsprobe</label>
               <div class="inline-suffix">
-                <input type="number" id="p_ende" name="p_ende" step="0.01" min="0">
+                <input type="number" id="p_ende_dicht" name="p_ende_dicht" step="0.01" min="0">
                 <span class="unit">bar</span>
               </div>
             </div>
@@ -151,14 +153,14 @@
               <label for="p_start">Anfangsdruck Dichtheitsprüfung</label>
               <div class="inline-suffix">
                 <input type="number" id="p_start" name="p_start" step="0.01" min="0">
-                <span class="unit">bar</span>
+                <span class="unit">mbar</span>
               </div>
             </div>
             <div class="field">
               <label for="p_ende">Enddruck Dichtheitsprüfung</label>
               <div class="inline-suffix">
                 <input type="number" id="p_ende" name="p_ende" step="0.01" min="0">
-                <span class="unit">bar</span>
+                <span class="unit">mbar</span>
               </div>
             </div>
           </div>
@@ -244,26 +246,17 @@
 
         <!-- Buttons -->
         <div class="button-row">
-          <a class="btn btn-back" href="../gas.html">← Zurück zu Gas</a>
+          <a class="btn btn-back" href="../../../../index.html#druckproben">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
-            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
-            <button type="button" class="btn btn-primary" onclick="exportGasPdf('Gas_Druckprobe_TRGI')"> PDF speichern</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Gas_Druckprobe_TRGI.pdf')">PDF speichern</button>
           </div>
         </div>
 
       </form>
     </main>
   </div>
-  <script src="../../assets/html2pdf.bundle.min.js"></script>
-  <script src="../../assets/app.js"></script>
-  <script src="../../assets/jspdf.umd.min.js"></script>
-
-<script src="../../assets/app.js"></script>
-</body>
-</html>
-
-  <!-- Zentrales JS für Signatur etc. -->
-  <script src="../../assets/app.js"></script>
+  <script src="../../../../assets/html2pdf.bundle.min.js"></script>
+  <script src="../../../../assets/app.js"></script>
 </body>
 </html>

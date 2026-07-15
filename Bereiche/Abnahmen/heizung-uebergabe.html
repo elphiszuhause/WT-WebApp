@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
@@ -104,26 +104,22 @@
         <div class="section">
           <div class="section-title">Unterschriften</div>
           <div class="signature-row">
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Auftragnehmer / Monteur
-            </div>
-            <div class="signature-block">
-              <div class="signature-line"></div>
-              Auftraggeber / Nutzer
-            </div>
+            <div class="field"><label>Auftragnehmer / Monteur</label><div class="signature-pad"><canvas id="sig-monteur"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-monteur')">Löschen</button></div></div>
+            <div class="field"><label>Auftraggeber / Nutzer</label><div class="signature-pad"><canvas id="sig-auftraggeber"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-auftraggeber')">Löschen</button></div></div>
           </div>
         </div>
 
         <div class="button-row">
-          <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
+          <a class="btn btn-back" href="../../index.html#abnahmen">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
-            <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Uebergabeprotokoll_Heizung.pdf')">PDF speichern</button>
           </div>
         </div>
       </form>
     </main>
   </div>
+  <script src="../../assets/html2pdf.bundle.min.js"></script>
+  <script src="../../assets/app.js"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8">
   <title>Druckprobenprotokoll Warmwasserheizung</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- gleicher globaler Stil wie Gas/TRGI Formulare -->
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
   <!-- HEADER -->
   <header class="header">
     <div class="header-logo">
-      <img src="/assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
+      <img src="../../../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
     </div>
     <div class="header-title">
       <h1>WARMWASSER-DRUCKPROBE</h1>
@@ -203,10 +203,10 @@
 
       <!-- BUTTONS -->
       <div class="button-row">
-        <a class="btn btn-back" href="../heizung.html">← Zurück zu Heizung</a>
+        <a class="btn btn-back" href="../../../../index.html#druckproben">← Zur Übersicht</a>
         <div class="button-row-right">
           <button type="reset" class="btn btn-secondary">Formular leeren</button>
-          <button type="button" class="btn btn-primary" onclick="window.print()">Drucken / PDF</button>
+          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Druckprobe_Heizung_Luft.pdf')">PDF speichern</button>
         </div>
       </div>
 
@@ -215,9 +215,8 @@
 </div>
 
 <!-- globale Scripts wie in den anderen Formularen -->
-<script src="../../assets/html2pdf.bundle.min.js"></script>
-<script src="../../assets/jspdf.umd.min.js"></script>
-<script src="../../assets/app.js"></script>
+<script src="../../../../assets/html2pdf.bundle.min.js"></script>
+<script src="../../../../assets/app.js"></script>
 
 </body>
 </html>
