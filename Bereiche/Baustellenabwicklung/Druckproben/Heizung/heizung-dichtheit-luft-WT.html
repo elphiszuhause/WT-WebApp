@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
 
-<body>
+<body class="print-heating-air">
 <div class="app-container">
 
   <!-- HEADER -->
@@ -109,16 +109,16 @@
       </div>
 
       <!-- PRÜFZEITEN (DATUM + BEGINN/ENDE, KOMPAKT) -->
-      <div class="section">
+      <div class="section print-page-break">
         <div class="section-title">Prüfzeiten</div>
 
-        <div class="field-row">
+        <div class="field-row print-three-columns">
           <div class="field"><strong>Datum</strong></div>
           <div class="field"><strong>Beginn</strong></div>
           <div class="field"><strong>Ende</strong></div>
         </div>
 
-        <div class="field-row">
+        <div class="field-row print-three-columns">
           <div class="field">
             <input type="date" id="datum1" name="datum1">
           </div>
@@ -130,7 +130,7 @@
           </div>
         </div>
 
-        <div class="field-row">
+        <div class="field-row print-three-columns">
           <div class="field">
             <input type="date" id="datum2" name="datum2">
           </div>
@@ -142,7 +142,7 @@
           </div>
         </div>
 
-        <div class="field-row">
+        <div class="field-row print-three-columns">
           <div class="field">
             <input type="date" id="datum3" name="datum3">
           </div>
@@ -184,19 +184,20 @@
       <div class="section">
         <div class="section-title">Unterschriften</div>
 
-        <div class="field">
-          <label>Unterschrift Prüfer / Firma</label>
-          <div class="signature-pad">
-            <canvas id="sig-pruefer"></canvas>
-            <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-pruefer')">Löschen</button>
+        <div class="signature-row">
+          <div class="field">
+            <label>Unterschrift Prüfer / Firma</label>
+            <div class="signature-pad">
+              <canvas id="sig-pruefer"></canvas>
+              <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-pruefer')">Löschen</button>
+            </div>
           </div>
-        </div>
-
-        <div class="field">
-          <label>Unterschrift Bauherr</label>
-          <div class="signature-pad">
-            <canvas id="sig-bauherr"></canvas>
-            <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-bauherr')">Löschen</button>
+          <div class="field">
+            <label>Unterschrift Bauherr</label>
+            <div class="signature-pad">
+              <canvas id="sig-bauherr"></canvas>
+              <button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-bauherr')">Löschen</button>
+            </div>
           </div>
         </div>
       </div>
@@ -206,7 +207,7 @@
         <a class="btn btn-back" href="../../../../index.html#druckproben">← Zur Übersicht</a>
         <div class="button-row-right">
           <button type="reset" class="btn btn-secondary">Formular leeren</button>
-          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Druckprobe_Heizung_Luft.pdf')">PDF speichern</button>
+          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Druckprobe_Heizung_Luft.pdf')">Drucken / PDF</button>
         </div>
       </div>
 
@@ -215,7 +216,6 @@
 </div>
 
 <!-- globale Scripts wie in den anderen Formularen -->
-<script src="../../../../assets/html2pdf.bundle.min.js"></script>
 <script src="../../../../assets/app.js"></script>
 
 </body>

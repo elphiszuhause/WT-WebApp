@@ -219,37 +219,20 @@
     }
   }
 
-  async function exportFormPdf(filename) {
+  function exportFormPdf(filename) {
     document.querySelectorAll("form").forEach(form => saveDraft(form));
     const title = filename || document.title.replace(/[^a-z0-9äöüß_-]+/gi, "_") + ".pdf";
     const finalName = title.toLowerCase().endsWith(".pdf") ? title : `${title}.pdf`;
-    const element = document.querySelector(".app-container");
+    const originalTitle = document.title;
 
-    if (!element || typeof window.html2pdf === "undefined" || window.location.protocol === "file:") {
-      window.print();
-      return;
-    }
-
-    document.body.classList.add("pdf-mode");
-    element.querySelectorAll(".button-row, .draft-status, .signature-clear").forEach(node => node.classList.add("pdf-export-hide"));
-    showToast("PDF wird erstellt …");
+    // Der native Browserdruck hält Text und Linien als Vektoren. Das ist
+    // deutlich schärfer als der bisherige Screenshot-Export über html2canvas
+    // und respektiert die A4-Ränder aus dem Print-Stylesheet zuverlässig.
+    document.title = finalName.replace(/\.pdf$/i, "");
     try {
-      await window.html2pdf().set({
-        margin: [10, 12, 12, 12],
-        filename: finalName,
-        image: { type: "jpeg", quality: .97 },
-        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["css", "legacy"], avoid: [".section", ".signature-pad"] }
-      }).from(element).save();
-      showToast("PDF wurde erstellt");
-    } catch (error) {
-      console.error(error);
-      document.querySelectorAll(".toast").forEach(node => node.classList.remove("visible"));
       window.print();
     } finally {
-      document.body.classList.remove("pdf-mode");
-      document.querySelectorAll(".pdf-export-hide").forEach(node => node.classList.remove("pdf-export-hide"));
+      document.title = originalTitle;
     }
   }
 

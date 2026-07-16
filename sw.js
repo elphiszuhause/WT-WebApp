@@ -1,4 +1,4 @@
-const CACHE = "wt-formulare-v2.1";
+const CACHE = "wt-formulare-v2.3";
 const CORE = [
   "./",
   "./index.html",
@@ -7,7 +7,6 @@ const CORE = [
   "./assets/app.js",
   "./assets/WBS_Logo_WT.png",
   "./assets/app-icon.svg",
-  "./assets/html2pdf.bundle.min.js",
   "./Bereiche/Abnahmen/bauherreneinweisung.html",
   "./Bereiche/Abnahmen/heizung-uebergabe.html",
   "./Bereiche/Personal/urlaubsantrag.html",

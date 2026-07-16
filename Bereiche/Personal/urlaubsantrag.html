@@ -67,7 +67,7 @@
   </style>
 </head>
 
-<body>
+<body class="print-one-page print-leave">
 <div class="app-container">
 
   <!-- HEADER / BRIEFKOPF -->
@@ -108,7 +108,7 @@
       <div class="section">
         <div class="section-title">Beantragter Urlaub / Demande du congé</div>
 
-        <div class="field-row">
+        <div class="field-row print-three-columns">
           <div class="field">
             <label for="von">Vom<br><span class="dual-label">du (inclus)</span></label>
             <input type="date" id="von" name="von">
@@ -191,7 +191,7 @@
       </div>
 
       <!-- Datum + Unterschriften -->
-      <div class="section section-pagebreak"> 
+      <div class="section">
         <div class="section-title">Datum &amp; Unterschriften</div>
 
             <div class="field" style="max-width:250px;">
@@ -245,7 +245,6 @@
 </div>
 
 <!-- gleiche Scripts wie bei deinen anderen Formularen -->
-<script src="../../assets/html2pdf.bundle.min.js"></script>
 <script src="../../assets/app.js"></script>
 
 </body>

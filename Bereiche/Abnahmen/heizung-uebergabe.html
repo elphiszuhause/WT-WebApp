@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../../assets/styles.css">
 </head>
-<body>
+<body class="print-one-page print-heating-handover">
   <div class="app-container">
 
     <header class="header">
@@ -37,11 +37,9 @@
               <input type="text" id="auftraggeber" name="auftraggeber">
             </div>
           </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="adresse">Adresse</label>
-              <input type="text" id="adresse" name="adresse">
-            </div>
+          <div class="field">
+            <label for="adresse">Adresse</label>
+            <input type="text" id="adresse" name="adresse">
           </div>
         </div>
 
@@ -113,13 +111,12 @@
           <a class="btn btn-back" href="../../index.html#abnahmen">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
-            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Uebergabeprotokoll_Heizung.pdf')">PDF speichern</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Uebergabeprotokoll_Heizung.pdf')">Drucken / PDF</button>
           </div>
         </div>
       </form>
     </main>
   </div>
-  <script src="../../assets/html2pdf.bundle.min.js"></script>
   <script src="../../assets/app.js"></script>
 </body>
 </html>

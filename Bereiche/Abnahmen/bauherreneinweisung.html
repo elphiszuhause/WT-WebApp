@@ -98,7 +98,7 @@
   </style>
 </head>
 
-<body>
+<body class="print-bauherr">
 <div class="app-container">
 
   <!-- HEADER -->
@@ -319,7 +319,7 @@
       </div>
 
       <!-- BEMERKUNGEN (TABELLE WIE RECHTE SEITE) -->
-      <div class="section">
+      <div class="section print-page-break">
         <div class="section-title">Bemerkungen</div>
 
         <table class="remarks-table">
@@ -403,7 +403,7 @@
         <a class="btn btn-back" href="../../index.html#abnahmen">← Zur Übersicht</a>
         <div class="button-row-right">
           <button type="reset" class="btn btn-secondary">Formular leeren</button>
-          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Bauherreneinweisung.pdf')">PDF speichern</button>
+          <button type="button" class="btn btn-primary" onclick="exportFormPdf('Bauherreneinweisung.pdf')">Drucken / PDF</button>
         </div>
       </div>
 
@@ -411,7 +411,6 @@
   </main>
 </div>
 
-<script src="../../assets/html2pdf.bundle.min.js"></script>
 <script src="../../assets/app.js"></script>
 
 </body>
