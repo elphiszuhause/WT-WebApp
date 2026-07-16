@@ -153,7 +153,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0 0 20px; }
 .section { margin-bottom: 14px; padding: 15px; border: 1px solid var(--line); border-radius: 10px; background: #fafbfc; break-inside: avoid; }
 .section-title { margin-bottom: 11px; color: var(--navy); font-size: .9rem; font-weight: 800; }
 .field-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
-.field { flex: 1 1 220px; display: flex; flex-direction: column; gap: 5px; margin-bottom: 9px; }
+.field { min-width: 0; flex: 1 1 220px; display: flex; flex-direction: column; gap: 5px; margin-bottom: 9px; }
 label { color: #485467; font-size: .8rem; font-weight: 600; }
 input[type="text"], input[type="number"], input[type="date"], input[type="time"], textarea, select {
   width: 100%; min-height: 40px; padding: 8px 10px; border: 1px solid #c9d0dc; border-radius: 7px; background: #fff; color: var(--ink);
@@ -161,6 +161,7 @@ input[type="text"], input[type="number"], input[type="date"], input[type="time"]
 textarea { min-height: 74px; resize: vertical; }
 input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.18); border-color: var(--copper); }
 .inline-suffix { display: flex; align-items: center; gap: 7px; }
+.inline-suffix input { width: auto; min-width: 0; flex: 1 1 auto; }
 .unit { flex: none; color: var(--muted); font-size: .8rem; }
 .radio-group, .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; }
 .radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 6px; }
@@ -180,6 +181,7 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
 .install-button { white-space: nowrap; }
 .draft-status { margin: 8px 0 0; color: var(--success); font-size: .75rem; text-align: right; }
 .pdf-export-hide { display: none !important; }
+.print-only { display: none; }
 
 .toast { position: fixed; right: 20px; bottom: 20px; z-index: 20; max-width: 330px; padding: 12px 16px; border-radius: 9px; background: var(--navy); color: #fff; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .2s ease; }
 .toast.visible { opacity: 1; transform: translateY(0); }
@@ -215,51 +217,77 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
 }
 
 @media print {
-  @page { size: A4 portrait; margin: 0; }
-  html, body { width: 210mm; margin: 0 !important; }
+  @page { size: A4 portrait; margin: 10mm 12mm 12mm; }
+  html, body { width: auto; margin: 0 !important; }
   body {
-    padding: 10mm 12mm 12mm !important;
+    padding: 0 !important;
     background: #fff;
     color: #000;
     font-size: 8.5pt;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
-  .app-container { width: 186mm; max-width: 186mm; margin: 0; padding: 0; overflow: visible; border-radius: 0; box-shadow: none; }
+  .app-container { width: 100%; max-width: none; margin: 0; padding: 0; overflow: visible; border-radius: 0; box-shadow: none; }
   .app-container > .header { align-items: center; gap: 5mm; margin-bottom: 3mm; padding: 0 0 3mm; }
   .header-logo img { height: 10mm; max-width: 55mm; object-fit: contain; }
   .header-title h1 { font-size: 12pt; line-height: 1.15; }
   .header-title .subtitle { font-size: 7.5pt; }
   .page-heading { margin: 1.5mm 0 3mm; font-size: 11.5pt; }
   .view-description { margin: -1mm 0 2mm; }
-  .section { margin-bottom: 2mm; padding: 2mm; border-radius: 0; background: #fff; }
-  .section-title { margin-bottom: 1.3mm; font-size: 8.5pt; }
-  .field, .field-row { margin-bottom: 1mm; gap: 1.5mm; }
-  label, input, textarea, select, p, span { font-size: 7.5pt !important; line-height: 1.2; }
-  input[type="text"], input[type="number"], input[type="date"], input[type="time"], textarea, select { min-height: 5.5mm; padding: .7mm 1mm; border-radius: 0; }
-  textarea { min-height: 9mm; }
+  .section { margin-bottom: 2.5mm; padding: 2.5mm; border-color: #aeb8c7; border-radius: 1.5mm; background: #fff; }
+  .section-title { margin-bottom: 1.5mm; font-size: 9pt; }
+  .field, .field-row { margin-bottom: 1.2mm; gap: 1.8mm; }
+  .field-row, .signature-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .field-row.print-three-columns { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .field-row > .field:only-child, .signature-row > .field:only-child { width: 100%; grid-column: 1 / -1; }
+  .field-row > .field > label:first-child { min-height: 2.5em; }
+  .inline-suffix { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  label, input, textarea, select, p, span { font-size: 8.25pt !important; line-height: 1.25; }
+  input[type="text"], input[type="number"], input[type="date"], input[type="time"], textarea, select { min-height: 6.2mm; padding: .8mm 1.2mm; border-color: #929eaf; border-radius: 1mm; background: #fff; color: #000; }
+  textarea { min-height: 11mm; }
   .room-block { margin-bottom: 1mm !important; padding: 2mm !important; border-radius: 0 !important; }
   .room-header { margin-bottom: 1mm !important; }
   .signature-row { gap: 4mm; margin-top: 2mm; }
-  .signature-pad { padding: 0; border-radius: 0; }
-  .signature-pad canvas { height: 20mm; }
+  .signature-pad { padding: 0; border-color: #9aa5b5; border-radius: 1mm; }
+  .signature-pad canvas { height: 25mm; }
   .button-row, .btn, .signature-clear, .draft-status, .add-room-btn, .room-remove-btn, .toast { display: none !important; }
   .section-pagebreak { break-before: page; }
+  .print-page-break { break-before: page; page-break-before: always; }
+  .print-gas .section { margin-bottom: 2mm; padding: 2.2mm; }
+  .print-gas .field, .print-gas .field-row { margin-bottom: 1mm; gap: 1.5mm; }
+  .print-gas label, .print-gas input, .print-gas textarea, .print-gas select, .print-gas p, .print-gas span { font-size: 8pt !important; }
+  .print-gas input[type="text"], .print-gas input[type="number"], .print-gas input[type="date"], .print-gas input[type="time"], .print-gas textarea, .print-gas select { min-height: 5.8mm; }
+  .print-gas textarea { min-height: 9mm; }
+  .print-gas .signature-pad canvas { height: 22mm; }
+  .print-only { display: block; }
+  .print-continuation {
+    margin: 0 0 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #cbd2dc;
+    color: var(--navy);
+    font-size: 9pt;
+    font-weight: 800;
+  }
+  .print-one-page .app-container > .header { margin-bottom: 2mm; padding-bottom: 2mm; }
+  .print-one-page .header-logo img { height: 9mm; }
+  .print-one-page .header-title h1 { font-size: 11pt; }
+  .print-one-page .page-heading { margin: 1mm 0 2mm; font-size: 10.5pt; }
+  .print-one-page .section { margin-bottom: 1.5mm; padding: 1.8mm; }
+  .print-one-page .section-title { margin-bottom: 1mm; font-size: 8.5pt; }
+  .print-one-page .field, .print-one-page .field-row { margin-bottom: .7mm; gap: 1.2mm; }
+  .print-one-page .field-row > .field > label:first-child { min-height: 1.25em; }
+  .print-one-page label, .print-one-page input, .print-one-page textarea, .print-one-page select, .print-one-page p, .print-one-page span { font-size: 7.5pt !important; line-height: 1.15; }
+  .print-one-page input[type="text"], .print-one-page input[type="number"], .print-one-page input[type="date"], .print-one-page input[type="time"], .print-one-page textarea, .print-one-page select { min-height: 5.2mm; padding: .55mm 1mm; }
+  .print-one-page textarea { min-height: 8.5mm; }
+  .print-one-page .signature-row { margin-top: 1mm; }
+  .print-one-page .signature-pad canvas { height: 19mm; }
+  .print-regie .multi-text { min-height: 11mm; }
+  .print-regie .section p { margin: 0; }
+  .print-leave .reason-row { gap: 1.5mm; margin-bottom: 1mm; }
+  .print-leave .decision-row { gap: 6mm; margin: 1mm 0; }
+  .print-leave .signatures-grid { gap: 3mm; margin-top: 1mm; }
+  .print-leave .signatures-grid .signature-pad canvas { height: 18mm; }
+  .print-ventilation .room-block { margin-bottom: 1mm !important; padding: 1.8mm !important; }
+  .print-ventilation .room-block textarea { min-height: 7mm; }
   a[href]::after { content: none; }
-}
-
-body.pdf-mode {
-  width: 186mm !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: #fff !important;
-}
-
-body.pdf-mode .app-container {
-  width: 186mm !important;
-  max-width: 186mm !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
 }

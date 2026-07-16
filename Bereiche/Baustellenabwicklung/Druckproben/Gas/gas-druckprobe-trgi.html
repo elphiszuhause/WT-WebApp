@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
-<body>
+<body class="print-gas">
   <div class="app-container">
 
     <!-- HEADER -->
@@ -128,7 +128,7 @@
         </div>
 
         <!-- Messwerte -->
-        <div class="section">
+        <div class="section print-page-break">
           <div class="section-title">Messwerte</div>
 
           <div class="field-row">
@@ -219,27 +219,28 @@
         <div class="section">
           <div class="section-title">Unterschriften</div>
 
-          <div class="field">
-            <label>Unterschrift Monteur</label>
-            <div class="signature-pad">
-              <canvas id="sig-monteur"></canvas>
-              <button type="button"
-                      class="btn btn-secondary signature-clear"
-                      onclick="clearSignature('sig-monteur')">
-                Löschen
-              </button>
+          <div class="signature-row">
+            <div class="field">
+              <label>Unterschrift Monteur</label>
+              <div class="signature-pad">
+                <canvas id="sig-monteur"></canvas>
+                <button type="button"
+                        class="btn btn-secondary signature-clear"
+                        onclick="clearSignature('sig-monteur')">
+                  Löschen
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="field">
-            <label>Unterschrift Auftraggeber</label>
-            <div class="signature-pad">
-              <canvas id="sig-ag"></canvas>
-              <button type="button"
-                      class="btn btn-secondary signature-clear"
-                      onclick="clearSignature('sig-ag')">
-                Löschen
-              </button>
+            <div class="field">
+              <label>Unterschrift Auftraggeber</label>
+              <div class="signature-pad">
+                <canvas id="sig-ag"></canvas>
+                <button type="button"
+                        class="btn btn-secondary signature-clear"
+                        onclick="clearSignature('sig-ag')">
+                  Löschen
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -249,14 +250,13 @@
           <a class="btn btn-back" href="../../../../index.html#druckproben">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Formular leeren</button>
-            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Gas_Druckprobe_TRGI.pdf')">PDF speichern</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Gas_Druckprobe_TRGI.pdf')">Drucken / PDF</button>
           </div>
         </div>
 
       </form>
     </main>
   </div>
-  <script src="../../../../assets/html2pdf.bundle.min.js"></script>
   <script src="../../../../assets/app.js"></script>
 </body>
 </html>

@@ -44,7 +44,7 @@
     }
   </style>
 </head>
-<body>
+<body class="print-one-page print-ventilation">
   <div class="app-container">
 
     <header class="header">
@@ -110,7 +110,39 @@
           <div class="section-title">Räume / Ventile</div>
 
           <div id="rooms-container">
-            <!-- Hier werden die Räume dynamisch eingefügt -->
+            <div class="room-block">
+              <div class="room-header">
+                <div class="room-title">Raum 1</div>
+                <button type="button" class="room-remove-btn" onclick="removeRoom(this)">✕ Entfernen</button>
+              </div>
+
+              <div class="field">
+                <label>Raumbezeichnung</label>
+                <input type="text" name="raum_name[]" placeholder="z. B. Wohnzimmer – Zuluft">
+              </div>
+
+              <div class="field-row">
+                <div class="field">
+                  <label>Soll-Volumenstrom</label>
+                  <div class="inline-suffix">
+                    <input type="number" name="raum_soll[]" step="0.1">
+                    <span class="unit">m³/h</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Ist-Volumenstrom</label>
+                  <div class="inline-suffix">
+                    <input type="number" name="raum_ist[]" step="0.1">
+                    <span class="unit">m³/h</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Bemerkung</label>
+                <textarea name="raum_bemerkung[]" placeholder="z. B. Ventilstellung, Besonderheiten"></textarea>
+              </div>
+            </div>
           </div>
 
           <button type="button" class="btn btn-secondary add-room-btn" onclick="addRoom()">
@@ -137,7 +169,7 @@
           <a class="btn btn-back" href="../../../../index.html#einregulierung">← Zur Übersicht</a>
           <div class="button-row-right">
             <button type="reset" class="btn btn-secondary">Leeren</button>
-            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Einregulierung_Lueftung.pdf')">PDF speichern</button>
+            <button type="button" class="btn btn-primary" onclick="exportFormPdf('Einregulierung_Lueftung.pdf')">Drucken / PDF</button>
           </div>
         </div>
 
@@ -183,7 +215,7 @@
   </template>
 
   <script>
-    let roomCounter = 0;
+    let roomCounter = 1;
 
     function addRoom() {
       const tmpl = document.getElementById('room-template');
@@ -207,12 +239,7 @@
       // Nummerierung nicht neu sortieren – ist fürs Protokoll egal.
     }
 
-    // Beim Laden gleich einen ersten Raum anlegen
-    document.addEventListener('DOMContentLoaded', () => {
-      addRoom();
-    });
   </script>
-  <script src="../../../../assets/html2pdf.bundle.min.js"></script>
   <script src="../../../../assets/app.js"></script>
 </body>
 </html>
