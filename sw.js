@@ -1,4 +1,4 @@
-const CACHE = "wt-formulare-v2.4";
+const CACHE = "wt-formulare-v2.5";
 const CORE = [
   "./",
   "./index.html",
@@ -6,6 +6,7 @@ const CORE = [
   "./assets/styles.css",
   "./assets/app.js",
   "./assets/WBS_Logo_WT.png",
+  "./assets/WT_Logo_ohne_Slogan.png",
   "./assets/app-icon.svg",
   "./Bereiche/Abnahmen/bauherreneinweisung.html",
   "./Bereiche/Abnahmen/heizung-uebergabe.html",
@@ -15,7 +16,10 @@ const CORE = [
   "./Bereiche/Baustellenabwicklung/Druckproben/Heizung/heizung-dichtheit-wasser.html",
   "./Bereiche/Baustellenabwicklung/Druckproben/Heizung/heizung-dichtheit-luft-WT.html",
   "./Bereiche/Baustellenabwicklung/Druckproben/Sanitär/sanitaer-dichtheit-luft.html",
-  "./Bereiche/Baustellenabwicklung/Einregulierung/Lüftung/lueftung-einregulierung.html"
+  "./Bereiche/Baustellenabwicklung/Einregulierung/Lüftung/lueftung-einregulierung.html",
+  "./Bereiche/Wartungsanweisungen/Gas-Heizung/gastherme-wartung.html",
+  "./Bereiche/Wartungsanweisungen/Gas-Heizung/Gastherme_Wartungsprotokoll.pdf",
+  "./Bereiche/Wartungsanweisungen/Gas-Heizung/Gastherme_Wartungsprotokoll.docx"
 ];
 
 self.addEventListener("install", event => {

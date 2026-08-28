@@ -90,7 +90,7 @@ button, input, textarea, select { font: inherit; }
 .hero-panel h2 { margin: 5px 0; font-size: clamp(1.4rem, 3vw, 2.2rem); }
 .hero-panel p { margin: 0; color: #d9dfeb; }
 
-.category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 38px; }
+.category-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 20px 0 38px; }
 .category-card {
   min-height: 150px;
   display: flex;
@@ -190,11 +190,58 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
 .toast { position: fixed; right: 20px; bottom: 20px; z-index: 20; max-width: 330px; padding: 12px 16px; border-radius: 9px; background: var(--navy); color: #fff; box-shadow: var(--shadow); opacity: 0; transform: translateY(10px); pointer-events: none; transition: .2s ease; }
 .toast.visible { opacity: 1; transform: translateY(0); }
 
+/* Wartungsanweisungen */
+.maintenance-container { --maintenance-blue: #3b75bf; --maintenance-blue-light: #8fa9de; --maintenance-blue-soft: #edf3fb; }
+.maintenance-header { border-bottom: 0; padding-bottom: 20px; }
+.maintenance-header .header-logo img { height: auto; width: min(100%, 260px); }
+.maintenance-kicker { display: block; margin-bottom: 4px; color: var(--maintenance-blue); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.maintenance-header .header-title h1 { color: var(--maintenance-blue); }
+.maintenance-header-print { flex: none; white-space: nowrap; }
+.maintenance-progress { margin-bottom: 12px; }
+.maintenance-progress > div:first-child { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 7px; color: var(--muted); font-size: .78rem; }
+.maintenance-progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: var(--maintenance-blue-soft); }
+.maintenance-progress-track span { display: block; width: 20%; height: 100%; background: var(--maintenance-blue); transition: width .2s ease; }
+.maintenance-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; margin: 0 0 22px; }
+.maintenance-tab { min-height: 58px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--muted); text-align: left; cursor: pointer; }
+.maintenance-tab b, .maintenance-tab span { display: block; }
+.maintenance-tab b { margin-bottom: 3px; color: inherit; font-size: .72rem; }
+.maintenance-tab.active { border-color: var(--maintenance-blue); background: var(--maintenance-blue); color: #fff; }
+.maintenance-section-heading { display: flex; align-items: stretch; margin: 0 0 14px; background: var(--maintenance-blue-soft); }
+.maintenance-section-heading span { display: grid; place-items: center; min-width: 58px; padding: 9px; background: var(--maintenance-blue); color: #fff; font-weight: 800; }
+.maintenance-section-heading h2 { margin: 0; padding: 9px 14px; color: var(--maintenance-blue); font-size: 1.15rem; }
+.maintenance-help { margin: -5px 0 13px; color: var(--muted); font-size: .78rem; }
+.maintenance-measurements { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px 20px; }
+.maintenance-checklist { display: grid; gap: 8px; }
+.maintenance-check-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fafbfc; break-inside: avoid; }
+.maintenance-check-copy { display: flex; gap: 9px; align-items: flex-start; }
+.maintenance-check-copy b { flex: none; color: var(--maintenance-blue); }
+.maintenance-choice { display: grid; grid-template-columns: repeat(3, 70px); gap: 5px; }
+.maintenance-choice label { cursor: pointer; }
+.maintenance-choice input { position: absolute; opacity: 0; pointer-events: none; }
+.maintenance-choice span { display: grid; place-items: center; min-height: 38px; border: 1px solid #c9d0dc; border-radius: 7px; background: #fff; color: var(--muted); font-size: .76rem; }
+.maintenance-choice input:focus-visible + span { outline: 3px solid rgba(59,117,191,.22); }
+.maintenance-choice input:checked + span { border-color: var(--maintenance-blue); background: var(--maintenance-blue); color: #fff; }
+.maintenance-choice input[value="Mangel"]:checked + span { border-color: var(--danger); background: var(--danger); }
+.maintenance-note { grid-column: 1 / -1; margin: 0; padding-top: 3px; }
+.maintenance-fault-table { margin-bottom: 14px; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+.maintenance-fault-head, .maintenance-fault-row { display: grid; grid-template-columns: 1fr 1.2fr 1.3fr; }
+.maintenance-fault-head { background: var(--maintenance-blue); color: #fff; font-size: .78rem; font-weight: 800; }
+.maintenance-fault-head span, .maintenance-fault-row span { padding: 10px 11px; }
+.maintenance-fault-row { border-top: 1px solid var(--line); font-size: .76rem; }
+.maintenance-fault-row:nth-child(odd) { background: #f6f8fb; }
+.maintenance-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.maintenance-container .btn-primary { background: var(--maintenance-blue); }
+.subcategory-heading { display: flex; align-items: baseline; gap: 9px; margin: 18px 0 10px; color: var(--navy); }
+.subcategory-heading span { color: var(--copper); font-size: .72rem; font-weight: 800; }
+.subcategory-heading h3 { margin: 0; font-size: 1rem; }
+
 @media (max-width: 800px) {
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .section-heading { align-items: start; flex-direction: column; gap: 4px; }
   .app-header, .header { align-items: flex-start; }
   .connection-badge { margin-left: auto; }
+  .maintenance-check-row { grid-template-columns: 1fr; }
+  .maintenance-note { grid-column: 1; }
 }
 
 @media (max-width: 560px) {
@@ -218,6 +265,14 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
   .button-row-right { margin: 0; }
   .btn { width: 100%; }
   .app-footer { flex-direction: column; gap: 4px; padding: 16px; }
+  .maintenance-progress > div:first-child { flex-direction: column; gap: 2px; }
+  .maintenance-header-print { width: 100%; }
+  .maintenance-tabs { grid-template-columns: repeat(5, minmax(96px, 1fr)); overflow-x: auto; }
+  .maintenance-measurements { grid-template-columns: 1fr; }
+  .maintenance-choice { grid-template-columns: repeat(3, 1fr); }
+  .maintenance-fault-table { overflow-x: auto; }
+  .maintenance-fault-head, .maintenance-fault-row { min-width: 720px; }
+  .maintenance-actions { align-items: stretch; flex-direction: column; }
 }
 
 @media print {
@@ -267,6 +322,22 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
   .print-gas textarea { min-height: 9mm; }
   .print-gas .signature-pad canvas { height: 22mm; }
   .print-only { display: block; }
+  .maintenance-progress, .maintenance-tabs, .maintenance-actions, .maintenance-help { display: none !important; }
+  .maintenance-step[hidden] { display: block !important; }
+  .maintenance-step { break-inside: auto; }
+  .maintenance-section-heading { margin-bottom: 2mm; background: #edf3fb; }
+  .maintenance-section-heading span { min-width: 11mm; padding: 1.5mm; background: #3b75bf; }
+  .maintenance-section-heading h2 { padding: 1.5mm 2.5mm; color: #3b75bf; font-size: 9pt; }
+  .maintenance-measurements { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3mm; }
+  .maintenance-checklist { gap: 1mm; }
+  .maintenance-check-row { grid-template-columns: minmax(0, 1fr) auto; gap: 2mm; padding: 1.2mm 1.5mm; border-radius: 1mm; }
+  .maintenance-choice { grid-template-columns: repeat(3, 13mm); gap: 1mm; }
+  .maintenance-choice span { min-height: 5.5mm; border-radius: 1mm; font-size: 7pt !important; }
+  .maintenance-note { grid-column: 1 / -1; }
+  .maintenance-fault-head, .maintenance-fault-row { grid-template-columns: 1fr 1.2fr 1.3fr; }
+  .maintenance-fault-head span, .maintenance-fault-row span { padding: 1.2mm 1.5mm; }
+  .maintenance-fault-row { font-size: 7pt; }
+  .maintenance-fault-entry { break-before: auto; }
   .print-continuation {
     margin: 0 0 3mm;
     padding-bottom: 2mm;

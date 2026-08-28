@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#3b75bf">
+  <meta name="description" content="Digitales Inspektions- und Wartungsprotokoll für Gasthermen">
+  <title>Wartungsprotokoll Gastherme</title>
+  <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+<body class="maintenance-page print-gas">
+  <div class="app-container maintenance-container">
+    <header class="header maintenance-header">
+      <a class="header-logo" href="../../../index.html#wartungsanweisungen" aria-label="Zurück zu den Wartungsanweisungen">
+        <img src="../../../assets/WT_Logo_ohne_Slogan.png" alt="WAGNERTECH">
+      </a>
+      <div class="header-title">
+        <span class="maintenance-kicker">Wartungsanweisung · WA-GAS-01</span>
+        <h1>Inspektions- und Wartungsprotokoll Gastherme</h1>
+        <p class="subtitle">5 Wartungsanweisungen · 1 Gas-Heizung</p>
+      </div>
+      <button class="btn btn-secondary maintenance-header-print pdf-export-hide" type="button" onclick="exportFormPdf('Gastherme_Wartungsprotokoll.pdf')">Drucken / PDF</button>
+    </header>
+
+    <main>
+      <form id="gastherme-maintenance-form">
+        <div class="maintenance-progress pdf-export-hide">
+          <div><span id="maintenance-step-label">Schritt 1 von 5</span><span id="maintenance-step-detail">Anlagen- und Auftragsdaten</span></div>
+          <div class="maintenance-progress-track" role="progressbar" aria-label="Formularfortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+            <span id="maintenance-progress-bar"></span>
+          </div>
+        </div>
+
+        <nav class="maintenance-tabs pdf-export-hide" aria-label="Formularabschnitte">
+          <button type="button" class="maintenance-tab active" data-step="1"><b>01</b><span>Anlagendaten</span></button>
+          <button type="button" class="maintenance-tab" data-step="2"><b>02</b><span>Messwerte</span></button>
+          <button type="button" class="maintenance-tab" data-step="3"><b>03</b><span>Prüfpunkte</span></button>
+          <button type="button" class="maintenance-tab" data-step="4"><b>04</b><span>Störungen</span></button>
+          <button type="button" class="maintenance-tab" data-step="5"><b>05</b><span>Abschluss</span></button>
+        </nav>
+
+        <section class="maintenance-step" data-step-panel="1">
+          <div class="maintenance-section-heading"><span>01</span><h2>Anlagen- und Auftragsdaten</h2></div>
+          <div class="section">
+            <div class="field-row">
+              <div class="field"><label for="kunde">Kunde / Objekt</label><input id="kunde" name="kunde" type="text" required></div>
+              <div class="field"><label for="auftragsnummer">Auftragsnummer</label><input id="auftragsnummer" name="auftragsnummer" type="text"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label for="hersteller">Hersteller</label><input id="hersteller" name="hersteller" type="text"></div>
+              <div class="field"><label for="geraet">Gerät / Typ</label><input id="geraet" name="geraet" type="text"></div>
+            </div>
+            <div class="field-row print-three-columns">
+              <div class="field"><label for="seriennummer">Seriennummer</label><input id="seriennummer" name="seriennummer" type="text"></div>
+              <div class="field"><label for="baujahr">Baujahr</label><input id="baujahr" name="baujahr" type="number" inputmode="numeric"></div>
+              <div class="field"><label for="datum">Datum</label><input id="datum" name="datum" type="date" required></div>
+            </div>
+            <div class="field"><label for="fachhandwerker">Fachhandwerker</label><input id="fachhandwerker" name="fachhandwerker" type="text" required></div>
+          </div>
+        </section>
+
+        <section class="maintenance-step" data-step-panel="2" hidden>
+          <div class="maintenance-section-heading"><span>02</span><h2>Messwerte</h2></div>
+          <div class="section maintenance-measurements">
+            <div class="field"><label for="co2">CO₂-Gehalt</label><div class="inline-suffix"><input id="co2" name="co2" type="number" step="0.01" inputmode="decimal"><span class="unit">%</span></div></div>
+            <div class="field"><label for="co">CO-Gehalt</label><div class="inline-suffix"><input id="co" name="co" type="number" step="1" inputmode="numeric"><span class="unit">ppm</span></div></div>
+            <div class="field"><label for="abgas-brutto">Abgastemperatur brutto</label><div class="inline-suffix"><input id="abgas-brutto" name="abgas_brutto" type="number" step="0.1" inputmode="decimal"><span class="unit">°C</span></div></div>
+            <div class="field"><label for="lufttemperatur">Lufttemperatur</label><div class="inline-suffix"><input id="lufttemperatur" name="lufttemperatur" type="number" step="0.1" inputmode="decimal"><span class="unit">°C</span></div></div>
+            <div class="field"><label for="abgas-netto">Abgastemperatur netto</label><div class="inline-suffix"><input id="abgas-netto" name="abgas_netto" type="number" step="0.1" inputmode="decimal"><span class="unit">°C</span></div></div>
+            <div class="field"><label for="abgasverlust">Abgasverlust qA</label><div class="inline-suffix"><input id="abgasverlust" name="abgasverlust" type="number" step="0.1" inputmode="decimal"><span class="unit">%</span></div></div>
+            <div class="field"><label for="gasdruck">Gasanschlussdruck</label><div class="inline-suffix"><input id="gasdruck" name="gasdruck" type="number" step="0.1" inputmode="decimal"><span class="unit">mbar</span></div></div>
+            <div class="field"><label for="ionisationsstrom">Ionisationsstrom</label><div class="inline-suffix"><input id="ionisationsstrom" name="ionisationsstrom" type="number" step="0.1" inputmode="decimal"><span class="unit">µA</span></div></div>
+          </div>
+        </section>
+
+        <section class="maintenance-step" data-step-panel="3" hidden>
+          <div class="maintenance-section-heading"><span>03</span><h2>Thermenkomponenten</h2></div>
+          <p class="maintenance-help">Für jeden Prüfpunkt bitte i. O., Mangel oder n. a. auswählen. Bei einem Mangel öffnet sich automatisch ein Bemerkungsfeld.</p>
+          <div class="maintenance-checklist" id="maintenance-checklist"></div>
+        </section>
+
+        <section class="maintenance-step" data-step-panel="4" hidden>
+          <div class="maintenance-section-heading"><span>04</span><h2>Mögliche Störungsursachen</h2></div>
+          <div class="maintenance-fault-table" id="maintenance-fault-table"></div>
+          <div class="section maintenance-fault-entry">
+            <div class="field-row">
+              <div class="field"><label for="stoerung">Festgestellte Störung</label><textarea id="stoerung" name="stoerung"></textarea></div>
+              <div class="field"><label for="ursache">Ermittelte Ursache</label><textarea id="ursache" name="ursache"></textarea></div>
+            </div>
+            <div class="field"><label for="behebung">Durchgeführte Behebung</label><textarea id="behebung" name="behebung"></textarea></div>
+          </div>
+        </section>
+
+        <section class="maintenance-step" data-step-panel="5" hidden>
+          <div class="maintenance-section-heading"><span>05</span><h2>Ergebnis und Abschluss</h2></div>
+          <div class="section">
+            <div class="field-row">
+              <div class="field"><label>Störung vorhanden</label><div class="radio-group"><label><input type="radio" name="stoerung_vorhanden" value="Ja"> Ja</label><label><input type="radio" name="stoerung_vorhanden" value="Nein"> Nein</label></div></div>
+              <div class="field"><label>Ursachen behoben</label><div class="radio-group"><label><input type="radio" name="ursachen_behoben" value="Ja"> Ja</label><label><input type="radio" name="ursachen_behoben" value="Nein"> Nein</label><label><input type="radio" name="ursachen_behoben" value="Weitere Arbeiten erforderlich"> Weitere Arbeiten erforderlich</label></div></div>
+            </div>
+            <div class="field"><label for="bemerkungen">Bemerkungen / Hinweise</label><textarea id="bemerkungen" name="bemerkungen"></textarea></div>
+            <div class="field"><label for="ort-datum">Ort, Datum</label><input id="ort-datum" name="ort_datum" type="text"></div>
+            <div class="signature-row">
+              <div class="signature-block"><div class="signature-pad"><canvas id="signature-customer" aria-label="Unterschrift Kunde"></canvas></div><button class="btn btn-secondary signature-clear" type="button" onclick="clearSignature('signature-customer')">Löschen</button><div>Unterschrift Kunde</div></div>
+              <div class="signature-block"><div class="signature-pad"><canvas id="signature-technician" aria-label="Unterschrift Fachhandwerker"></canvas></div><button class="btn btn-secondary signature-clear" type="button" onclick="clearSignature('signature-technician')">Löschen</button><div>Unterschrift Fachhandwerker</div></div>
+            </div>
+          </div>
+        </section>
+
+        <div class="maintenance-actions pdf-export-hide">
+          <button class="btn btn-secondary" id="maintenance-back" type="button" disabled>Zurück</button>
+          <div class="button-row-right">
+            <button class="btn btn-secondary" type="reset">Formular leeren</button>
+            <button class="btn btn-primary" id="maintenance-next" type="button">Weiter zu Messwerten</button>
+          </div>
+        </div>
+        <p class="draft-status pdf-export-hide" aria-live="polite">Eingaben werden automatisch auf diesem Gerät gespeichert.</p>
+      </form>
+    </main>
+  </div>
+
+  <div class="toast" id="app-toast" role="status" aria-live="polite"></div>
+  <script>
+    const maintenanceChecks = [
+      "Gasbrennermodul prüfen (Flammenbild, Zündverhalten, Luftzufuhr)",
+      "Gasarmatur und Dichtheit prüfen, ggf. austauschen",
+      "Zünd- und Ionisationselektrode prüfen, ggf. reinigen oder ersetzen",
+      "Wärmetauscher prüfen und reinigen",
+      "Ventilator auf Verschmutzung und Geräuschentwicklung prüfen",
+      "Kondensatfalle und Kondensatablauf prüfen und reinigen",
+      "Brennraumdichtung prüfen, ggf. ersetzen",
+      "Ausdehnungsgefäß prüfen (Vordruck messen)",
+      "Sicherheitsventil auf Funktion prüfen",
+      "Filter und Siebe reinigen bzw. ersetzen",
+      "Elektrische Verbindungen prüfen (Klemmstellen, Steckkontakte)",
+      "Abgasführung / Rohrsystem prüfen (Dichtheit, Kondensatbildung, Gefälle)",
+      "Gerät starten – Flammenstabilität und Startverhalten prüfen",
+      "CO-/CO₂-Werte kontrollieren, ggf. Brennereinstellung korrigieren",
+      "Sicherheitsprüfung durchführen (Gasweg, Abgasweg, Zündung, Überwachung)",
+      "Fachgerechte Wartung bestätigen"
+    ];
+    const maintenanceFaults = [
+      ["Brenner startet nicht", "Kein Gas, Gashahn geschlossen oder Spannung fehlt", "Gaszufuhr, Sicherung und Netzspannung prüfen"],
+      ["Flamme erlischt während des Betriebs", "Ionisationselektrode verschmutzt oder defekt", "Elektrode reinigen oder austauschen"],
+      ["Unruhige Flamme / Flammenabriss", "Gas-Luft-Gemisch falsch eingestellt, Ventilator defekt", "Mischsystem einstellen, Ventilator prüfen"],
+      ["CO₂-Wert zu niedrig (< 8 %)", "Luftüberschuss zu hoch", "Gas-Luft-Verhältnis einstellen"],
+      ["CO-Wert zu hoch (> 100 ppm)", "Unzureichende Verbrennung", "Brenner reinigen, Düse und Luftzufuhr prüfen"],
+      ["Abgastemperatur zu hoch", "Wärmetauscher verschmutzt", "Wärmetauscher reinigen"],
+      ["Kondensat läuft nicht ab", "Kondensatfalle verstopft", "Falle reinigen, Ablauf prüfen"],
+      ["Heizleistung zu gering", "Gasdruck zu niedrig", "Gasdruck prüfen, ggf. Gasregelblock ersetzen"],
+      ["Gerät schaltet häufig ein / aus", "Druck falsch eingestellt oder Temperaturfühler defekt", "Fühler prüfen, Parameter anpassen"],
+      ["Geräuschentwicklung im Betrieb", "Gebläselager defekt, Wärmetauscher verschmutzt", "Bauteile prüfen und ggf. ersetzen"]
+    ];
+
+    const checklist = document.getElementById("maintenance-checklist");
+    checklist.innerHTML = maintenanceChecks.map((text, index) => {
+      const number = String(index + 1).padStart(2, "0");
+      return `<div class="maintenance-check-row">
+        <div class="maintenance-check-copy"><b>${number}</b><span>${text}</span></div>
+        <div class="maintenance-choice" role="radiogroup" aria-label="Status Prüfpunkt ${number}">
+          <label><input type="radio" name="pruefpunkt_${number}" value="i. O."><span>i. O.</span></label>
+          <label><input type="radio" name="pruefpunkt_${number}" value="Mangel"><span>Mangel</span></label>
+          <label><input type="radio" name="pruefpunkt_${number}" value="n. a."><span>n. a.</span></label>
+        </div>
+        <div class="field maintenance-note" hidden><label for="pruefpunkt_${number}_bemerkung">Bemerkung zum Mangel</label><input id="pruefpunkt_${number}_bemerkung" name="pruefpunkt_${number}_bemerkung" type="text"></div>
+      </div>`;
+    }).join("");
+
+    const faultTable = document.getElementById("maintenance-fault-table");
+    faultTable.innerHTML = `<div class="maintenance-fault-head"><span>Symptom / Störung</span><span>Mögliche Ursache</span><span>Behebung</span></div>` + maintenanceFaults.map(row => `<div class="maintenance-fault-row"><span>${row[0]}</span><span>${row[1]}</span><span>${row[2]}</span></div>`).join("");
+
+    let currentStep = 1;
+    const tabs = [...document.querySelectorAll(".maintenance-tab")];
+    const panels = [...document.querySelectorAll(".maintenance-step")];
+    const backButton = document.getElementById("maintenance-back");
+    const nextButton = document.getElementById("maintenance-next");
+    const stepLabel = document.getElementById("maintenance-step-label");
+    const stepDetail = document.getElementById("maintenance-step-detail");
+    const progress = document.querySelector(".maintenance-progress-track");
+    const progressBar = document.getElementById("maintenance-progress-bar");
+    const stepNames = ["Anlagen- und Auftragsdaten", "Messwerte", "Thermenkomponenten", "Mögliche Störungsursachen", "Ergebnis und Abschluss"];
+    const nextNames = ["Weiter zu Messwerten", "Weiter zu Prüfpunkten", "Weiter zu Störungen", "Weiter zum Abschluss", "Drucken / PDF speichern"];
+
+    function showMaintenanceStep(step) {
+      currentStep = Math.max(1, Math.min(5, step));
+      panels.forEach(panel => panel.hidden = Number(panel.dataset.stepPanel) !== currentStep);
+      tabs.forEach(tab => tab.classList.toggle("active", Number(tab.dataset.step) === currentStep));
+      stepLabel.textContent = `Schritt ${currentStep} von 5`;
+      stepDetail.textContent = stepNames[currentStep - 1];
+      progress.setAttribute("aria-valuenow", String(currentStep));
+      progressBar.style.width = `${currentStep * 20}%`;
+      backButton.disabled = currentStep === 1;
+      nextButton.textContent = nextNames[currentStep - 1];
+      if (currentStep === 5) window.dispatchEvent(new Event("resize"));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    tabs.forEach(tab => tab.addEventListener("click", () => showMaintenanceStep(Number(tab.dataset.step))));
+    backButton.addEventListener("click", () => showMaintenanceStep(currentStep - 1));
+    nextButton.addEventListener("click", () => currentStep === 5 ? exportFormPdf("Gastherme_Wartungsprotokoll.pdf") : showMaintenanceStep(currentStep + 1));
+    checklist.addEventListener("change", event => {
+      if (!event.target.matches('input[type="radio"]')) return;
+      const note = event.target.closest(".maintenance-check-row").querySelector(".maintenance-note");
+      note.hidden = event.target.value !== "Mangel";
+    });
+    document.addEventListener("DOMContentLoaded", () => setTimeout(() => {
+      checklist.querySelectorAll(".maintenance-check-row").forEach(row => {
+        const selected = row.querySelector('input[type="radio"]:checked');
+        row.querySelector(".maintenance-note").hidden = !selected || selected.value !== "Mangel";
+      });
+    }, 0));
+  </script>
+  <script src="../../../assets/app.js"></script>
+</body>
+</html>
