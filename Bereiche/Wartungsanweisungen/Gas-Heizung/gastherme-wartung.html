@@ -19,19 +19,19 @@
         <h1>Inspektions- und Wartungsprotokoll Gastherme</h1>
         <p class="subtitle">5 Wartungsanweisungen · 1 Gas-Heizung</p>
       </div>
-      <button class="btn btn-secondary maintenance-header-print pdf-export-hide" type="button" onclick="exportFormPdf('Gastherme_Wartungsprotokoll.pdf')">Drucken / PDF</button>
+      <button class="btn btn-secondary maintenance-header-print" type="button" onclick="exportFormPdf('Gastherme_Wartungsprotokoll.pdf')">Drucken / PDF</button>
     </header>
 
     <main>
       <form id="gastherme-maintenance-form">
-        <div class="maintenance-progress pdf-export-hide">
+        <div class="maintenance-progress">
           <div><span id="maintenance-step-label">Schritt 1 von 5</span><span id="maintenance-step-detail">Anlagen- und Auftragsdaten</span></div>
           <div class="maintenance-progress-track" role="progressbar" aria-label="Formularfortschritt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
             <span id="maintenance-progress-bar"></span>
           </div>
         </div>
 
-        <nav class="maintenance-tabs pdf-export-hide" aria-label="Formularabschnitte">
+        <nav class="maintenance-tabs" aria-label="Formularabschnitte">
           <button type="button" class="maintenance-tab active" data-step="1"><b>01</b><span>Anlagendaten</span></button>
           <button type="button" class="maintenance-tab" data-step="2"><b>02</b><span>Messwerte</span></button>
           <button type="button" class="maintenance-tab" data-step="3"><b>03</b><span>Prüfpunkte</span></button>
@@ -107,14 +107,14 @@
           </div>
         </section>
 
-        <div class="maintenance-actions pdf-export-hide">
+        <div class="maintenance-actions">
           <button class="btn btn-secondary" id="maintenance-back" type="button" disabled>Zurück</button>
           <div class="button-row-right">
             <button class="btn btn-secondary" type="reset">Formular leeren</button>
             <button class="btn btn-primary" id="maintenance-next" type="button">Weiter zu Messwerten</button>
           </div>
         </div>
-        <p class="draft-status pdf-export-hide" aria-live="polite">Eingaben werden automatisch auf diesem Gerät gespeichert.</p>
+        <p class="draft-status" aria-live="polite">Eingaben werden automatisch auf diesem Gerät gespeichert.</p>
       </form>
     </main>
   </div>
