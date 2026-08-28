@@ -11,7 +11,7 @@ Mobile, installierbare Web-App für Baustellenprotokolle von WAGNER Building Sys
 - Offlinebetrieb für die wichtigsten digitalen Formulare
 - responsive Darstellung für Smartphone, Tablet und Desktop
 - vorhandene Word-, Excel- und PDF-Vorlagen bleiben verfügbar
-- Wartungsanweisungen können online ausgefüllt oder als PDF- und Word-Vorlage heruntergeladen werden
+- Wartungsanweisungen für Gas- und Öl-Heizungen können online ausgefüllt oder als PDF- und Word-Vorlage heruntergeladen werden
 
 ## Datenschutz
 

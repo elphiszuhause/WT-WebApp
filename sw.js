@@ -1,4 +1,4 @@
-const CACHE = "wt-formulare-v2.6";
+const CACHE = "wt-formulare-v2.7";
 const CORE = [
   "./",
   "./index.html",
@@ -19,7 +19,10 @@ const CORE = [
   "./Bereiche/Baustellenabwicklung/Einregulierung/Lüftung/lueftung-einregulierung.html",
   "./Bereiche/Wartungsanweisungen/Gas-Heizung/gastherme-wartung.html",
   "./Bereiche/Wartungsanweisungen/Gas-Heizung/Gastherme_Wartungsprotokoll.pdf",
-  "./Bereiche/Wartungsanweisungen/Gas-Heizung/Gastherme_Wartungsprotokoll.docx"
+  "./Bereiche/Wartungsanweisungen/Gas-Heizung/Gastherme_Wartungsprotokoll.docx",
+  "./Bereiche/Wartungsanweisungen/Öl-Heizung/oelbrenner-wartung.html",
+  "./Bereiche/Wartungsanweisungen/Öl-Heizung/Oelbrenner_Wartungsprotokoll.pdf",
+  "./Bereiche/Wartungsanweisungen/Öl-Heizung/Oelbrenner_Wartungsprotokoll.docx"
 ];
 
 self.addEventListener("install", event => {
