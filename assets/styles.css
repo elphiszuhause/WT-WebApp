@@ -369,3 +369,41 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
   .print-ventilation .room-block textarea { min-height: 7mm; }
   a[href]::after { content: none; }
 }
+
+/* Eigene Übersichtsseiten der Formularbereiche */
+.category-page-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 2px 0 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.category-page-heading h2 { margin: 2px 0 0; color: var(--navy); font-size: clamp(1.4rem, 3vw, 2rem); }
+.category-page-number {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  flex: none;
+  border-radius: 12px;
+  background: var(--copper-soft);
+  color: var(--copper);
+  font-weight: 800;
+}
+.category-back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+  color: var(--navy);
+  font-size: .84rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+.category-back:hover { color: var(--copper); }
+.category-page .form-section { margin-bottom: 0; }
+
+@media (max-width: 560px) {
+  .category-page-heading { align-items: flex-start; }
+  .category-page-number { width: 46px; height: 46px; }
+}

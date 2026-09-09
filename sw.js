@@ -1,7 +1,12 @@
-const CACHE = "wt-formulare-v2.8";
+const CACHE = "wt-formulare-v2.9";
 const CORE = [
   "./",
   "./index.html",
+  "./kategorien/druckpruefungen.html",
+  "./kategorien/einregulierung.html",
+  "./kategorien/abnahmen.html",
+  "./kategorien/weitere-formulare.html",
+  "./kategorien/wartungsanweisungen.html",
   "./manifest.webmanifest",
   "./assets/styles.css",
   "./assets/app.js",
