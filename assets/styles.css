@@ -407,3 +407,5 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(179,107,63,.
   .category-page-heading { align-items: flex-start; }
   .category-page-number { width: 46px; height: 46px; }
 }
+
+.app-footer span:only-child { margin-left: auto; }
