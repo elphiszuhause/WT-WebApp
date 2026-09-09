@@ -1,4 +1,4 @@
-const CACHE = "wt-formulare-v2.10";
+const CACHE = "wt-formulare-v2.11";
 const CORE = [
   "./",
   "./index.html",
