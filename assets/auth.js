@@ -4,6 +4,8 @@
   const SUPABASE_URL = "https://lvtcxdiyixblbufvxghy.supabase.co";
   const SUPABASE_KEY = "sb_publishable_MHbZSrecBpTgBsrwgjATSQ_vdk0v3wJ";
   const SESSION_KEY = "wt-auth-session";
+  const ACTION_KEY = "wt-auth-action";
+  const AUTH_ERROR_KEY = "wt-auth-error";
   const APP_ROOT_URL = new URL("../", document.currentScript.src);
 
   document.documentElement.classList.add("auth-pending");
@@ -117,7 +119,23 @@
   }
 
   function readAuthCallback() {
-    const params = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const candidates = [window.location.href];
+    const returnUrl = new URLSearchParams(window.location.search).get("return");
+    if (returnUrl) candidates.push(returnUrl);
+
+    let params = null;
+    for (const candidate of candidates) {
+      try {
+        const url = new URL(candidate, APP_ROOT_URL);
+        const current = new URLSearchParams(url.hash.replace(/^#/, ""));
+        if (current.has("access_token") || current.has("error_description")) {
+          params = current;
+          break;
+        }
+      } catch (_) {}
+    }
+    if (!params) return null;
+
     const errorDescription = params.get("error_description");
     if (errorDescription) {
       history.replaceState({}, document.title, window.location.pathname);
@@ -134,6 +152,7 @@
     };
     saveSession(session);
     const type = params.get("type") || "";
+    if (type) sessionStorage.setItem(ACTION_KEY, type);
     history.replaceState({}, document.title, window.location.pathname);
     return { session, type };
   }
@@ -199,15 +218,20 @@
 
   async function initLoginPage() {
     const callback = readAuthCallback();
-    if (callback && callback.error) {
+    const storedError = sessionStorage.getItem(AUTH_ERROR_KEY);
+    if (storedError) sessionStorage.removeItem(AUTH_ERROR_KEY);
+    if ((callback && callback.error) || storedError) {
       const errorBox = document.getElementById("login-error");
       errorBox.textContent = "Der Einladungslink ist ungültig oder abgelaufen. Bitte fordere eine neue Einladung an.";
       errorBox.hidden = false;
       showPage();
       return;
     }
-    if (callback && callback.session && ["invite", "recovery"].includes(callback.type)) {
-      initPasswordSetup(callback.session);
+    const action = callback && callback.type || sessionStorage.getItem(ACTION_KEY) || "";
+    const callbackSession = callback && callback.session || readSession();
+    if (callbackSession && ["invite", "recovery"].includes(action)) {
+      sessionStorage.removeItem(ACTION_KEY);
+      initPasswordSetup(callbackSession);
       return;
     }
 
@@ -276,6 +300,17 @@
   }
 
   async function protectPage() {
+    const callback = readAuthCallback();
+    if (callback && callback.error) {
+      sessionStorage.setItem(AUTH_ERROR_KEY, "1");
+      window.location.replace(new URL("login", APP_ROOT_URL).href);
+      return;
+    }
+    if (callback && callback.session && ["invite", "recovery"].includes(callback.type)) {
+      window.location.replace(new URL("login", APP_ROOT_URL).href);
+      return;
+    }
+
     const session = await getValidSession();
     if (!session) {
       window.location.replace(loginUrl());
