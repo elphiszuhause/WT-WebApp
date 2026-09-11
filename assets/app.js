@@ -7,6 +7,45 @@
   let installPrompt = null;
   let toastTimer = null;
 
+  const DOCUMENT_FORMS = [
+    { path: "/Druckproben/Gas/gas-druckprobe-trgi", kicker: "Druckprüfprotokoll · Gas", title: "Druckprüfung Gasinstallation", density: "standard" },
+    { path: "/Druckproben/Heizung/heizung-dichtheit-luft-WT", kicker: "Druckprüfprotokoll · Heizung", title: "Dichtheitsprüfung Heizungsanlage", density: "standard" },
+    { path: "/Druckproben/Sanitaer/sanitaer-dichtheit-luft", kicker: "Druckprüfprotokoll · Sanitär", title: "Dichtheitsprüfung Trinkwasserinstallation", density: "compact" },
+    { path: "/Einregulierung/Lueftung/lueftung-einregulierung", kicker: "Einregulierungsprotokoll · Lüftung", title: "Einregulierung Lüftungsanlage", density: "compact" },
+    { path: "/Abnahmen/heizung-uebergabe", kicker: "Übergabeprotokoll · Heizung", title: "Übergabe Heizungsanlage", density: "compact" },
+    { path: "/Abnahmen/bauherreneinweisung", kicker: "Abnahmeprotokoll · Bauherr", title: "Bauherreneinweisung und Abnahme", density: "long" }
+  ];
+
+  function initDocumentFormLayout() {
+    const pathname = decodeURIComponent(window.location.pathname).replace(/\.html$/i, "");
+    const config = DOCUMENT_FORMS.find(item => pathname.endsWith(item.path));
+    if (!config) return;
+
+    document.body.classList.add("document-form-page", "document-form-standard", `document-density-${config.density}`);
+    const container = document.querySelector(".app-container");
+    const header = container && container.querySelector(":scope > .header");
+    if (container) container.classList.add("document-form-container");
+    if (!header) return;
+
+    header.classList.add("document-header");
+    const logo = header.querySelector(".header-logo img");
+    if (logo) {
+      logo.src = new URL("assets/WT_Logo_ohne_Slogan.png", APP_ROOT_URL).href;
+      logo.alt = "WAGNERTECH";
+    }
+
+    const title = header.querySelector(".header-title h1");
+    if (title) {
+      title.textContent = config.title;
+      if (!header.querySelector(".document-kicker")) {
+        const kicker = document.createElement("span");
+        kicker.className = "document-kicker";
+        kicker.textContent = config.kicker;
+        title.before(kicker);
+      }
+    }
+  }
+
   function showToast(message) {
     const toast = document.getElementById("app-toast") || createToast();
     toast.textContent = message;
@@ -268,6 +307,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    initDocumentFormLayout();
     document.querySelectorAll("canvas[id]").forEach(canvas => initSignaturePad(canvas.id));
     document.querySelectorAll("form").forEach(initAutosave);
     initConnectionStatus();
