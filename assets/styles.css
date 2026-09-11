@@ -251,6 +251,41 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
 .document-technician-name { margin-top: 12px; }
 .document-form-container .btn-primary { background: var(--document-blue); }
 
+/* Gemeinsamer Dokumentstil für Druckprüfungen, Einregulierung und Abnahmen */
+.document-form-standard form { counter-reset: document-section; }
+.document-form-standard .section { counter-increment: document-section; }
+.document-form-standard .section-title {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  margin: -15px -15px 12px;
+  padding: 8px 13px;
+  border-radius: 9px 9px 0 0;
+  background: var(--document-blue-soft);
+  color: var(--document-blue);
+  font-size: 1rem;
+}
+.document-form-standard .section-title::before {
+  content: counter(document-section, decimal-leading-zero);
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-width: 52px;
+  margin: -8px 13px -8px -13px;
+  background: var(--document-blue);
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 800;
+}
+.document-form-standard .section:has(.signature-row) { break-inside: avoid; page-break-inside: avoid; }
+.document-form-standard hr,
+.document-form-standard .page-heading { display: none; }
+.document-form-standard .handover-table th,
+.document-form-standard .remarks-table th,
+.document-form-standard .handover-section-row td { background: var(--document-blue-soft); color: var(--navy); }
+.document-form-standard .sig-box-firma,
+.document-form-standard .sig-box-bauherr { background: var(--document-blue-soft); }
+
 @media (max-width: 800px) {
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .section-heading { align-items: start; flex-direction: column; gap: 4px; }
@@ -290,6 +325,7 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
   .maintenance-fault-head, .maintenance-fault-row { min-width: 720px; }
   .maintenance-actions { align-items: stretch; flex-direction: column; }
   .document-header-print { width: 100%; }
+  .document-form-standard .document-header { flex-wrap: wrap; }
 }
 
 @media print {
@@ -384,6 +420,74 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
   .print-leave .signatures-grid .signature-pad canvas { height: 18mm; }
   .print-ventilation .room-block { margin-bottom: 1mm !important; padding: 1.8mm !important; }
   .print-ventilation .room-block textarea { min-height: 7mm; }
+
+  /* Einheitliche Drucksprache für die freigegebenen Formularbereiche 01–03 */
+  .document-form-standard { padding: 8mm 10mm 9mm !important; }
+  .document-form-standard .document-header { margin-bottom: 3mm; padding-bottom: 2.5mm; border-bottom: 1px solid #cbd2dc; }
+  .document-form-standard .document-header .header-logo img { width: auto; height: 9mm; }
+  .document-form-standard .document-kicker { margin-bottom: .5mm; color: #3b75bf; font-size: 7pt !important; letter-spacing: .07em; }
+  .document-form-standard .document-header .header-title h1 { color: #172033; font-size: 11pt; line-height: 1.15; }
+  .document-form-standard .document-header .subtitle { font-size: 7.5pt !important; }
+  .document-form-standard form { counter-reset: document-section; }
+  .document-form-standard .section {
+    margin-bottom: 2.2mm;
+    padding: 2mm 2.3mm;
+    border-color: #aeb8c7;
+    border-radius: 1mm;
+    background: #fff;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+  .document-form-standard .section-title {
+    min-height: 7.5mm;
+    margin: -2mm -2.3mm 1.8mm;
+    padding: 1.2mm 2.2mm;
+    border-radius: 1mm 1mm 0 0;
+    background: #edf3fb;
+    color: #3b75bf;
+    font-size: 8.5pt !important;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .document-form-standard .section-title::before {
+    min-width: 10mm;
+    margin: -1.2mm 2.2mm -1.2mm -2.2mm;
+    background: #3b75bf;
+    color: #fff;
+    font-size: 7.5pt !important;
+  }
+  .document-form-standard .field,
+  .document-form-standard .field-row { margin-bottom: .8mm; gap: 1.5mm; }
+  .document-form-standard label,
+  .document-form-standard input,
+  .document-form-standard textarea,
+  .document-form-standard select,
+  .document-form-standard p,
+  .document-form-standard span { font-size: 7.75pt !important; line-height: 1.2; }
+  .document-form-standard input[type="text"],
+  .document-form-standard input[type="number"],
+  .document-form-standard input[type="date"],
+  .document-form-standard input[type="time"],
+  .document-form-standard textarea,
+  .document-form-standard select { min-height: 5.4mm; padding: .6mm 1mm; }
+  .document-form-standard textarea { min-height: 9mm; }
+  .document-form-standard .signature-pad canvas { height: 20mm; }
+  .document-form-standard .print-page-break,
+  .document-form-standard .section-pagebreak { break-before: auto; page-break-before: auto; }
+  .document-form-standard .section:has(.signature-row),
+  .document-form-standard .section:has(.signatures-inline),
+  .document-form-standard .room-block { break-inside: avoid; page-break-inside: avoid; }
+
+  .document-density-compact { padding-top: 7mm !important; padding-bottom: 7mm !important; }
+  .document-density-compact .document-header { margin-bottom: 2mm; padding-bottom: 2mm; }
+  .document-density-compact .section { margin-bottom: 1.6mm; padding: 1.7mm 2mm; }
+  .document-density-compact .section-title { margin: -1.7mm -2mm 1.4mm; }
+  .document-density-compact .signature-pad canvas { height: 18mm; }
+
+  .document-density-long .section { break-inside: auto; page-break-inside: auto; }
+  .document-density-long table { break-inside: auto; page-break-inside: auto; }
+  .document-density-long tr { break-inside: avoid; page-break-inside: avoid; }
+  .document-density-long thead { display: table-header-group; }
 
   /* Pilot: professionelles, fest abgestimmtes Einseiten-Layout */
   .print-heating-water { padding: 7mm 10mm 8mm !important; }
