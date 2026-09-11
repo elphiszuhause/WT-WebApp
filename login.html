@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#172033">
+  <meta name="description" content="Anmeldung für die WAGNERTECH Baustellenformulare">
+  <title>Anmelden · WT Baustellenformulare</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/auth.js"></script>
+</head>
+<body class="login-page" data-auth-page="login">
+  <main class="login-shell">
+    <section class="login-brand" aria-label="WAGNERTECH Baustellenformulare">
+      <img src="assets/WT_Logo_ohne_Slogan.png" alt="WAGNERTECH">
+      <span class="eyebrow">Interner Zugang</span>
+      <h1>Baustellenformulare</h1>
+      <p>Bitte melde dich mit deinem persönlichen Benutzerkonto an.</p>
+    </section>
+
+    <section class="login-panel">
+      <div>
+        <span class="login-kicker">WAGNERTECH</span>
+        <h2>Anmelden</h2>
+      </div>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-email">E-Mail-Adresse</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" inputmode="email" required autofocus>
+        </div>
+        <div class="field">
+          <label for="login-password">Passwort</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p class="login-error" id="login-error" role="alert" hidden></p>
+        <button class="btn btn-primary login-submit" id="login-submit" type="submit">Anmelden</button>
+      </form>
+      <p class="login-help">Noch kein Konto oder Passwort vergessen? Bitte an den Administrator wenden.</p>
+    </section>
+  </main>
+</body>
+</html>

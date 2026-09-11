@@ -1,7 +1,8 @@
-const CACHE = "wt-formulare-v3.3";
+const CACHE = "wt-formulare-v3.4";
 
 const CORE = [
   "./",
+  "./login",
   "./kategorien/druckpruefungen",
   "./kategorien/einregulierung",
   "./kategorien/abnahmen",
@@ -10,6 +11,7 @@ const CORE = [
   "./manifest.webmanifest",
   "./assets/styles.css",
   "./assets/app.js",
+  "./assets/auth.js",
   "./assets/WBS_Logo_WT.png",
   "./assets/WT_Logo_ohne_Slogan.png",
   "./assets/app-icon.svg",
