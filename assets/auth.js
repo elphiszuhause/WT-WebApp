@@ -127,9 +127,14 @@
     for (const candidate of candidates) {
       try {
         const url = new URL(candidate, APP_ROOT_URL);
-        const current = new URLSearchParams(url.hash.replace(/^#/, ""));
-        if (current.has("access_token") || current.has("error_description")) {
-          params = current;
+        const hashParams = new URLSearchParams(url.hash.replace(/^#/, ""));
+        const queryParams = new URLSearchParams(url.search);
+        if (hashParams.has("access_token") || hashParams.has("error_description")) {
+          params = hashParams;
+          break;
+        }
+        if (queryParams.has("error_description") || queryParams.has("error_code")) {
+          params = queryParams;
           break;
         }
       } catch (_) {}
