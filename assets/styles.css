@@ -236,6 +236,21 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
 .subcategory-heading span { color: var(--copper); font-size: .72rem; font-weight: 800; }
 .subcategory-heading h3 { margin: 0; font-size: 1rem; }
 
+/* Einheitliches WT-Dokumentdesign – Pilotformular Heizung / Wasser */
+.document-form-container { --document-blue: #3b75bf; --document-blue-soft: #edf3fb; }
+.document-header { border-bottom: 0; padding-bottom: 20px; }
+.document-header .header-logo img { width: min(100%, 260px); height: auto; }
+.document-kicker { display: block; margin-bottom: 4px; color: var(--document-blue); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.document-header .header-title h1 { color: var(--document-blue); }
+.document-header-print { flex: none; white-space: nowrap; }
+.document-section-heading { display: flex; align-items: stretch; margin: 0 0 9px; background: var(--document-blue-soft); break-after: avoid; page-break-after: avoid; }
+.document-section-heading span { display: grid; place-items: center; min-width: 58px; padding: 9px; background: var(--document-blue); color: #fff; font-weight: 800; }
+.document-section-heading h2 { margin: 0; padding: 9px 14px; color: var(--document-blue); font-size: 1.05rem; }
+.document-section { margin-bottom: 18px; }
+.document-confirmation { margin: 0 0 14px; color: #485467; font-size: .84rem; }
+.document-technician-name { margin-top: 12px; }
+.document-form-container .btn-primary { background: var(--document-blue); }
+
 @media (max-width: 800px) {
   .category-grid { grid-template-columns: repeat(2, 1fr); }
   .section-heading { align-items: start; flex-direction: column; gap: 4px; }
@@ -274,6 +289,7 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
   .maintenance-fault-table { overflow-x: auto; }
   .maintenance-fault-head, .maintenance-fault-row { min-width: 720px; }
   .maintenance-actions { align-items: stretch; flex-direction: column; }
+  .document-header-print { width: 100%; }
 }
 
 @media print {
@@ -368,6 +384,22 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
   .print-leave .signatures-grid .signature-pad canvas { height: 18mm; }
   .print-ventilation .room-block { margin-bottom: 1mm !important; padding: 1.8mm !important; }
   .print-ventilation .room-block textarea { min-height: 7mm; }
+
+  /* Pilot: professionelles, fest abgestimmtes Zweitseiten-Layout */
+  .print-heating-water .document-header { margin-bottom: 4mm; padding-bottom: 3mm; border-bottom: 1px solid #cbd2dc; }
+  .print-heating-water .document-header .header-logo img { width: auto; height: 10mm; }
+  .print-heating-water .document-kicker { margin-bottom: .8mm; color: #3b75bf; font-size: 7pt !important; letter-spacing: .08em; }
+  .print-heating-water .document-header .header-title h1 { color: #172033; font-size: 12pt; }
+  .print-heating-water .document-section-heading { margin: 0 0 1.5mm; background: #edf3fb; break-after: avoid; page-break-after: avoid; }
+  .print-heating-water .document-section-heading span { min-width: 11mm; padding: 1.5mm; background: #3b75bf; color: #fff; font-size: 8pt !important; }
+  .print-heating-water .document-section-heading h2 { padding: 1.5mm 2.5mm; color: #3b75bf; font-size: 9pt; }
+  .print-heating-water .document-section { margin-bottom: 3mm; padding: 2.5mm; border-color: #aeb8c7; border-radius: 1mm; break-inside: avoid; page-break-inside: avoid; }
+  .print-heating-water .document-section textarea { min-height: 13mm; }
+  .print-heating-water .document-confirmation { margin: 0 0 2mm; color: #000; font-size: 8pt; }
+  .print-heating-water .document-technician-name { margin-top: 2mm; }
+  .print-heating-water .document-signature-section .signature-pad canvas { height: 24mm; }
+  .print-heating-water .document-signature-section .signature-row .field { margin-bottom: 0; }
+  .print-heating-water .document-page-break { break-before: page; page-break-before: always; }
   a[href]::after { content: none; }
 }
 
