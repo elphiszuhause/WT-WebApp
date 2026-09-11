@@ -13,7 +13,9 @@
     { path: "/Druckproben/Sanitaer/sanitaer-dichtheit-luft", kicker: "Druckprüfprotokoll · Sanitär", title: "Dichtheitsprüfung Trinkwasserinstallation", density: "compact" },
     { path: "/Einregulierung/Lueftung/lueftung-einregulierung", kicker: "Einregulierungsprotokoll · Lüftung", title: "Einregulierung Lüftungsanlage", density: "compact" },
     { path: "/Abnahmen/heizung-uebergabe", kicker: "Übergabeprotokoll · Heizung", title: "Übergabe Heizungsanlage", density: "compact" },
-    { path: "/Abnahmen/bauherreneinweisung", kicker: "Abnahmeprotokoll · Bauherr", title: "Bauherreneinweisung und Abnahme", density: "long" }
+    { path: "/Abnahmen/bauherreneinweisung", kicker: "Abnahmeprotokoll · Bauherr", title: "Bauherreneinweisung und Abnahme", density: "long" },
+    { path: "/Regiearbeiten/anmeldung-regiearbeiten", kicker: "Baustellenformular · Regiearbeiten", title: "Ankündigung von Regiearbeiten", density: "compact" },
+    { path: "/Personal/urlaubsantrag", kicker: "Personalformular · Urlaub", title: "Urlaubsantrag / Demande de congé", density: "compact" }
   ];
 
   function initDocumentFormLayout() {
@@ -34,15 +36,18 @@
       logo.alt = "WAGNERTECH";
     }
 
-    const title = header.querySelector(".header-title h1");
-    if (title) {
-      title.textContent = config.title;
-      if (!header.querySelector(".document-kicker")) {
-        const kicker = document.createElement("span");
-        kicker.className = "document-kicker";
-        kicker.textContent = config.kicker;
-        title.before(kicker);
-      }
+    const titleWrap = header.querySelector(".header-title");
+    let title = titleWrap && titleWrap.querySelector("h1");
+    if (titleWrap && !title) {
+      title = document.createElement("h1");
+      titleWrap.prepend(title);
+    }
+    if (title) title.textContent = config.title;
+    if (title && !header.querySelector(".document-kicker")) {
+      const kicker = document.createElement("span");
+      kicker.className = "document-kicker";
+      kicker.textContent = config.kicker;
+      title.before(kicker);
     }
   }
 
