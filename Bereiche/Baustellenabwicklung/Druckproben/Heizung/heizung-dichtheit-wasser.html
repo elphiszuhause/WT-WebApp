@@ -6,46 +6,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../../../../assets/styles.css">
 </head>
-<body>
-  <div class="app-container">
+<body class="document-form-page print-heating-water">
+  <div class="app-container document-form-container">
 
-    <header class="header">
-      <div class="header-logo">
-        <img src="../../../../assets/WBS_Logo_WT.png" alt="Wagnertech Logo">
-      </div>
+    <header class="header document-header">
+      <a class="header-logo" href="../../../../index.html#druckproben" aria-label="Zurück zu den Druckprüfungen">
+        <img src="../../../../assets/WT_Logo_ohne_Slogan.png" alt="WAGNERTECH">
+      </a>
       <div class="header-title">
-        <h1>DICHTHEITSPRÜFUNG HEIZUNG</h1>
-        <div class="subtitle">Prüfmedium: Wasser</div>
+        <span class="document-kicker">Druckprüfprotokoll · Heizung</span>
+        <h1>Dichtheitsprüfung Heizungsanlage</h1>
+        <div class="subtitle">Prüfmedium Wasser</div>
       </div>
+      <button class="btn btn-secondary document-header-print" type="button" onclick="exportFormPdf('Druckprobe_Heizung_Wasser.pdf')">Drucken / PDF</button>
     </header>
 
-    <hr>
-
     <main>
-      <h2 class="page-heading">Dichtheitsprüfungsprotokoll – Wasser</h2>
-
       <form>
         <!-- Aufstellungsort -->
-        <div class="section">
-          <div class="section-title">Aufstellungsort</div>
+        <div class="document-section-heading"><span>01</span><h2>Aufstellungsort</h2></div>
+        <div class="section document-section">
           <div class="field">
-            <label for="aufstellungsort">Gebäude, Adresse, ggf. Anlagenteil</label>
+            <label for="aufstellungsort">Gebäude, Adresse, gegebenenfalls Anlagenteil</label>
             <textarea id="aufstellungsort" name="aufstellungsort"></textarea>
           </div>
         </div>
 
         <!-- Anlagendaten -->
-        <div class="section">
-          <div class="section-title">Anlagendaten</div>
+        <div class="document-section-heading"><span>02</span><h2>Anlagendaten</h2></div>
+        <div class="section document-section">
           <div class="field">
-            <label for="anlagendaten">Kurzbeschreibung (Wärmeerzeuger, Heizkreise, Rohrmaterial)</label>
+            <label for="anlagendaten">Kurzbeschreibung, Wärmeerzeuger, Heizkreise und Rohrmaterial</label>
             <textarea id="anlagendaten" name="anlagendaten"></textarea>
           </div>
         </div>
 
         <!-- Prüfparameter -->
-        <div class="section">
-          <div class="section-title">Prüfparameter</div>
+        <div class="document-section-heading"><span>03</span><h2>Prüfparameter</h2></div>
+        <div class="section document-section">
           <div class="field-row">
             <div class="field">
               <label for="betriebsdruck">Höchstzulässiger Betriebsdruck</label>
@@ -75,8 +73,9 @@
         </div>
 
         <!-- Ergebnis -->
-        <div class="section">
-          <div class="section-title">Ergebnis der Dichtheitsprüfung</div>
+        <div class="print-only print-continuation document-page-break">Dichtheitsprüfung Heizungsanlage · Prüfmedium Wasser</div>
+        <div class="document-section-heading"><span>04</span><h2>Ergebnis der Dichtheitsprüfung</h2></div>
+        <div class="section document-section">
           <div class="field">
             <label>Prüfergebnis</label>
             <div class="radio-group">
@@ -97,8 +96,8 @@
         </div>
 
         <!-- Ort & Datum -->
-        <div class="section print-page-break">
-          <div class="section-title">Ort und Datum</div>
+        <div class="document-section-heading"><span>05</span><h2>Ort und Datum</h2></div>
+        <div class="section document-section">
           <div class="field-row">
             <div class="field">
               <label for="ort">Ort</label>
@@ -112,19 +111,19 @@
         </div>
 
         <!-- Bestätigung -->
-        <div class="section">
-          <div class="section-title">Bestätigung</div>
-          <div class="field">
+        <div class="document-section-heading"><span>06</span><h2>Bestätigung und Unterschriften</h2></div>
+        <div class="section document-section document-signature-section">
+          <p class="document-confirmation">
             Hiermit wird bestätigt, dass die oben genannte Anlage / das Anlagenteil einer
             Dichtheitsprüfung mit Wasser gemäß vorstehenden Daten unterzogen wurde.
-          </div>
+          </p>
 
           <div class="signature-row">
             <div class="field"><label>Unterschrift Monteur</label><div class="signature-pad"><canvas id="sig-monteur"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-monteur')">Löschen</button></div></div>
             <div class="field"><label>Unterschrift Auftraggeber</label><div class="signature-pad"><canvas id="sig-auftraggeber"></canvas><button type="button" class="btn btn-secondary signature-clear" onclick="clearSignature('sig-auftraggeber')">Löschen</button></div></div>
           </div>
 
-          <div class="field" style="margin-top:12px;">
+          <div class="field document-technician-name">
             <label for="monteur">Name des Monteurs (Druckschrift)</label>
             <input type="text" id="monteur" name="monteur">
           </div>
