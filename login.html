@@ -19,7 +19,7 @@
     </section>
 
     <section class="login-panel">
-      <div>
+      <div id="login-intro">
         <span class="login-kicker">WAGNERTECH</span>
         <h2>Anmelden</h2>
       </div>
@@ -35,7 +35,27 @@
         <p class="login-error" id="login-error" role="alert" hidden></p>
         <button class="btn btn-primary login-submit" id="login-submit" type="submit">Anmelden</button>
       </form>
-      <p class="login-help">Noch kein Konto oder Passwort vergessen? Bitte an den Administrator wenden.</p>
+      <p class="login-help" id="login-help">Noch kein Konto oder Passwort vergessen? Bitte an den Administrator wenden.</p>
+
+      <div id="password-intro" hidden>
+        <span class="login-kicker">Einladung angenommen</span>
+        <h2>Eigenes Passwort festlegen</h2>
+        <p class="password-copy">Vergib jetzt dein persönliches Passwort für die WT WebApp.</p>
+      </div>
+      <form id="password-form" hidden novalidate>
+        <div class="field">
+          <label for="new-password">Neues Passwort</label>
+          <input id="new-password" name="new-password" type="password" autocomplete="new-password" minlength="8" required>
+          <small class="field-hint">Mindestens 8 Zeichen</small>
+        </div>
+        <div class="field">
+          <label for="confirm-password">Passwort wiederholen</label>
+          <input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="8" required>
+        </div>
+        <p class="login-error" id="password-error" role="alert" hidden></p>
+        <p class="login-success" id="password-success" role="status" hidden></p>
+        <button class="btn btn-primary login-submit" id="password-submit" type="submit">Passwort speichern</button>
+      </form>
     </section>
   </main>
 </body>

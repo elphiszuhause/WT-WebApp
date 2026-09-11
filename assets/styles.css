@@ -141,7 +141,10 @@ button, input, textarea, select { font: inherit; }
 .login-submit { width: 100%; min-height: 48px; margin-top: 5px; background: var(--copper); }
 .login-submit:disabled { cursor: wait; opacity: .7; }
 .login-error { margin: 0 0 12px; padding: 10px 12px; border-radius: 8px; background: #fef3f2; color: var(--danger); font-size: .82rem; }
+.login-success { margin: 0 0 12px; padding: 10px 12px; border-radius: 8px; background: #eaf7f0; color: var(--success); font-size: .82rem; }
 .login-help { margin: 20px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+.password-copy { margin: -18px 0 26px; color: var(--muted); font-size: .9rem; }
+.field-hint { color: var(--muted); font-size: .75rem; }
 
 .app-shell main { padding: 28px; }
 .app-container main { padding-top: 4px; }

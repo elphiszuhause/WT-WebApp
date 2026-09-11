@@ -116,7 +116,101 @@
     return "Die Anmeldung ist gerade nicht möglich. Bitte versuche es erneut.";
   }
 
+  function readAuthCallback() {
+    const params = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const errorDescription = params.get("error_description");
+    if (errorDescription) {
+      history.replaceState({}, document.title, window.location.pathname);
+      return { error: new Error(errorDescription) };
+    }
+    if (!params.get("access_token") || !params.get("refresh_token")) return null;
+
+    const session = {
+      access_token: params.get("access_token"),
+      refresh_token: params.get("refresh_token"),
+      token_type: params.get("token_type") || "bearer",
+      expires_in: Number(params.get("expires_in") || 3600),
+      expires_at: Number(params.get("expires_at") || 0)
+    };
+    saveSession(session);
+    const type = params.get("type") || "";
+    history.replaceState({}, document.title, window.location.pathname);
+    return { session, type };
+  }
+
+  function initPasswordSetup(session) {
+    const loginIntro = document.getElementById("login-intro");
+    const loginForm = document.getElementById("login-form");
+    const loginHelp = document.getElementById("login-help");
+    const setupIntro = document.getElementById("password-intro");
+    const setupForm = document.getElementById("password-form");
+    const password = document.getElementById("new-password");
+    const confirmation = document.getElementById("confirm-password");
+    const errorBox = document.getElementById("password-error");
+    const successBox = document.getElementById("password-success");
+    const submit = document.getElementById("password-submit");
+
+    loginIntro.hidden = true;
+    loginForm.hidden = true;
+    loginHelp.hidden = true;
+    setupIntro.hidden = false;
+    setupForm.hidden = false;
+    showPage();
+    password.focus();
+
+    setupForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      errorBox.hidden = true;
+      successBox.hidden = true;
+      if (password.value.length < 8) {
+        errorBox.textContent = "Das Passwort muss mindestens 8 Zeichen lang sein.";
+        errorBox.hidden = false;
+        password.focus();
+        return;
+      }
+      if (password.value !== confirmation.value) {
+        errorBox.textContent = "Die beiden Passwörter stimmen nicht überein.";
+        errorBox.hidden = false;
+        confirmation.focus();
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = "Passwort wird gespeichert …";
+      try {
+        const user = await authRequest("user", {
+          method: "PUT",
+          headers: { Authorization: `Bearer ${session.access_token}` },
+          body: JSON.stringify({ password: password.value })
+        });
+        session.user = user;
+        saveSession(session);
+        successBox.textContent = "Dein Passwort wurde gespeichert. Du wirst jetzt angemeldet.";
+        successBox.hidden = false;
+        setTimeout(() => window.location.replace(APP_ROOT_URL.href), 900);
+      } catch (error) {
+        errorBox.textContent = readableError(error);
+        errorBox.hidden = false;
+        submit.disabled = false;
+        submit.textContent = "Passwort speichern";
+      }
+    });
+  }
+
   async function initLoginPage() {
+    const callback = readAuthCallback();
+    if (callback && callback.error) {
+      const errorBox = document.getElementById("login-error");
+      errorBox.textContent = "Der Einladungslink ist ungültig oder abgelaufen. Bitte fordere eine neue Einladung an.";
+      errorBox.hidden = false;
+      showPage();
+      return;
+    }
+    if (callback && callback.session && ["invite", "recovery"].includes(callback.type)) {
+      initPasswordSetup(callback.session);
+      return;
+    }
+
     const session = await getValidSession();
     if (session) {
       window.location.replace(safeReturnUrl());
