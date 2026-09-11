@@ -385,21 +385,35 @@ input:focus, textarea:focus, select:focus { outline: 3px solid rgba(59,117,191,.
   .print-ventilation .room-block { margin-bottom: 1mm !important; padding: 1.8mm !important; }
   .print-ventilation .room-block textarea { min-height: 7mm; }
 
-  /* Pilot: professionelles, fest abgestimmtes Zweitseiten-Layout */
-  .print-heating-water .document-header { margin-bottom: 4mm; padding-bottom: 3mm; border-bottom: 1px solid #cbd2dc; }
-  .print-heating-water .document-header .header-logo img { width: auto; height: 10mm; }
-  .print-heating-water .document-kicker { margin-bottom: .8mm; color: #3b75bf; font-size: 7pt !important; letter-spacing: .08em; }
-  .print-heating-water .document-header .header-title h1 { color: #172033; font-size: 12pt; }
-  .print-heating-water .document-section-heading { margin: 0 0 1.5mm; background: #edf3fb; break-after: avoid; page-break-after: avoid; }
-  .print-heating-water .document-section-heading span { min-width: 11mm; padding: 1.5mm; background: #3b75bf; color: #fff; font-size: 8pt !important; }
-  .print-heating-water .document-section-heading h2 { padding: 1.5mm 2.5mm; color: #3b75bf; font-size: 9pt; }
-  .print-heating-water .document-section { margin-bottom: 3mm; padding: 2.5mm; border-color: #aeb8c7; border-radius: 1mm; break-inside: avoid; page-break-inside: avoid; }
-  .print-heating-water .document-section textarea { min-height: 13mm; }
-  .print-heating-water .document-confirmation { margin: 0 0 2mm; color: #000; font-size: 8pt; }
-  .print-heating-water .document-technician-name { margin-top: 2mm; }
-  .print-heating-water .document-signature-section .signature-pad canvas { height: 24mm; }
+  /* Pilot: professionelles, fest abgestimmtes Einseiten-Layout */
+  .print-heating-water { padding: 6mm 10mm 7mm !important; }
+  .print-heating-water .document-header { margin-bottom: 2mm; padding-bottom: 2mm; border-bottom: 1px solid #cbd2dc; }
+  .print-heating-water .document-header .header-logo img { width: auto; height: 8mm; }
+  .print-heating-water .document-kicker { margin-bottom: .4mm; color: #3b75bf; font-size: 6.5pt !important; letter-spacing: .07em; }
+  .print-heating-water .document-header .header-title h1 { color: #172033; font-size: 10.5pt; }
+  .print-heating-water .document-header .subtitle { font-size: 7pt !important; }
+  .print-heating-water .document-section-heading { margin: 0 0 1mm; background: #edf3fb; break-after: avoid; page-break-after: avoid; }
+  .print-heating-water .document-section-heading span { min-width: 9mm; padding: 1mm; background: #3b75bf; color: #fff; font-size: 7.25pt !important; }
+  .print-heating-water .document-section-heading h2 { padding: 1mm 2mm; color: #3b75bf; font-size: 8pt; }
+  .print-heating-water .document-section { margin-bottom: 1.5mm; padding: 1.6mm 2mm; border-color: #aeb8c7; border-radius: 1mm; break-inside: avoid; page-break-inside: avoid; }
+  .print-heating-water .field,
+  .print-heating-water .field-row { margin-bottom: .6mm; gap: 1.2mm; }
+  .print-heating-water .field-row > .field > label:first-child { min-height: 1.2em; }
+  .print-heating-water label,
+  .print-heating-water input,
+  .print-heating-water textarea,
+  .print-heating-water p,
+  .print-heating-water span { font-size: 7.25pt !important; line-height: 1.15; }
+  .print-heating-water input[type="text"],
+  .print-heating-water input[type="number"],
+  .print-heating-water input[type="date"],
+  .print-heating-water textarea { min-height: 4.8mm; padding: .45mm .9mm; }
+  .print-heating-water .document-section textarea { min-height: 8mm; }
+  .print-heating-water .document-confirmation { margin: 0 0 1mm; color: #000; font-size: 7.25pt; }
+  .print-heating-water .document-technician-name { margin-top: 1mm; }
+  .print-heating-water .document-signature-section .signature-pad canvas { height: 16mm; }
   .print-heating-water .document-signature-section .signature-row .field { margin-bottom: 0; }
-  .print-heating-water .document-page-break { break-before: page; page-break-before: always; }
+  .print-heating-water .document-page-break { display: none !important; break-before: auto; page-break-before: auto; }
   a[href]::after { content: none; }
 }
 
