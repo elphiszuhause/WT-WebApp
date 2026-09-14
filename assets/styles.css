@@ -17,6 +17,28 @@
 * { box-sizing: border-box; }
 
 html.auth-pending body { visibility: hidden; }
+
+.environment-badge {
+  position: fixed;
+  z-index: 1000;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border: 1px solid #f1c36d;
+  border-radius: 999px;
+  background: #fff7df;
+  color: #7a4b00;
+  box-shadow: 0 4px 14px rgba(23,32,51,.12);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+@media print {
+  .environment-badge { display: none !important; }
+}
 body[data-auth-protected] { visibility: hidden; }
 
 /* Der bedruckbare Bereich wird von der App selbst definiert. So bleiben die
