@@ -11,14 +11,17 @@
       key: "sb_publishable_KdrzuuZGHanPAeLNpQnNUw_7Ath9LoZ"
     }
   };
-  const PRODUCTION_HOSTNAMES = new Set(["elphiszuhause.github.io"]);
+  const PRODUCTION_HOSTNAMES = new Set(["elphiszuhause.github.io", "wt-webapp.pages.dev"]);
   const AUTH_ENVIRONMENT = PRODUCTION_HOSTNAMES.has(window.location.hostname) ? "production" : "test";
+  const SERVER_AUTH = window.location.hostname === "wt-webapp.pages.dev" || window.location.hostname.endsWith(".wt-webapp.pages.dev");
   const SUPABASE_URL = AUTH_ENVIRONMENTS[AUTH_ENVIRONMENT].url;
   const SUPABASE_KEY = AUTH_ENVIRONMENTS[AUTH_ENVIRONMENT].key;
   const SESSION_KEY = "wt-auth-session";
   const ACTION_KEY = "wt-auth-action";
   const AUTH_ERROR_KEY = "wt-auth-error";
   const APP_ROOT_URL = new URL("../", document.currentScript.src);
+
+  if (SERVER_AUTH) localStorage.removeItem(SESSION_KEY);
 
   document.documentElement.dataset.authEnvironment = AUTH_ENVIRONMENT;
   document.documentElement.classList.add("auth-pending");
@@ -72,6 +75,24 @@
     return data;
   }
 
+  async function serverRequest(path, options) {
+    const response = await fetch(new URL(`api/auth/${path}`, APP_ROOT_URL), {
+      ...options,
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        ...(options && options.headers)
+      }
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(data.error || "Anmeldung fehlgeschlagen");
+      error.status = response.status;
+      throw error;
+    }
+    return data;
+  }
+
   async function refreshSession(session) {
     if (!session || !session.refresh_token) return null;
     try {
@@ -88,6 +109,14 @@
   }
 
   async function getValidSession() {
+    if (SERVER_AUTH) {
+      try {
+        const data = await serverRequest("session", { method: "GET" });
+        return data.authenticated ? { user: data.user } : null;
+      } catch (_) {
+        return null;
+      }
+    }
     let session = readSession();
     if (!session || !session.access_token) return null;
     if (tokenExpiresSoon(session.access_token)) session = await refreshSession(session);
@@ -131,6 +160,19 @@
     addEnvironmentBadge();
     document.documentElement.classList.remove("auth-pending");
     document.body.removeAttribute("data-auth-protected");
+  }
+
+  function rememberAuthenticatedUser(user) {
+    const identity = user && (user.id || user.email);
+    if (!identity) return false;
+    sessionStorage.setItem("wt-auth-user-id", identity);
+    return true;
+  }
+
+  function announceAuthenticatedUser(session) {
+    const user = session && session.user;
+    if (!rememberAuthenticatedUser(user)) return;
+    document.dispatchEvent(new CustomEvent("wt-auth-ready", { detail: { user } }));
   }
 
   function readableError(error) {
@@ -178,7 +220,7 @@
       expires_in: Number(params.get("expires_in") || 3600),
       expires_at: Number(params.get("expires_at") || 0)
     };
-    saveSession(session);
+    if (!SERVER_AUTH) saveSession(session);
     const type = params.get("type") || "";
     if (type) sessionStorage.setItem(ACTION_KEY, type);
     history.replaceState({}, document.title, window.location.pathname);
@@ -225,13 +267,20 @@
       submit.disabled = true;
       submit.textContent = "Passwort wird gespeichert …";
       try {
-        const user = await authRequest("user", {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${session.access_token}` },
-          body: JSON.stringify({ password: password.value })
-        });
-        session.user = user;
-        saveSession(session);
+        if (SERVER_AUTH) {
+          await serverRequest("password", {
+            method: "POST",
+            body: JSON.stringify({ password: password.value })
+          });
+        } else {
+          const user = await authRequest("user", {
+            method: "PUT",
+            headers: { Authorization: `Bearer ${session.access_token}` },
+            body: JSON.stringify({ password: password.value })
+          });
+          session.user = user;
+          saveSession(session);
+        }
         successBox.textContent = "Dein Passwort wurde gespeichert. Du wirst jetzt angemeldet.";
         successBox.hidden = false;
         setTimeout(() => window.location.replace(APP_ROOT_URL.href), 900);
@@ -245,6 +294,7 @@
   }
 
   async function initLoginPage() {
+    if (SERVER_AUTH) sessionStorage.removeItem("wt-auth-user-id");
     const callback = readAuthCallback();
     const storedError = sessionStorage.getItem(AUTH_ERROR_KEY);
     if (storedError) sessionStorage.removeItem(AUTH_ERROR_KEY);
@@ -256,15 +306,30 @@
       return;
     }
     const action = callback && callback.type || sessionStorage.getItem(ACTION_KEY) || "";
-    const callbackSession = callback && callback.session || readSession();
+    const callbackSession = callback && callback.session || (SERVER_AUTH ? null : readSession());
     if (callbackSession && ["invite", "recovery"].includes(action)) {
-      sessionStorage.removeItem(ACTION_KEY);
-      initPasswordSetup(callbackSession);
+      try {
+        if (SERVER_AUTH) {
+          const established = await serverRequest("session", {
+            method: "POST",
+            body: JSON.stringify(callbackSession)
+          });
+          rememberAuthenticatedUser(established.user);
+        }
+        sessionStorage.removeItem(ACTION_KEY);
+        initPasswordSetup(callbackSession);
+      } catch (_) {
+        const errorBox = document.getElementById("login-error");
+        errorBox.textContent = "Der Einladungslink ist ungültig oder abgelaufen. Bitte fordere eine neue Einladung an.";
+        errorBox.hidden = false;
+        showPage();
+      }
       return;
     }
 
     const session = await getValidSession();
     if (session) {
+      rememberAuthenticatedUser(session.user);
       window.location.replace(safeReturnUrl());
       return;
     }
@@ -283,11 +348,20 @@
       submit.disabled = true;
       submit.textContent = "Anmeldung läuft …";
       try {
-        const sessionData = await authRequest("token?grant_type=password", {
-          method: "POST",
-          body: JSON.stringify({ email: email.value.trim(), password: password.value })
-        });
-        saveSession(sessionData);
+        if (SERVER_AUTH) {
+          const loggedIn = await serverRequest("login", {
+            method: "POST",
+            body: JSON.stringify({ email: email.value.trim(), password: password.value })
+          });
+          rememberAuthenticatedUser(loggedIn.user);
+        } else {
+          const sessionData = await authRequest("token?grant_type=password", {
+            method: "POST",
+            body: JSON.stringify({ email: email.value.trim(), password: password.value })
+          });
+          saveSession(sessionData);
+        }
+        sessionStorage.removeItem(ACTION_KEY);
         window.location.replace(safeReturnUrl());
       } catch (error) {
         errorBox.textContent = readableError(error);
@@ -314,14 +388,21 @@
     button.textContent = "Abmelden";
     account.append(label, button);
     button.addEventListener("click", async () => {
-      const current = readSession();
-      saveSession(null);
-      if (current && current.access_token && navigator.onLine) {
-        authRequest("logout", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${current.access_token}` }
-        }).catch(() => {});
+      if (SERVER_AUTH) {
+        await serverRequest("logout", { method: "POST", body: "{}" }).catch(() => {});
+      } else {
+        const current = readSession();
+        saveSession(null);
+        if (current && current.access_token && navigator.onLine) {
+          authRequest("logout", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${current.access_token}` }
+          }).catch(() => {});
+        }
       }
+      saveSession(null);
+      sessionStorage.removeItem("wt-auth-user-id");
+      if ("caches" in window) await caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key)))).catch(() => {});
       window.location.replace(new URL("login", APP_ROOT_URL).href);
     });
     header.appendChild(account);
@@ -345,6 +426,7 @@
       return;
     }
     addAccountControl(session);
+    announceAuthenticatedUser(session);
     showPage();
   }
 

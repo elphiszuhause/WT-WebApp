@@ -69,7 +69,8 @@
   }
 
   function draftKey(form) {
-    return DRAFT_PREFIX + window.location.pathname + ":" + (form.id || "main");
+    const identity = sessionStorage.getItem("wt-auth-user-id") || "legacy";
+    return DRAFT_PREFIX + encodeURIComponent(identity) + ":" + window.location.pathname + ":" + (form.id || "main");
   }
 
   function fieldKey(field, index) {
@@ -314,9 +315,17 @@
   document.addEventListener("DOMContentLoaded", () => {
     initDocumentFormLayout();
     document.querySelectorAll("canvas[id]").forEach(canvas => initSignaturePad(canvas.id));
-    document.querySelectorAll("form").forEach(initAutosave);
     initConnectionStatus();
     initPwa();
+
+    let draftsInitialized = false;
+    const initAuthenticatedDrafts = () => {
+      if (draftsInitialized) return;
+      draftsInitialized = true;
+      document.querySelectorAll("form").forEach(initAutosave);
+    };
+    document.addEventListener("wt-auth-ready", initAuthenticatedDrafts, { once: true });
+    if (sessionStorage.getItem("wt-auth-user-id")) initAuthenticatedDrafts();
   });
 
   window.initSignaturePad = initSignaturePad;
