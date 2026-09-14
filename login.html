@@ -35,12 +35,31 @@
         <p class="login-error" id="login-error" role="alert" hidden></p>
         <button class="btn btn-primary login-submit" id="login-submit" type="submit">Anmelden</button>
       </form>
-      <p class="login-help" id="login-help">Noch kein Konto oder Passwort vergessen? Bitte an den Administrator wenden.</p>
+      <div class="login-help" id="login-help">
+        <button class="login-text-button" id="recovery-open" type="button">Passwort vergessen?</button>
+        <p>Noch kein Konto? Bitte an den Administrator wenden.</p>
+      </div>
+
+      <div id="recovery-intro" hidden>
+        <span class="login-kicker">Kontozugang</span>
+        <h2>Passwort zurücksetzen</h2>
+        <p class="password-copy">Du erhältst per E-Mail einen sicheren Link, über den du ein neues Passwort vergeben kannst.</p>
+      </div>
+      <form id="recovery-form" hidden novalidate>
+        <div class="field">
+          <label for="recovery-email">E-Mail-Adresse</label>
+          <input id="recovery-email" name="email" type="email" autocomplete="username" inputmode="email" required>
+        </div>
+        <p class="login-error" id="recovery-error" role="alert" hidden></p>
+        <p class="login-success" id="recovery-success" role="status" hidden></p>
+        <button class="btn btn-primary login-submit" id="recovery-submit" type="submit">Link anfordern</button>
+        <button class="login-secondary-button" id="recovery-cancel" type="button">Zurück zur Anmeldung</button>
+      </form>
 
       <div id="password-intro" hidden>
-        <span class="login-kicker">Einladung angenommen</span>
-        <h2>Eigenes Passwort festlegen</h2>
-        <p class="password-copy">Vergib jetzt dein persönliches Passwort für die WT WebApp.</p>
+        <span class="login-kicker" id="password-kicker">Einladung angenommen</span>
+        <h2 id="password-heading">Eigenes Passwort festlegen</h2>
+        <p class="password-copy" id="password-copy">Vergib jetzt dein persönliches Passwort für die WT WebApp.</p>
       </div>
       <form id="password-form" hidden novalidate>
         <div class="field">

@@ -6,6 +6,7 @@ import { onRequest as middleware } from "../functions/_middleware.js";
 import { onRequestPost as login } from "../functions/api/auth/login.js";
 import { onRequestPost as establishSession } from "../functions/api/auth/session.js";
 import { onRequestPost as changePassword } from "../functions/api/auth/password.js";
+import { onRequestPost as recoverPassword } from "../functions/api/auth/recovery.js";
 import { onRequestPost as logout } from "../functions/api/auth/logout.js";
 
 const originalFetch = globalThis.fetch;
@@ -37,6 +38,19 @@ test("unauthenticated protected requests are redirected to login", async () => {
   assert.equal(location.pathname, "/login");
   assert.equal(location.searchParams.get("return"), "/Bereiche/Personal/urlaubsantrag");
   assert.match(response.headers.get("Set-Cookie"), /wt_access=/);
+});
+
+test("expired sessions are identified on the login redirect", async () => {
+  globalThis.fetch = async () => jsonResponse({ message: "invalid token" }, 401);
+  const response = await middleware({
+    request: new Request("https://upgrade-professionalisierung.wt-webapp.pages.dev/", {
+      headers: { Cookie: "wt_access=expired-token" }
+    }),
+    next: () => assert.fail("protected content must not be served")
+  });
+
+  const location = new URL(response.headers.get("Location"));
+  assert.equal(location.searchParams.get("reason"), "session_expired");
 });
 
 test("login page remains public and is not cached", async () => {
@@ -111,6 +125,37 @@ test("cross-origin login requests are rejected", async () => {
   });
   const response = await login({ request });
   assert.equal(response.status, 403);
+});
+
+test("password recovery uses the matching preview URL", async () => {
+  globalThis.fetch = async (request, options) => {
+    assert.equal(String(request), "https://nqymmrovbkkbrzhljymx.supabase.co/auth/v1/recover");
+    assert.deepEqual(JSON.parse(options.body), {
+      email: "mitarbeiter@example.com",
+      redirect_to: "https://upgrade-professionalisierung.wt-webapp.pages.dev/login"
+    });
+    return jsonResponse({});
+  };
+  const request = new Request("https://upgrade-professionalisierung.wt-webapp.pages.dev/api/auth/recovery", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: "https://upgrade-professionalisierung.wt-webapp.pages.dev" },
+    body: JSON.stringify({ email: "mitarbeiter@example.com" })
+  });
+  const response = await recoverPassword({ request });
+  assert.equal(response.status, 200);
+  assert.match((await response.json()).message, /Wenn für diese E-Mail-Adresse/);
+});
+
+test("password recovery reports Supabase email rate limits clearly", async () => {
+  globalThis.fetch = async () => jsonResponse({ message: "email rate limit exceeded" }, 429);
+  const request = new Request("https://upgrade-professionalisierung.wt-webapp.pages.dev/api/auth/recovery", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: "https://upgrade-professionalisierung.wt-webapp.pages.dev" },
+    body: JSON.stringify({ email: "mitarbeiter@example.com" })
+  });
+  const response = await recoverPassword({ request });
+  assert.equal(response.status, 429);
+  assert.match((await response.json()).error, /zu viele E-Mails/);
 });
 
 test("password changes require a valid cookie session", async () => {

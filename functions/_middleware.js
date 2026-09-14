@@ -38,6 +38,8 @@ export async function onRequest(context) {
     if (context.request.method === "GET" || context.request.method === "HEAD") {
       const login = new URL("/login", url.origin);
       login.searchParams.set("return", `${url.pathname}${url.search}`);
+      const hadSession = /(?:^|;\s*)wt_(?:access|refresh)=/.test(context.request.headers.get("Cookie") || "");
+      if (hadSession) login.searchParams.set("reason", "session_expired");
       const headers = new Headers({ Location: login.toString(), "Cache-Control": "no-store" });
       appendClearedCookies(headers);
       return new Response(null, { status: 302, headers });

@@ -179,8 +179,91 @@
     const message = String(error && error.message || "").toLowerCase();
     if (message.includes("invalid login credentials")) return "E-Mail-Adresse oder Passwort stimmen nicht.";
     if (message.includes("email not confirmed")) return "Das Benutzerkonto wurde noch nicht bestätigt.";
+    if (message.includes("too many") || message.includes("rate limit") || error && error.status === 429) {
+      return "Es wurden zu viele E-Mails angefordert. Bitte warte einige Minuten und versuche es erneut.";
+    }
     if (message.includes("failed to fetch") || !navigator.onLine) return "Keine Verbindung. Bitte prüfe die Internetverbindung.";
     return "Die Anmeldung ist gerade nicht möglich. Bitte versuche es erneut.";
+  }
+
+  function initRecoveryForm() {
+    const loginIntro = document.getElementById("login-intro");
+    const loginForm = document.getElementById("login-form");
+    const loginHelp = document.getElementById("login-help");
+    const loginEmail = document.getElementById("login-email");
+    const recoveryIntro = document.getElementById("recovery-intro");
+    const recoveryForm = document.getElementById("recovery-form");
+    const recoveryEmail = document.getElementById("recovery-email");
+    const open = document.getElementById("recovery-open");
+    const cancel = document.getElementById("recovery-cancel");
+    const submit = document.getElementById("recovery-submit");
+    const errorBox = document.getElementById("recovery-error");
+    const successBox = document.getElementById("recovery-success");
+
+    if (!open || !recoveryForm) return;
+
+    function showRecovery() {
+      loginIntro.hidden = true;
+      loginForm.hidden = true;
+      loginHelp.hidden = true;
+      recoveryIntro.hidden = false;
+      recoveryForm.hidden = false;
+      recoveryEmail.value = loginEmail.value.trim();
+      recoveryEmail.focus();
+    }
+
+    function showLogin() {
+      recoveryIntro.hidden = true;
+      recoveryForm.hidden = true;
+      loginIntro.hidden = false;
+      loginForm.hidden = false;
+      loginHelp.hidden = false;
+      errorBox.hidden = true;
+      successBox.hidden = true;
+      loginEmail.value = recoveryEmail.value.trim();
+      loginEmail.focus();
+    }
+
+    open.addEventListener("click", showRecovery);
+    cancel.addEventListener("click", showLogin);
+    recoveryForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      errorBox.hidden = true;
+      successBox.hidden = true;
+      if (!recoveryEmail.validity.valid) {
+        errorBox.textContent = "Bitte gib eine gültige E-Mail-Adresse ein.";
+        errorBox.hidden = false;
+        recoveryEmail.focus();
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = "Link wird angefordert …";
+      try {
+        const email = recoveryEmail.value.trim();
+        let result;
+        if (SERVER_AUTH) {
+          result = await serverRequest("recovery", {
+            method: "POST",
+            body: JSON.stringify({ email })
+          });
+        } else {
+          await authRequest("recover", {
+            method: "POST",
+            body: JSON.stringify({ email, redirect_to: new URL("login", APP_ROOT_URL).href })
+          });
+          result = { message: "Wenn für diese E-Mail-Adresse ein Konto besteht, wurde ein Link zum Zurücksetzen des Passworts versendet." };
+        }
+        successBox.textContent = result.message;
+        successBox.hidden = false;
+      } catch (error) {
+        errorBox.textContent = readableError(error);
+        errorBox.hidden = false;
+      } finally {
+        submit.disabled = false;
+        submit.textContent = "Link anfordern";
+      }
+    });
   }
 
   function readAuthCallback() {
@@ -227,11 +310,14 @@
     return { session, type };
   }
 
-  function initPasswordSetup(session) {
+  function initPasswordSetup(session, action) {
     const loginIntro = document.getElementById("login-intro");
     const loginForm = document.getElementById("login-form");
     const loginHelp = document.getElementById("login-help");
     const setupIntro = document.getElementById("password-intro");
+    const setupKicker = document.getElementById("password-kicker");
+    const setupHeading = document.getElementById("password-heading");
+    const setupCopy = document.getElementById("password-copy");
     const setupForm = document.getElementById("password-form");
     const password = document.getElementById("new-password");
     const confirmation = document.getElementById("confirm-password");
@@ -244,6 +330,11 @@
     loginHelp.hidden = true;
     setupIntro.hidden = false;
     setupForm.hidden = false;
+    if (action === "recovery") {
+      setupKicker.textContent = "Passwort zurücksetzen";
+      setupHeading.textContent = "Neues Passwort festlegen";
+      setupCopy.textContent = "Vergib ein neues persönliches Passwort für dein Benutzerkonto.";
+    }
     showPage();
     password.focus();
 
@@ -300,7 +391,7 @@
     if (storedError) sessionStorage.removeItem(AUTH_ERROR_KEY);
     if ((callback && callback.error) || storedError) {
       const errorBox = document.getElementById("login-error");
-      errorBox.textContent = "Der Einladungslink ist ungültig oder abgelaufen. Bitte fordere eine neue Einladung an.";
+      errorBox.textContent = "Der Einladungs- oder Rücksetzlink ist ungültig oder abgelaufen. Bitte fordere einen neuen Link an.";
       errorBox.hidden = false;
       showPage();
       return;
@@ -317,10 +408,10 @@
           rememberAuthenticatedUser(established.user);
         }
         sessionStorage.removeItem(ACTION_KEY);
-        initPasswordSetup(callbackSession);
+        initPasswordSetup(callbackSession, action);
       } catch (_) {
         const errorBox = document.getElementById("login-error");
-        errorBox.textContent = "Der Einladungslink ist ungültig oder abgelaufen. Bitte fordere eine neue Einladung an.";
+        errorBox.textContent = "Der Einladungs- oder Rücksetzlink ist ungültig oder abgelaufen. Bitte fordere einen neuen Link an.";
         errorBox.hidden = false;
         showPage();
       }
@@ -340,7 +431,13 @@
     const errorBox = document.getElementById("login-error");
     const submit = document.getElementById("login-submit");
     showPage();
+    initRecoveryForm();
     if (!form) return;
+
+    if (new URLSearchParams(window.location.search).get("reason") === "session_expired") {
+      errorBox.textContent = "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.";
+      errorBox.hidden = false;
+    }
 
     form.addEventListener("submit", async event => {
       event.preventDefault();

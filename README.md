@@ -32,6 +32,8 @@ Die App ist für statisches Hosting ausgelegt. Alle internen Links sind relativ 
 
 Cloudflare-Preview-Bereitstellungen schützen Formulare und Downloads über Pages Functions. Die Supabase-Sitzung liegt dort in `HttpOnly`-Cookies und ist nicht durch JavaScript auslesbar. Nicht angemeldete Direktaufrufe werden zur Anmeldung umgeleitet. Geschützte Inhalte werden weder vom Service Worker noch vom Browser zwischengespeichert.
 
+Mitarbeiter können über **Passwort vergessen?** selbst einen Rücksetzlink anfordern. Einladungs- und Rücksetzlinks führen auf die Loginseite, auf der anschließend ein persönliches Passwort mit mindestens acht Zeichen vergeben wird.
+
 Für Einladungen muss die **Site URL** des Supabase-Testprojekts auf die öffentliche Loginseite zeigen:
 
 `https://upgrade-professionalisierung.wt-webapp.pages.dev/login`
