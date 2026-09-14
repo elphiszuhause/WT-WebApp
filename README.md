@@ -21,6 +21,13 @@ Formulardaten werden ausschließlich im lokalen Speicher des verwendeten Browser
 
 Die App ist für statisches Hosting ausgelegt. Alle internen Links sind relativ und funktionieren dadurch sowohl auf einer eigenen Domain als auch in einem GitHub-Pages-Unterverzeichnis.
 
+## Test- und Produktivumgebung
+
+- `elphiszuhause.github.io` verwendet ausschließlich das produktive Supabase-Projekt.
+- Cloudflare-Vorschauen und lokale Entwicklungsadressen verwenden das Supabase-Testprojekt.
+- Die Testumgebung ist in der Oberfläche deutlich als solche gekennzeichnet.
+- Neue produktive Hostnamen müssen vor der Freigabe ausdrücklich in `PRODUCTION_HOSTNAMES` in `assets/auth.js` aufgenommen werden.
+
 ## Bedienhinweise
 
 1. Formular auf der Startseite öffnen.
