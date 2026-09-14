@@ -1,14 +1,36 @@
 (function () {
   "use strict";
 
-  const SUPABASE_URL = "https://lvtcxdiyixblbufvxghy.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_MHbZSrecBpTgBsrwgjATSQ_vdk0v3wJ";
+  const AUTH_ENVIRONMENTS = {
+    production: {
+      url: "https://lvtcxdiyixblbufvxghy.supabase.co",
+      key: "sb_publishable_MHbZSrecBpTgBsrwgjATSQ_vdk0v3wJ"
+    },
+    test: {
+      url: "https://nqymmrovbkkbrzhljymx.supabase.co",
+      key: "sb_publishable_KdrzuuZGHanPAeLNpQnNUw_7Ath9LoZ"
+    }
+  };
+  const PRODUCTION_HOSTNAMES = new Set(["elphiszuhause.github.io"]);
+  const AUTH_ENVIRONMENT = PRODUCTION_HOSTNAMES.has(window.location.hostname) ? "production" : "test";
+  const SUPABASE_URL = AUTH_ENVIRONMENTS[AUTH_ENVIRONMENT].url;
+  const SUPABASE_KEY = AUTH_ENVIRONMENTS[AUTH_ENVIRONMENT].key;
   const SESSION_KEY = "wt-auth-session";
   const ACTION_KEY = "wt-auth-action";
   const AUTH_ERROR_KEY = "wt-auth-error";
   const APP_ROOT_URL = new URL("../", document.currentScript.src);
 
+  document.documentElement.dataset.authEnvironment = AUTH_ENVIRONMENT;
   document.documentElement.classList.add("auth-pending");
+
+  function addEnvironmentBadge() {
+    if (AUTH_ENVIRONMENT !== "test" || document.querySelector(".environment-badge")) return;
+    const badge = document.createElement("div");
+    badge.className = "environment-badge";
+    badge.textContent = "Testumgebung";
+    badge.setAttribute("role", "status");
+    document.body.appendChild(badge);
+  }
 
   function readSession() {
     try {
@@ -106,6 +128,7 @@
   }
 
   function showPage() {
+    addEnvironmentBadge();
     document.documentElement.classList.remove("auth-pending");
     document.body.removeAttribute("data-auth-protected");
   }
